@@ -23,6 +23,48 @@ const data = [
     image:
       "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
   },
+   {
+    name: "Shri. M.B. Rajesh",
+    designation: "Minister for LSGD",
+    organization: "Government of Kerala",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
+  {
+    name: "G.K. Sureshkumar",
+    designation: "Managing Director",
+    organization: "Clean Kerala Company Ltd",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
+   {
+    name: "Shri. M.B. Rajesh",
+    designation: "Minister for LSGD",
+    organization: "Government of Kerala",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
+  {
+    name: "G.K. Sureshkumar",
+    designation: "Managing Director",
+    organization: "Clean Kerala Company Ltd",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
+   {
+    name: "Shri. M.B. Rajesh",
+    designation: "Minister for LSGD",
+    organization: "Government of Kerala",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
+  {
+    name: "G.K. Sureshkumar",
+    designation: "Managing Director",
+    organization: "Clean Kerala Company Ltd",
+    image:
+      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
+  },
 ];
 
 const LeadersCarousel = () => {
