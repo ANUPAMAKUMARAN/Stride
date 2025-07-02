@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 
-const Director = () => {
+const Directors = () => {
     const carouselRef = useRef(null);
     const [scrollX, setScrollX] = useState(0);
     const [cardSize, setCardSize] = useState({
@@ -153,5 +153,5 @@ const Director = () => {
     );
 };
 
-export default Director;
+export default Directors;
 

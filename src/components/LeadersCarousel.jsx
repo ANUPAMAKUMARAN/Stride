@@ -23,34 +23,6 @@ const data = [
     image:
       "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
   },
-  {
-    name: "New Leader",
-    designation: "Some Role",
-    organization: "Some Org",
-    image:
-      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
-  },
-  {
-    name: "New Leader",
-    designation: "Some Role",
-    organization: "Some Org",
-    image:
-      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
-  },
-  {
-    name: "New Leader",
-    designation: "Some Role",
-    organization: "Some Org",
-    image:
-      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
-  },
-  {
-    name: "New Leader",
-    designation: "Some Role",
-    organization: "Some Org",
-    image:
-      "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
-  },
 ];
 
 const LeadersCarousel = () => {
@@ -97,14 +69,13 @@ const LeadersCarousel = () => {
   return (
     <div className="relative py-10 px-4 sm:px-6 md:px-10 lg:px-40 xl:px-60 bg-gradient-to-b from-white to-green-50">
       <h2
-        className="text-center font-bold  mb-6 sm:mb-10"
+        className="text-center font-bold mb-6 sm:mb-10"
         style={{ fontSize: `${2 * dimensions.fontScale}rem` }}
       >
         Guided by Visionary Leaders
       </h2>
 
       <div className="flex items-center gap-4">
-        {/* Left Arrow Button */}
         {isCarousel && (
           <button
             onClick={() => scrollBy("left")}
@@ -119,7 +90,6 @@ const LeadersCarousel = () => {
           </button>
         )}
 
-        {/* Carousel Container */}
         <div
           ref={scrollRef}
           className="flex overflow-x-auto scroll-smooth no-scrollbar"
@@ -133,31 +103,33 @@ const LeadersCarousel = () => {
           {data.map((item, index) => (
             <div
               key={index}
-              className="flex-none bg-white rounded-xl shadow-md p-2 sm:p-2 flex flex-col items-center text-center"
+              className="flex-none bg-white shadow-md flex flex-col items-center text-center overflow-hidden"
               style={{
                 width: `${dimensions.cardWidth}px`,
                 minWidth: `${dimensions.cardWidth}px`,
                 height: `${dimensions.cardHeight}px`,
+                borderRadius: "0 0 0.75rem 0.75rem", // bottom-only rounded
               }}
             >
-              {/* Image */}
+              {/* Image - no top rounded corners */}
               <div
-                className="rounded-lg overflow-hidden mb-2"
+                className="w-full"
                 style={{
-                  width: "100%",
                   height: `${dimensions.cardHeight * 0.8}px`,
+                  overflow: "hidden",
                 }}
               >
                 <img
                   src={item.image}
                   alt={item.name}
                   className="object-cover w-full h-full"
+                  style={{ display: "block" }}
                 />
               </div>
 
               {/* Text */}
               <div
-                className="flex flex-col justify-start flex-grow"
+                className="flex flex-col justify-start px-3 pt-2 flex-grow"
                 style={{ minHeight: `${dimensions.cardHeight * 0.18}px` }}
               >
                 <h3
@@ -197,7 +169,6 @@ const LeadersCarousel = () => {
           ))}
         </div>
 
-        {/* Right Arrow Button */}
         {isCarousel && (
           <button
             onClick={() => scrollBy("right")}
