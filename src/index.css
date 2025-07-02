@@ -1,0 +1,19 @@
+/* *{
+  margin: 0px;
+    font-family: "Montserrat", sans-serif;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities; */
+@import "tailwindcss";
+
+
+/* Hide scrollbar for all browsers */
+.no-scrollbar {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE 10+ */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;                  /* Chrome, Safari */
+}
