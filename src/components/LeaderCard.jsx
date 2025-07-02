@@ -113,20 +113,22 @@ const LeadersCard = () => {
               }}
             >
               {/* Image - no top rounded corners */}
+             
+
               <div
-                className="w-full"
-                style={{
-                  height: `${dimensions.cardHeight * 0.8}px`,
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="object-cover w-full h-full"
-                  style={{ display: "block" }}
-                />
-              </div>
+  className="w-full rounded-t-xl overflow-hidden"
+  style={{
+    height: `${dimensions.cardHeight * 0.8}px`,
+  }}
+>
+  <img
+    src={item.image}
+    alt={item.name}
+    className="object-cover w-full h-full"
+    style={{ display: "block" }}
+  />
+</div>
+
 
               {/* Text */}
               <div
