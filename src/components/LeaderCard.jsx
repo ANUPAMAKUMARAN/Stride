@@ -23,6 +23,7 @@ const data = [
     image:
       "https://img.freepik.com/free-photo/cute-ai-generated-cartoon-bunny_23-2150288870.jpg",
   },
+  
 ];
 
 const LeaderCard = () => {
@@ -40,7 +41,7 @@ const LeaderCard = () => {
   const updateDimensions = () => {
     const containerWidth = scrollRef.current?.offsetWidth || window.innerWidth;
     const baseCardWidth = containerWidth > 1024 ? 360 : 280;
-    const cardGap = containerWidth < 500 ? 6 : containerWidth < 768 ? 10 : 16;
+    const cardGap = containerWidth < 500 ? 6 : containerWidth < 768 ? 10 : 42;
     const width = (containerWidth - cardGap * 2) / 3;
     const scale = width / baseCardWidth;
     const height = width * 1.35;
