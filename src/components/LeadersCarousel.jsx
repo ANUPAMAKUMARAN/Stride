@@ -196,7 +196,7 @@ const LeadersCarousel = () => {
               </div>
 
               <div
-                className="flex flex-col justify-start px-3 pt-2 flex-grow"
+                className="flex flex-col justify-center items-center px-3 py-1 flex-grow"
                 style={{ minHeight: `${dimensions.cardHeight * 0.18}px` }}
               >
                 <h3
