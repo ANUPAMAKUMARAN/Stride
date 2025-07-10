@@ -82,7 +82,7 @@ const CleanKeralaLanding = () => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
+    <div ref={containerRef} style={{ fontFamily: "Arial, sans-serif", background: "#fefefe",height:"calc(100vh-10px)" }}>
       {/* Hero Section */}
       <div
         style={{
