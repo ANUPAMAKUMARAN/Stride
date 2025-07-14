@@ -190,8 +190,8 @@ const CleanKeralaLanding = () => {
             padding: "0 16px",
             width: "100%",
             maxWidth: `${(240 + cardGap) * 3}px`,
-            transform: `scale(${fontScale})`,
-            transformOrigin: "top center",
+            // transform: `scale(${fontScale})`,
+            // transformOrigin: "top center",
 
           }}
         >
