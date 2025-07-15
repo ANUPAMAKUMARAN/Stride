@@ -1,4 +1,212 @@
 
+
+import React from "react";
+import img2 from '../assets/landingImg.png'
+
+const FeatureCard = ({ icon, title, description, hideWasteOnMobile }) => {
+  const [firstWord, ...rest] = title.split(" ");
+  const restOfTitle = rest.join(" ");
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "16px",
+        padding: "12px 16px", // ✅ Reduced vertical padding in px
+        textAlign: "center",
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
+        
+        // width: "calc(30% - 1rem)",
+        width: "clamp(220px, 25%, 280px)",
+        
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "36px",
+          marginBottom: "12px",
+        }}
+      >
+        {icon}
+      </div>
+      <h3
+        style={{
+          fontSize: "18px",
+          fontWeight: "600",
+          marginBottom: "8px",
+          lineHeight: 1.3,
+        }}
+      >
+        {hideWasteOnMobile ? (
+          <>
+            <span className="hide-waste">{firstWord} </span>
+            {restOfTitle}
+          </>
+        ) : (
+          title
+        )}
+      </h3>
+      <p
+        className="feature-description"
+        style={{
+          fontSize: "15px",
+          color: "#333",
+          lineHeight: 1.5,
+          maxWidth: "90%",
+          margin: 0,
+        }}
+      >
+        {description}
+      </p>
+    </div>
+  );
+};
+
+const CleanKeralaLanding = () => {
+  return (
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          .feature-description {
+            display: none;
+          }
+          .hide-waste {
+            display: none;
+          }
+          .feature-row {
+            gap: 12px !important; /* ✅ Smaller gap in px */
+          }
+        }
+      `}</style>
+
+      <div style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
+        {/* Hero Section */}
+        <div
+          style={{
+            position: "relative",
+            height: "70vh",
+            minHeight: "400px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              
+              backgroundImage: `url(${img2})`,
+               
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              zIndex: 1,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              zIndex: 2,
+            }}
+          />
+          <div
+            style={{
+              position: "relative",
+              zIndex: 3,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              padding: "16px",
+              color: "white",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "42px",
+                fontWeight: "bold",
+                marginBottom: "16px",
+              }}
+            >
+              Towards a Clean Kerala
+            </h1>
+            <p
+              style={{
+                fontSize: "20px",
+                marginBottom: "24px",
+                maxWidth: "90%",
+              }}
+            >
+              Uniting efforts for a greener, cleaner, and healthier Kerala
+            </p>
+            <button
+              style={{
+                backgroundColor: "#28a745",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                fontSize: "17px",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background 0.3s",
+              }}
+            >
+              Explore Programs
+            </button>
+          </div>
+        </div>
+
+        {/* Feature Cards */}
+        <div
+          style={{
+            marginTop: "-60px",
+            position: "relative",
+            zIndex: 5,
+            padding: "0 16px",
+          }}
+        >
+          <div
+            className="feature-row"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "24px", // ✅ Default gap (reduced on small screens)
+              maxWidth: "1200px",
+              margin: "0 auto",
+              flexWrap: "nowrap",
+            }}
+          >
+            <FeatureCard
+              icon="🧹"
+              title="Waste Management"
+              description="Improve collection, segregation, and disposal practices."
+              hideWasteOnMobile={true}
+            />
+            <FeatureCard
+              icon="♻️"
+              title="Sustainability"
+              description="Promote waste reduction and resource reuse."
+            />
+            <FeatureCard
+              icon="🌿"
+              title="Volunteers"
+              description="Engage citizens in ground-level initiatives."
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CleanKeralaLanding;
+
 // import React, { useEffect, useState, useRef } from "react";
 
 // const FeatureCard = ({ icon, title, description }) => {
@@ -1098,239 +1306,448 @@
 
 
 
+// import React from "react";
+// import img2 from "../assets/landingImg.png";
 
+// const FeatureCard = ({ icon, title, description, hideWasteOnMobile }) => {
+//   const [firstWord, ...rest] = title.split(" ");
+//   const restOfTitle = rest.join(" ");
 
-import React, { useEffect, useRef, useState } from "react";
-import img2 from "../assets/landingImg.png";
+//   return (
+//     <div
+//       style={{
+//         background: "#fff",
+//         borderRadius: "1rem",
+//         padding: "12px 5px",
+//         textAlign: "center",
+//         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
+//         width: "calc(26% - 1rem)", // ✅ Reduced width
+//         display: "flex",
+//         flexDirection: "column",
+//         justifyContent: "space-between",
+//         alignItems: "center",
+//       }}
+//     >
+//       <div
+//         style={{
+//           fontSize: "clamp(2rem, 3vw, 2.5rem)",
+//           marginBottom: "0.6rem",
+//         }}
+//       >
+//         {icon}
+//       </div>
+//       <h3
+//         style={{
+//           fontSize: "clamp(1.1rem, 1.8vw, 1.3rem)",
+//           fontWeight: "600",
+//           marginBottom: "0.4rem",
+//           lineHeight: 1.3,
+//         }}
+//       >
+//         {hideWasteOnMobile ? (
+//           <>
+//             <span className="hide-waste">{firstWord} </span>
+//             {restOfTitle}
+//           </>
+//         ) : (
+//           title
+//         )}
+//       </h3>
+//       <p
+//         className="feature-description"
+//         style={{
+//           fontSize: "clamp(0.9rem, 1.2vw, 1rem)",
+//           color: "#333",
+//           lineHeight: 1.5,
+//           maxWidth: "90%",
+//           margin: 0,
+//           overflow: "hidden",
+//           display: "-webkit-box",
+//           WebkitLineClamp: 2, // ✅ limit to 2 lines
+//           WebkitBoxOrient: "vertical",
+//         }
+//       }
+//       >
+//         {description}
+//       </p>
+//     </div>
+//   );
+// };
 
-// FeatureCard Component
-const FeatureCard = ({ icon, title, description, hideWasteOnMobile, fontScale }) => {
-  const [firstWord, ...rest] = title.split(" ");
-  const restOfTitle = rest.join(" ");
+// const CleanKeralaLanding = () => {
+//   return (
+//     <>
+//       <style>{`
+//         @media (max-width: 768px) {
+//           .feature-description {
+//             display: none;
+//           }
+//           .hide-waste {
+//             display: none;
+//           }
+//           .feature-row {
+//             gap: 0.75rem !important;
+//           }
+//         }
+//       `}</style>
 
-  const cardWidth = 240 * fontScale;
-  const iconSize = 36 * fontScale;
-  const titleSize = 18 * fontScale;
-  const descSize = 15 * fontScale;
-  const cardPadding = 12 * fontScale;
-  const cardGap = 24 * fontScale;
+//       <div style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
+//         {/* Hero Section */}
+//         <div
+//           style={{
+//             position: "relative",
+//             height: "70vh",
+//             minHeight: "400px",
+//             overflow: "hidden",
+//           }}
+//         >
+//           <div
+//             style={{
+//               position: "absolute",
+//               inset: 0,
+//               backgroundImage: `url(${img2})`,
+//               backgroundSize: "cover",
+//               backgroundPosition: "center",
+//               zIndex: 1,
+//             }}
+//           />
+//           <div
+//             style={{
+//               position: "absolute",
+//               inset: 0,
+//               backgroundColor: "rgba(0, 0, 0, 0.6)",
+//               zIndex: 2,
+//             }}
+//           />
+//           <div
+//             style={{
+//               position: "relative",
+//               zIndex: 3,
+//               height: "100%",
+//               display: "flex",
+//               flexDirection: "column",
+//               justifyContent: "center",
+//               alignItems: "center",
+//               textAlign: "center",
+//               padding: "1rem",
+//               color: "white",
+//             }}
+//           >
+//             <h1
+//               style={{
+//                 fontSize: "clamp(2rem, 5vw, 3rem)",
+//                 fontWeight: "bold",
+//                 marginBottom: "1rem",
+//               }}
+//             >
+//               Towards a Clean Kerala
+//             </h1>
+//             <p
+//               style={{
+//                 fontSize: "clamp(1rem, 2.5vw, 1.3rem)",
+//                 marginBottom: "1.5rem",
+//                 maxWidth: "90%",
+//               }}
+//             >
+//               Uniting efforts for a greener, cleaner, and healthier Kerala
+//             </p>
+//             <button
+//               style={{
+//                 backgroundColor: "#28a745",
+//                 color: "#fff",
+//                 border: "none",
+//                 padding: "clamp(0.6rem, 1.5vw, 0.9rem) clamp(1.2rem, 3vw, 2rem)",
+//                 fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
+//                 borderRadius: "6px",
+//                 cursor: "pointer",
+//                 transition: "background 0.3s",
+//               }}
+//             >
+//               Explore Programs
+//             </button>
+//           </div>
+//         </div>
 
-  return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: `${16 * fontScale}px`,
-        // padding: `${cardPadding}px`,
-         padding: `${16 * fontScale}px ${Math.max(12, 1 * fontScale)}px`, // ✅ Updated here
-        textAlign: "center",
-        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-        width: `${cardWidth}px`,
-        flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        transition: "all 0.3s ease",
-      }}
-    >
-      <div style={{ fontSize: `${iconSize}px`, marginBottom: `${12 * fontScale}px` }}>{icon}</div>
-      <h3
-        style={{
-          fontSize: `${titleSize}px`,
-          fontWeight: "600",
-          marginBottom: `${8 * fontScale}px`,
-          lineHeight: 1.3,
-        }}
-      >
-        {hideWasteOnMobile ? (
-          <>
-            <span className="hide-waste">{firstWord} </span>
-            {restOfTitle}
-          </>
-        ) : (
-          title
-        )}
-      </h3>
-      <p
-        className="feature-description"
-        style={{
-          fontSize: `${descSize}px`,
-          color: "#333",
-          lineHeight: 1.5,
-          maxWidth: "90%",
-          margin: 0,
-        }}
-      >
-        {description}
-      </p>
-    </div>
-  );
-};
+//         {/* Feature Cards */}
+//         <div
+//           style={{
+//             marginTop: "-60px",
+//             position: "relative",
+//             zIndex: 5,
+//             padding: "0 1rem",
+//           }}
+//         >
+//           <div
+//             className="feature-row"
+//             style={{
+//               display: "flex",
+//               justifyContent: "space-between",
+//               gap: "1.5rem",
+//               maxWidth: "1200px",
+//               margin: "0 auto",
+//               flexWrap: "nowrap",
+//             }}
+//           >
+//             <FeatureCard
+//               icon="🧹"
+//               title="Waste Management"
+//               description="Improve collection, segregation, and disposal practices."
+//               hideWasteOnMobile={true}
+//             />
+//             <FeatureCard
+//               icon="♻️"
+//               title="Sustainability"
+//               description="Promote waste reduction and resource reuse."
+//             />
+//             <FeatureCard
+//               icon="🌿"
+//               title="Volunteers"
+//               description="Engage citizens in ground-level initiatives."
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
 
-// CleanKeralaLanding Page
-const CleanKeralaLanding = () => {
-  const containerRef = useRef();
-  const [fontScale, setFontScale] = useState(1);
+// export default CleanKeralaLanding;
 
-  useEffect(() => {
-    const updateScale = () => {
-      if (containerRef.current) {
-        const width = containerRef.current.offsetWidth;
-        const scale = Math.max(0.55, Math.min(1, width / 1200)); // Clamp between 0.55 and 1
-        setFontScale(scale);
-      }
-    };
+// import React, { useState, useEffect } from "react";
+// import img2 from "../assets/landingImg.png";
 
-    updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
-  }, []);
+// const FeatureCard = ({ icon, title, description, hideWasteOnMobile, fontScale = 1 }) => {
+//   const [firstWord, ...rest] = title.split(" ");
+//   const restOfTitle = rest.join(" ");
 
-  return (
-    <>
-      <style>{`
-        @media (max-width: 768px) {
-          .feature-description {
-            display: none;
-          }
-          .hide-waste {
-            display: none;
-          }
-        }
-      `}</style>
+//   return (
+//     <div
+//       style={{
+//         background: "#fff",
+//         borderRadius: `${16 * fontScale}px`,
+//         padding: `${12 * fontScale}px ${8 * fontScale}px`,
+//         textAlign: "center",
+//         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
+//         width: "calc(26% - 1rem)",
+//         display: "flex",
+//         flexDirection: "column",
+//         justifyContent: "space-between",
+//         alignItems: "center",
+//       }}
+//     >
+//       <div
+//         style={{
+//           fontSize: `${2.1 * fontScale}rem`,
+//           marginBottom: `${0.6 * fontScale}rem`,
+//         }}
+//       >
+//         {icon}
+//       </div>
+//       <h3
+//         style={{
+//           fontSize: `${1.1 * fontScale}rem`,
+//           fontWeight: "600",
+//           marginBottom: `${0.4 * fontScale}rem`,
+//           lineHeight: 1.3,
+//         }}
+//       >
+//         {hideWasteOnMobile ? (
+//           <>
+//             <span className="hide-waste">{firstWord} </span>
+//             {restOfTitle}
+//           </>
+//         ) : (
+//           title
+//         )}
+//       </h3>
+//       <p
+//         className="feature-description"
+//         style={{
+//           fontSize: `${.09 * fontScale}rem`,
+//           color: "#333",
+//           lineHeight: 1.5,
+//           maxWidth: "90%",
+//           margin: 0,
+//           overflow: "hidden",
+//           display: "-webkit-box",
+//           WebkitLineClamp: 2,
+//           WebkitBoxOrient: "vertical",
+//         }}
+//       >
+//         {description}
+//       </p>
+//     </div>
+//   );
+// };
 
-      <div style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
-        {/* Hero Section */}
-        <div
-          style={{
-            position: "relative",
-            height: "70vh",
-            minHeight: "400px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: `url(${img2})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              zIndex: 1,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.6)",
-              zIndex: 2,
-            }}
-          />
-          <div
-            style={{
-              position: "relative",
-              zIndex: 3,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              padding: "16px",
-              color: "white",
-            }}
-          >
-            <h1
-              style={{
-                fontSize: "clamp(2rem, 5vw, 3rem)",
-                fontWeight: "bold",
-                marginBottom: "1rem",
-              }}
-            >
-              Towards a Clean Kerala
-            </h1>
-            <p
-              style={{
-                fontSize: "clamp(1rem, 2.5vw, 1.3rem)",
-                marginBottom: "1.5rem",
-                maxWidth: "90%",
-              }}
-            >
-              Uniting efforts for a greener, cleaner, and healthier Kerala
-            </p>
-            <button
-              style={{
-                backgroundColor: "#28a745",
-                color: "#fff",
-                border: "none",
-                padding: "12px 24px",
-                fontSize: "17px",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "background 0.3s",
-              }}
-            >
-              Explore Programs
-            </button>
-          </div>
-        </div>
+// const CleanKeralaLanding = () => {
+//   const [fontScale, setFontScale] = useState(1);
 
-        {/* Feature Cards */}
-        <div
-          style={{
-            marginTop: "-60px",
-            position: "relative",
-            zIndex: 5,
-            padding: "0 16px",
-          }}
-        >
-          <div
-            ref={containerRef}
-            className="feature-row"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: `${24 * fontScale}px`,
-              flexWrap: "nowrap",
-              overflow: "hidden",
-              width: "100%",
-              maxWidth: "1200px",
-              margin: "0 auto",
-              padding: `${16 * fontScale}px 0`,
-              transition: "all 0.3s ease",
-            }}
-          >
-            <FeatureCard
-              icon="🧹"
-              title="Waste Management"
-              description="Improve collection, segregation, and disposal."
-              hideWasteOnMobile={true}
-              fontScale={fontScale}
-            />
-            <FeatureCard
-              icon="♻️"
-              title="Sustainability"
-              description="Promote waste reduction and resource reuse."
-              fontScale={fontScale}
-            />
-            <FeatureCard
-              icon="🌿"
-              title="Volunteers"
-              description="Engage citizens in ground-level initiatives."
-              fontScale={fontScale}
-            />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
+//   useEffect(() => {
+//     const updateFontScale = () => {
+//       const containerWidth = window.innerWidth;
+//       const baseWidth = containerWidth > 1024 ? 360 : 280;
+//       const width = (containerWidth - 32) / 3;
+//       const scale = width / baseWidth;
+//       setFontScale(scale);
+//     };
 
-export default CleanKeralaLanding;
+//     updateFontScale();
+//     window.addEventListener("resize", updateFontScale);
+//     return () => window.removeEventListener("resize", updateFontScale);
+//   }, []);
 
+//   return (
+//     <>
+//       <style>{`
+//         .feature-description {
+//           color: #333;
+//           line-height: 1.5;
+//           max-width: 90%;
+//           margin: 0;
+//           overflow: hidden;
+//           display: -webkit-box;
+//           -webkit-line-clamp: 2;
+//           -webkit-box-orient: vertical;
+//         }
 
+//         @media (max-width: 768px) {
+//           .feature-description {
+//             display: none;
+//           }
+//           .hide-waste {
+//             display: none;
+//           }
+//           .feature-row {
+//             gap: 0.75rem !important;
+//           }
+//         }
+//       `}</style>
+
+//       <div style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
+//         {/* Hero Section */}
+//         <div
+//           style={{
+//             position: "relative",
+//             height: "70vh",
+//             minHeight: "400px",
+//             overflow: "hidden",
+//           }}
+//         >
+//           <div
+//             style={{
+//               position: "absolute",
+//               inset: 0,
+//               backgroundImage: `url(${img2})`,
+//               backgroundSize: "cover",
+//               backgroundPosition: "center",
+//               zIndex: 1,
+//             }}
+//           />
+//           <div
+//             style={{
+//               position: "absolute",
+//               inset: 0,
+//               backgroundColor: "rgba(0, 0, 0, 0.6)",
+//               zIndex: 2,
+//             }}
+//           />
+//           <div
+//             style={{
+//               position: "relative",
+//               zIndex: 3,
+//               height: "100%",
+//               display: "flex",
+//               flexDirection: "column",
+//               justifyContent: "center",
+//               alignItems: "center",
+//               textAlign: "center",
+//               padding: "1rem",
+//               color: "white",
+//             }}
+//           >
+//             <h1
+//               style={{
+//                 fontSize: "clamp(2rem, 5vw, 3rem)",
+//                 fontWeight: "bold",
+//                 marginBottom: "1rem",
+//               }}
+//             >
+//               Towards a Clean Kerala
+//             </h1>
+//             <p
+//               style={{
+//                 fontSize: "clamp(1rem, 2.5vw, 1.3rem)",
+//                 marginBottom: "1.5rem",
+//                 maxWidth: "90%",
+//               }}
+//             >
+//               Uniting efforts for a greener, cleaner, and healthier Kerala
+//             </p>
+//             <button
+//               style={{
+//                 backgroundColor: "#28a745",
+//                 color: "#fff",
+//                 border: "none",
+//                 padding: "clamp(0.6rem, 1.5vw, 0.9rem) clamp(1.2rem, 3vw, 2rem)",
+//                 fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
+//                 borderRadius: "6px",
+//                 cursor: "pointer",
+//                 transition: "background 0.3s",
+//               }}
+//             >
+//               Explore Programs
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Feature Cards */}
+//         <div
+//           style={{
+//             marginTop: "-60px",
+//             position: "relative",
+//             zIndex: 5,
+//             padding: "0 1rem",
+//           }}
+//         >
+//           <div
+//             className="feature-row"
+//             style={{
+//               display: "flex",
+//               justifyContent: "space-between",
+//               gap: "1.5rem",
+//               maxWidth: "1200px",
+//               margin: "0 auto",
+//               flexWrap: "nowrap",
+//             }}
+//           >
+//             <FeatureCard
+//               icon="🧹"
+//               title="Waste Management"
+//               description="Improve collection, segregation, and disposal "
+//               hideWasteOnMobile={true}
+//               fontScale={fontScale}
+//             />
+//             <FeatureCard
+//               icon="♻️"
+//               title="Sustainability"
+//               description="Promote waste reduction and resource reuse."
+//               fontScale={fontScale}
+//             />
+//             <FeatureCard
+//               icon="🌿"
+//               title="Volunteers"
+//               description="Engage citizens in ground-level initiatives."
+//               fontScale={fontScale}
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default CleanKeralaLanding;
 
 
 // import React from "react";
@@ -1562,211 +1979,3 @@ export default CleanKeralaLanding;
 
 
 
-
-
-// import React from "react";
-// import img2 from '../assets/landingImg.png'
-
-// const FeatureCard = ({ icon, title, description, hideWasteOnMobile }) => {
-//   const [firstWord, ...rest] = title.split(" ");
-//   const restOfTitle = rest.join(" ");
-
-//   return (
-//     <div
-//       style={{
-//         background: "#fff",
-//         borderRadius: "16px",
-//         padding: "12px 16px", // ✅ Reduced vertical padding in px
-//         textAlign: "center",
-//         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-        
-//         // width: "calc(30% - 1rem)",
-//         width: "clamp(220px, 25%, 280px)",
-        
-//         display: "flex",
-//         flexDirection: "column",
-//         justifyContent: "space-between",
-//         alignItems: "center",
-//       }}
-//     >
-//       <div
-//         style={{
-//           fontSize: "36px",
-//           marginBottom: "12px",
-//         }}
-//       >
-//         {icon}
-//       </div>
-//       <h3
-//         style={{
-//           fontSize: "18px",
-//           fontWeight: "600",
-//           marginBottom: "8px",
-//           lineHeight: 1.3,
-//         }}
-//       >
-//         {hideWasteOnMobile ? (
-//           <>
-//             <span className="hide-waste">{firstWord} </span>
-//             {restOfTitle}
-//           </>
-//         ) : (
-//           title
-//         )}
-//       </h3>
-//       <p
-//         className="feature-description"
-//         style={{
-//           fontSize: "15px",
-//           color: "#333",
-//           lineHeight: 1.5,
-//           maxWidth: "90%",
-//           margin: 0,
-//         }}
-//       >
-//         {description}
-//       </p>
-//     </div>
-//   );
-// };
-
-// const CleanKeralaLanding = () => {
-//   return (
-//     <>
-//       <style>{`
-//         @media (max-width: 768px) {
-//           .feature-description {
-//             display: none;
-//           }
-//           .hide-waste {
-//             display: none;
-//           }
-//           .feature-row {
-//             gap: 12px !important; /* ✅ Smaller gap in px */
-//           }
-//         }
-//       `}</style>
-
-//       <div style={{ fontFamily: "Arial, sans-serif", background: "#fefefe" }}>
-//         {/* Hero Section */}
-//         <div
-//           style={{
-//             position: "relative",
-//             height: "70vh",
-//             minHeight: "400px",
-//             overflow: "hidden",
-//           }}
-//         >
-//           <div
-//             style={{
-//               position: "absolute",
-//               inset: 0,
-              
-//               backgroundImage: `url(${img2})`,
-               
-//               backgroundSize: "cover",
-//               backgroundPosition: "center",
-//               zIndex: 1,
-//             }}
-//           />
-//           <div
-//             style={{
-//               position: "absolute",
-//               inset: 0,
-//               backgroundColor: "rgba(0, 0, 0, 0.6)",
-//               zIndex: 2,
-//             }}
-//           />
-//           <div
-//             style={{
-//               position: "relative",
-//               zIndex: 3,
-//               height: "100%",
-//               display: "flex",
-//               flexDirection: "column",
-//               justifyContent: "center",
-//               alignItems: "center",
-//               textAlign: "center",
-//               padding: "16px",
-//               color: "white",
-//             }}
-//           >
-//             <h1
-//               style={{
-//                 fontSize: "42px",
-//                 fontWeight: "bold",
-//                 marginBottom: "16px",
-//               }}
-//             >
-//               Towards a Clean Kerala
-//             </h1>
-//             <p
-//               style={{
-//                 fontSize: "20px",
-//                 marginBottom: "24px",
-//                 maxWidth: "90%",
-//               }}
-//             >
-//               Uniting efforts for a greener, cleaner, and healthier Kerala
-//             </p>
-//             <button
-//               style={{
-//                 backgroundColor: "#28a745",
-//                 color: "#fff",
-//                 border: "none",
-//                 padding: "12px 24px",
-//                 fontSize: "17px",
-//                 borderRadius: "6px",
-//                 cursor: "pointer",
-//                 transition: "background 0.3s",
-//               }}
-//             >
-//               Explore Programs
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Feature Cards */}
-//         <div
-//           style={{
-//             marginTop: "-60px",
-//             position: "relative",
-//             zIndex: 5,
-//             padding: "0 16px",
-//           }}
-//         >
-//           <div
-//             className="feature-row"
-//             style={{
-//               display: "flex",
-//               justifyContent: "center",
-//               gap: "24px", // ✅ Default gap (reduced on small screens)
-//               maxWidth: "1200px",
-//               margin: "0 auto",
-//               flexWrap: "nowrap",
-//             }}
-//           >
-//             <FeatureCard
-//               icon="🧹"
-//               title="Waste Management"
-//               description="Improve collection, segregation, and disposal practices."
-//               hideWasteOnMobile={true}
-//             />
-//             <FeatureCard
-//               icon="♻️"
-//               title="Sustainability"
-//               description="Promote waste reduction and resource reuse."
-//             />
-//             <FeatureCard
-//               icon="🌿"
-//               title="Volunteers"
-//               description="Engage citizens in ground-level initiatives."
-//             />
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default CleanKeralaLanding;
