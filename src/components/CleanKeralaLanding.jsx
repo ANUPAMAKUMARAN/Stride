@@ -149,13 +149,14 @@ const CleanKeralaLanding = () => {
       {/* Feature Cards */}
       <div
         style={{
-          marginTop: "-40px",
+          marginTop: "-60px",
           position: "relative",
           zIndex: 5,
           padding: "0 16px",
+          
         }}
       >
-        <div
+        <div className="py-6"
           style={{
             display: "flex",
             justifyContent: "center",
