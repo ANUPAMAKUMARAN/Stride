@@ -5,7 +5,7 @@ import CleanKeralaLanding from './components/CleanKeralaLanding';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
-// import WhyChooseUs from './components/WhyChooseUs';
+import WhyChooseUs from './components/WhyChooseUs';
 
 function App() {
   
@@ -13,6 +13,7 @@ function App() {
   return (
     <>
     <div>
+      <WhyChooseUs />
       <CleanKeralaLanding/>
       <LeaderCard/>
       <LeadersCarousel/>
