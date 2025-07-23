@@ -49,10 +49,11 @@ const WhyChooseUs = () => {
     >
       
       <div className="relative flex items-center justify-center w-12 h-12 mb-1">
-        <span className="absolute w-8 h-8 rounded-full animate-ping bg-indigo-900 opacity-90" />
-        {/* <div className="relative z-10 text-white  text-2xl sm:text-3xl md:text-4xl">
-          {item.icon}
-        </div> */}
+        <span className="absolute w-8 h-8 rounded-full animate-ping bg-indigo-900 opacity-90"
+          style={{
+    animation: "ping 3s cubic-bezier(0, 0, 0.9, 1) infinite",
+  }} />
+        
         <div
   className="relative z-10 text-white"
   style={{ fontSize: "clamp(2rem, 12vw, 3.5rem)" }}
@@ -131,7 +132,7 @@ const WhyChooseUs = () => {
         </div>
 
         {/* Mobile & Tablet View */}
-        <div className="block lg:hidden relative w-full mb-6 rounded-xl">
+        <div className="block lg:hidden relative w-full mb-6  rounded-xl">
           <img
             src={img1}
             alt="Group of Professionals"
@@ -140,10 +141,10 @@ const WhyChooseUs = () => {
           {/* darkshade */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-start px-4 pt-8 sm:pt-10 pb-4"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
           >
             <div className="text-center mb-14 sm:mb-22 md:mb-26 px-2">
-              <p className="text-xs text-blue-300 uppercase mb-2 tracking-wide">
+              <p className="text-xs text-blue-300 uppercase mt-10 mb-2 tracking-wide">
                 Choose us for Saudi PCC service?
               </p>
               <h2 className="text-xl font-semibold leading-snug text-white">

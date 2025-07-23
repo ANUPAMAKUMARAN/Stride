@@ -1,5 +1,6 @@
 
 import './App.css'
+import ActionCard from './components/ActionCard';
 import Carousel from './components/Carousel';
 import CleanKeralaLanding from './components/CleanKeralaLanding';
 import DirectorsCarousel from './components/DirectorsCarousel';
@@ -13,6 +14,7 @@ function App() {
   return (
     <>
     <div>
+      <ActionCard/>
       <WhyChooseUs />
       <CleanKeralaLanding/>
       <LeaderCard/>
