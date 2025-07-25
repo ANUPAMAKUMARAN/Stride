@@ -7,7 +7,7 @@ import DirectorsCarousel from './components/DirectorsCarousel';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import SaudiPccServices from './components/SaudiPccServices';
-import WhyChooseUs from './components/WhyChooseUs';
+// import WhyChooseUs from './components/WhyChooseUs';
 
 function App() {
   
@@ -26,7 +26,7 @@ function App() {
  
       <DirectorsCarousel/>
       <Carousel/>
-      {/* <WhyChooseUs /> */}
+      
     </div>
      
     </>
