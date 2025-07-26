@@ -121,7 +121,7 @@ const SaudiPCCSection = () => {
     const handleResize = () => {
       const containerWidth = containerRef.current?.offsetWidth || BASE_WIDTH;
       const newScale = containerWidth / BASE_WIDTH;
-      setScale(newScale > 1 ? 1 : newScale);
+      setScale(newScale > 1 ? 1.2 : newScale);
     };
 
     handleResize();
