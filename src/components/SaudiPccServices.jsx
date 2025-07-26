@@ -103,7 +103,7 @@ const IconCard = ({ icon, title, description, link, scale }) => {
             borderRadius: 4 * scale,
             zIndex: 10,
             boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-            textDecoration: "none", 
+            textDecoration: "none",
           }}
         >
           {description}
@@ -142,7 +142,11 @@ const SaudiPCCSection = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
-        padding: `${60 * scale}px 20px`,
+        // padding: `${60 * scale}px 20px`,
+        paddingTop: 40 * scale,
+        paddingBottom: 0 * scale,
+        paddingLeft: 20,
+        paddingRight: 20,
       }}
     >
       <h3
