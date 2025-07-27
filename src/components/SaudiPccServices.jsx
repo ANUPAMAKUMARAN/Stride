@@ -121,58 +121,37 @@ const SaudiPCCSection = () => {
   const [scale, setScale] = useState(1);
   const [outerMargin, setOuterMargin] = useState(80);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     const width = window.innerWidth;
-
-  //     // No margin for small screens
-  //     const margin = width <= 900 ? 0 : 80;
-
-  //     // Scale based on container width
-  //     const containerWidth = containerRef.current?.offsetWidth || 950;
-  //     let newScale = containerWidth / 950;
-  //     if (newScale > 1) newScale = 1;
-
-  //     setOuterMargin(margin);
-  //     setScale(newScale);
-  //   };
-
-  //   handleResize();
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
-
+ 
   useEffect(() => {
-  const handleResize = () => {
-    const width = window.innerWidth;
+    const handleResize = () => {
+      const width = window.innerWidth;
 
-    const margin = width <= 900 ? 0 : 80;
+      const margin = width <= 900 ? 0 : 80;
 
-    const containerWidth = containerRef.current?.offsetWidth || 950;
-    let newScale = containerWidth / 950;
-    if (newScale > 1) newScale = 1;
+      const containerWidth = containerRef.current?.offsetWidth || 950;
+      let newScale = containerWidth / 950;
+      if (newScale > 1) newScale = 1;
 
-    setOuterMargin(margin);
-    setScale(newScale);
-  };
+      setOuterMargin(margin);
+      setScale(newScale);
+    };
 
-  handleResize();
+    handleResize();
 
-  // Force layout recalculation when ref is ready
-  const timeout = setTimeout(handleResize, 50);
+    const timeout = setTimeout(handleResize, 50);
 
-  window.addEventListener("resize", handleResize);
-  return () => {
-    clearTimeout(timeout);
-    window.removeEventListener("resize", handleResize);
-  };
-}, []);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div
       style={{
-         width: "100vw", // force full screen width
-    overflowX: "hidden", // prevent horizontal scroll
+        width: "100vw", 
+        overflowX: "hidden", // prevent horizontal scroll
         paddingLeft: outerMargin,
         paddingRight: outerMargin,
         paddingTop: 40 * scale,
@@ -183,10 +162,7 @@ const SaudiPCCSection = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
-        
-        
-    width: "100%", // ✅ Ensure full width
-    boxSizing: "border-box", // ✅ Ensure padding doesn't cause overflow
+        boxSizing: "border-box", 
       }}
     >
       <div
@@ -196,7 +172,7 @@ const SaudiPCCSection = () => {
           flexDirection: "column",
           alignItems: "center",
           width: "100%", // important
-    boxSizing: "border-box",
+          boxSizing: "border-box",
 
         }}
       >
@@ -224,7 +200,7 @@ const SaudiPCCSection = () => {
           We are Experienced <br /> Saudi PCC Online Service Provider
         </h1>
 
-        <div
+        <div className="mt-5"
           style={{
             display: "flex",
             flexDirection: "row",
@@ -232,10 +208,10 @@ const SaudiPCCSection = () => {
             alignItems: "center",
             width: "100%",
             gap: 30 * scale,
-            
+
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
+          <div className="mb-4" style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
             {iconData.slice(0, 2).map((item, i) => (
               <IconCard key={i} {...item} scale={scale} />
             ))}
@@ -249,7 +225,7 @@ const SaudiPCCSection = () => {
             />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
+          <div className="mb-4" style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
             {iconData.slice(2).map((item, i) => (
               <IconCard key={i} {...item} scale={scale} />
             ))}
