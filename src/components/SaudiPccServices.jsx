@@ -367,7 +367,7 @@ const SaudiPCCSection = () => {
   const handleResize = () => {
     const width = window.innerWidth;
 
-    const margin = width <= 600 ? width*0.05 : width <= 1000 ? width*0.10 : width*0.15;
+    const margin = width <= 600 ? width*0.02 : width <= 1000 ? width*0.05 : width*0.10;
     const maxWidth = 1325;
     const containerWidth = Math.min(width);
     let newScale = containerWidth / maxWidth;
