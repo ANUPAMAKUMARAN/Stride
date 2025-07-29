@@ -366,15 +366,12 @@ const SaudiPCCSection = () => {
   useEffect(() => {
   const handleResize = () => {
     const width = window.innerWidth;
-
-    const margin = width <= 600 ? 10 : width <= 900 ? 30 : 60;
     const maxWidth = 1325;
-    const containerWidth = Math.min(window.innerWidth - margin * 2, maxWidth);
+    const containerWidth = Math.min(width);
     let newScale = containerWidth / maxWidth;
 
     if (newScale > 1) newScale = 1;
 
-    setOuterMargin(margin);
     setScale(newScale);
   };
 
@@ -394,8 +391,8 @@ const SaudiPCCSection = () => {
       style={{
         width: "100%", 
         overflowX: "hidden", // prevent horizontal scroll
-        paddingLeft: outerMargin,
-        paddingRight: outerMargin,
+        paddingLeft: "15%",
+        paddingRight: "15%",
         paddingTop: 40 * scale,
         paddingBottom: 0,
         backgroundColor: "#F3F5FA",
