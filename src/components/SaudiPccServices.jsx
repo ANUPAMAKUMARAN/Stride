@@ -293,8 +293,8 @@ const IconCard = ({ icon, title, description, link, scale }) => {
     >
       <div
         style={{
-          width: `${300 * scale}px`,
-          height: `${150 * scale}px`,
+          width: `${80 * scale}px`,
+          height: `${80 * scale}px`,
           background: "#2F3192",
           borderRadius: "50%",
           display: "flex",
