@@ -240,18 +240,19 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const iconData = [
-  {
-    icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/icon4.png",
-    title: "Faster, Simple more Secure",
-    description: "We deliver a highly secure and reliable service process.",
-    link: "https://example.com/secure-process",
-  },
+  
   {
     icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/icon3.png",
     title: "End-to-end service (MOFA, translation, apostille, courier)",
     description:
       "We handle everything including MOFA attestation, courier and certified translations.",
     link: "https://example.com/end-to-end",
+  },
+  {
+    icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/icon4.png",
+    title: "Faster, Simple more Secure",
+    description: "We deliver a highly secure and reliable service process.",
+    link: "https://example.com/secure-process",
   },
   {
     icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/icon1.png",
@@ -266,13 +267,11 @@ const iconData = [
     description: "Trusted across 50+ countries.",
     link: "https://example.com/trust",
   },
+  
 ];
 
 const IconCard = ({ icon, title, description, link, scale }) => {
   const [hover, setHover] = useState(false);
-
-  const fontSize = Math.min(14 * scale, 12);
-  const descriptionFont = Math.min(12 * scale, 10);
 
   return (
     <div
@@ -283,9 +282,8 @@ const IconCard = ({ icon, title, description, link, scale }) => {
         alignItems: "center",
         textAlign: "center",
         gap: 10 * scale,
-        // width: 200 * scale,
-        width: Math.max(150 * scale, 10),
-
+        width: `${300 * scale}px`,
+        height: `${150 * scale}px`,
         cursor: "pointer",
       }}
       onMouseEnter={() => setHover(true)}
@@ -293,8 +291,8 @@ const IconCard = ({ icon, title, description, link, scale }) => {
     >
       <div
         style={{
-          width: `${80 * scale}px`,
-          height: `${80 * scale}px`,
+          width: `${98 * scale}px`,
+          height: `${98 * scale}px`,
           background: "#2F3192",
           borderRadius: "50%",
           display: "flex",
@@ -306,8 +304,10 @@ const IconCard = ({ icon, title, description, link, scale }) => {
           src={icon}
           alt={title}
           style={{
-            width: "60%",
-            height: "60%",
+            width: `${50 * scale}px`,
+          height: `${50 * scale}px`,
+            // width: "60%",
+            // height: "60%",
             objectFit: "contain",
           }}
         />
@@ -315,13 +315,12 @@ const IconCard = ({ icon, title, description, link, scale }) => {
 
       <p
         style={{
-          fontSize: fontSize,
+          fontSize:  `${20 * scale}px`,
           fontWeight: 500,
           margin: 0,
-          lineHeight: 1.4,
+          lineHeight:  `${30 * scale}px`,
           color: "#000",
-          maxHeight: `${1.4 * fontSize * 3}px`,
-          overflow: "hidden",
+          // overflow: "hidden",
           textOverflow: "ellipsis",
           display: "-webkit-box",
           WebkitLineClamp: 3,
@@ -342,7 +341,7 @@ const IconCard = ({ icon, title, description, link, scale }) => {
             width: "100%",
             background: "#f5f5f5",
             color: "#1e40af",
-            fontSize: descriptionFont,
+            fontSize: `${15 * scale}px`,
             padding: `${6 * scale}px ${8 * scale}px`,
             borderRadius: 4 * scale,
             zIndex: 10,
@@ -393,11 +392,11 @@ const SaudiPCCSection = () => {
     <div
       style={{
         width: "100%", 
-        overflowX: "hidden", // prevent horizontal scroll
+        overflowX: "hidden", 
         paddingLeft: outerMargin,
         paddingRight: outerMargin,
-        paddingTop: 40 * scale,
-        paddingBottom: 0,
+        paddingTop: `${30 * scale}px`,
+        // paddingBottom: 0,
         backgroundColor: "#F3F5FA",
         backgroundImage:
           "url(https://project251.hrstride.academy/wp-content/uploads/2025/07/Vector-7-1.png)",
@@ -413,7 +412,7 @@ const SaudiPCCSection = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "100%", // important
+          width: "100%", 
           boxSizing: "border-box",
 
         }}
@@ -421,9 +420,9 @@ const SaudiPCCSection = () => {
         <h3
           style={{
             color: "#2F3192",
-            fontSize: 13 * scale,
+            fontSize: `${13 * scale}px`,
             fontWeight: 600,
-            marginBottom: 8 * scale,
+            marginBottom: `${20 * scale}px`,
           }}
         >
           CHOOSE US FOR SAUDI PCC SERVICE?
@@ -431,7 +430,7 @@ const SaudiPCCSection = () => {
 
         <h1
           style={{
-            fontSize: 45 * scale,
+            fontSize: `${56 * scale}px`,
             fontWeight: 700,
             textAlign: "center",
             lineHeight: 1.3,
@@ -442,7 +441,7 @@ const SaudiPCCSection = () => {
           We are Experienced <br /> Saudi PCC Online Service Provider
         </h1>
 
-        <div className="mt-5"
+        <div className="mb-0"
           style={{
             display: "flex",
             flexDirection: "row",
@@ -459,11 +458,21 @@ const SaudiPCCSection = () => {
             ))}
           </div>
 
-          <div style={{ width: 520 * scale, flexShrink: 0 }}>
+          <div className="mb-0"
+           style={{
+             width: 520 * scale,
+             flexShrink: 0 }}>
             <img
               src="https://project251.hrstride.academy/wp-content/uploads/2025/07/all-peoples-2.png"
               alt="Main"
-              style={{ width: "100%", height: "auto", objectFit: "contain" }}
+              style={{
+                width: `${702 * scale}px`,
+          height: `${490 * scale}px`,
+          
+                //  width: "100%",
+                //  height: "auto",
+                 objectFit: "contain"
+                 }}
             />
           </div>
 
