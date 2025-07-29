@@ -16,7 +16,7 @@ function App() {
     <>
     <div>
       <SaudiPccServices/>
-      <ActionCard/>
+      {/* <ActionCard/> */}
       {/* <WhyChooseUs /> */}
       
       <CleanKeralaLanding/>
