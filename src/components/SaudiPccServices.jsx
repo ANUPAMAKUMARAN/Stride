@@ -367,8 +367,8 @@ const SaudiPCCSection = () => {
   const handleResize = () => {
     const width = window.innerWidth;
 
-    const margin = width <= 600 ? 10 : width <= 900 ? 30 : 80;
-    const maxWidth = 950;
+    const margin = width <= 600 ? 10 : width <= 900 ? 30 : 60;
+    const maxWidth = 1325;
     const containerWidth = Math.min(window.innerWidth - margin * 2, maxWidth);
     let newScale = containerWidth / maxWidth;
 
@@ -392,7 +392,7 @@ const SaudiPCCSection = () => {
   return (
     <div
       style={{
-        width: "100vw", 
+        width: "100%", 
         overflowX: "hidden", // prevent horizontal scroll
         paddingLeft: outerMargin,
         paddingRight: outerMargin,
