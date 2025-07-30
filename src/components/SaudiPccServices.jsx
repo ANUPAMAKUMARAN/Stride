@@ -210,7 +210,7 @@
 //             alignItems: "center",
 //             width: "100%",
 //             gap: 30 * scale,
-            
+
 
 //           }}
 //         >
@@ -224,7 +224,7 @@
 //             style={{
 //               width: 520 * scale,
 //               flexShrink: 0,
-              
+
 //             }}>
 //             <img
 //               src="https://project251.hrstride.academy/wp-content/uploads/2025/07/all-peoples-2.png"
@@ -234,7 +234,7 @@
 //                 height: `${430 * scale}px`,
 //                 objectFit: "fill",
 //                  display: "block",      
-    
+
 //               }}
 //             />
 //           </div>
@@ -279,8 +279,8 @@ const iconData = [
       "We work directly with Saudi authorities to speed up the process securely.",
     link: "https://example.com/saudi-police",
   },
-  {  
-     icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/Icon-1.png",
+  {
+    icon: "https://project251.hrstride.academy/wp-content/uploads/2025/07/Icon-1.png",
     title: "Trusted by professionals, nurses & job seekers worldwide",
     description: "Trusted across 50+ countries.",
     link: "https://example.com/trust",
@@ -299,7 +299,7 @@ const IconCard = ({ icon, title, description, link, scale }) => {
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        gap: 10 * scale,
+        gap: 5 * scale,
         width: `${300 * scale}px`,
         height: `${200 * scale}px`,
         cursor: "pointer",
@@ -323,20 +323,18 @@ const IconCard = ({ icon, title, description, link, scale }) => {
           alt={title}
           style={{
             width: `${50 * scale}px`,
-          height: `${50 * scale}px`,
-            // width: "60%",
-            // height: "60%",
-            objectFit: "contain",
+            height: `${50 * scale}px`,
+            objectFit: "cover",
           }}
         />
       </div>
 
       <p
         style={{
-          fontSize:  `${20 * scale}px`,
+          fontSize: `${20 * scale}px`,
           fontWeight: 500,
           margin: 0,
-          lineHeight:  `${30 * scale}px`,
+          lineHeight: `${30 * scale}px`,
           color: "#000",
           // overflow: "hidden",
           textOverflow: "ellipsis",
@@ -356,8 +354,8 @@ const IconCard = ({ icon, title, description, link, scale }) => {
           style={{
             position: "absolute",
             top: 100 * scale,
-            width:`${270 * scale}px`,
-            minHeight:`${60 * scale}px`,
+            width: `${270 * scale}px`,
+            minHeight: `${60 * scale}px`,
             background: "#f5f5f5",
             color: "#1e40af",
             fontSize: `${15 * scale}px`,
@@ -382,39 +380,40 @@ const SaudiPCCSection = () => {
 
 
   useEffect(() => {
-  const handleResize = () => {
-    const width = window.innerWidth;
+    const handleResize = () => {
+      const width = window.innerWidth;
 
-    const margin = width <= 600 ? width*0.02 : width <= 1000 ? width*0.05 : width*0.10;
-    const maxWidth = 1325;
-    const containerWidth = Math.min(width);
-    let newScale = containerWidth / maxWidth;
+      const margin = width <= 600 ? width * 0.02 : width <= 1000 ? width * 0.05 : width * 0.10;
+      const maxWidth = 1325;
+      const containerWidth = Math.min(width);
+      let newScale = containerWidth / maxWidth;
 
-    if (newScale > 1) newScale = 1;
+      if (newScale > 1) newScale = 1;
 
-    setOuterMargin(margin);
-    setScale(newScale);
-  };
+      setOuterMargin(margin);
+      setScale(newScale);
+    };
 
-  handleResize();
+    handleResize();
 
-  const timeout = setTimeout(handleResize, 50);
+    const timeout = setTimeout(handleResize, 50);
 
-  window.addEventListener("resize", handleResize);
-  return () => {
-    clearTimeout(timeout);
-    window.removeEventListener("resize", handleResize);
-  };
-}, []);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div
       style={{
-        width: "100%", 
-        overflowX: "hidden", 
+
+        width: "100%",
+        overflowX: "hidden",
         paddingLeft: outerMargin,
         paddingRight: outerMargin,
-        paddingTop: `${30 * scale}px`,
+        paddingTop: `${20 * scale}px`,
         // paddingBottom: 0,
         backgroundColor: "#F3F5FA",
         backgroundImage:
@@ -422,7 +421,7 @@ const SaudiPCCSection = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
-        boxSizing: "border-box", 
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -431,7 +430,7 @@ const SaudiPCCSection = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "100%", 
+          width: "100%",
           boxSizing: "border-box",
 
         }}
@@ -460,42 +459,56 @@ const SaudiPCCSection = () => {
           We are Experienced <br /> Saudi PCC Online Service Provider
         </h1>
 
-        <div className="mb-0"
+        <div
           style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            gap: 30 * scale,
+            height: "100%",
+            marginBottom: 0
+            // gap: 60 * scale,
 
           }}
         >
-          <div className="mb-4" style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: 60 * scale,
+            //  gap: 80 * scale
+          }}>
             {iconData.slice(0, 2).map((item, i) => (
               <IconCard key={i} {...item} scale={scale} />
             ))}
           </div>
 
-          <div className="mb-0"
-           style={{
-             width: 520 * scale,
-             flexShrink: 0 }}>
+          <div
+            style={{
+              width: `${520 * scale}px`,
+              marginBottom: 0,
+              flexShrink: 0,
+
+            }}>
             <img
               src="https://project251.hrstride.academy/wp-content/uploads/2025/07/all-peoples-2.png"
               alt="Main"
               style={{
                 width: `${702 * scale}px`,
-          height: `${490 * scale}px`,
-          
-                //  width: "100%",
-                //  height: "auto",
-                 objectFit: "contain"
-                 }}
+                height: `${490 * scale}px`,
+                objectFit: "contain",
+
+              }}
             />
           </div>
 
-          <div className="mb-4" style={{ display: "flex", flexDirection: "column", gap: 80 * scale }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: 60 * scale,
+              //  gap: 60 * scale 
+            }}>
             {iconData.slice(2).map((item, i) => (
               <IconCard key={i} {...item} scale={scale} />
             ))}
