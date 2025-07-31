@@ -3,46 +3,87 @@
 import React, { useState, useEffect } from "react";
 import img2 from "../assets/landingImg.png";
 
-const FeatureCard = ({ icon, title, description, scale }) => (
-  <div
-    style={{
-      background: "#fff",
-      borderRadius: 16 * scale,
-      width: `${260 * scale}px`,
-      height: `${210 * scale}px`,
-      padding: 16 * scale,
-      textAlign: "center",
-      boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <img
-      src={icon}
-      alt={title}
+
+const FeatureCard = ({ icon, title, description, scale }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const isMobile = window.innerWidth < 768;
+
+  const cardWidth = isMobile ? window.innerWidth * 0.22 : 260 * scale;
+  const cardHeight = isMobile ? 90 : 210 * scale;
+  const padding = isMobile ? 6 : 16 * scale;
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
-        width: `${50 * scale}px`,
-        height: `${50 * scale}px`,
-        marginBottom: 12 * scale,
-      }}
-    />
-    <h3 style={{ fontSize: 20 * scale, fontWeight: "bold", marginBottom: 8 * scale }}>
-      {title}
-    </h3>
-    <p
-      style={{
-        fontSize: 14 * scale,
-        color: "#333",
-        lineHeight: 1.4,
-        maxWidth: "90%",
+        background: "#fff",
+        borderRadius: 16 * scale,
+        width: `${cardWidth}px`,
+        height: `${cardHeight}px`,
+        padding: padding,
+        textAlign: "center",
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+        cursor: isMobile ? "pointer" : "default",
+        transition: "all 0.3s ease",
       }}
     >
-      {description}
-    </p>
-  </div>
-);
+      <img
+        src={icon}
+        alt={title}
+        style={{
+          width: `${50 * scale}px`,
+          height: `${50 * scale}px`,
+          marginBottom: 12 * scale,
+        }}
+      />
+      <h3 style={{ fontSize: 20 * scale, fontWeight: "bold", marginBottom: 8 * scale }}>
+        {title}
+      </h3>
+
+      {!isMobile && (
+        <p
+          style={{
+            fontSize: 14 * scale,
+            color: "#333",
+            lineHeight: 1.4,
+            maxWidth: "90%",
+          }}
+        >
+          {description}
+        </p>
+      )}
+
+      {isMobile && isHovered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            backgroundColor: "#fff",
+            color: "#333",
+            fontSize: 13 * scale,
+            padding: `${8 * scale}px ${12 * scale}px`,
+            borderRadius: 8 * scale,
+            boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+            marginTop: 8 * scale,
+            zIndex: 999,
+            width: "220px",
+            textAlign: "center",
+          }}
+        >
+          {description}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const CleanKeralaLanding = () => {
   const [scale, setScale] = useState(1);
@@ -79,7 +120,7 @@ const CleanKeralaLanding = () => {
           style={{
             position: "absolute",
             inset: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            backgroundColor: "rgba(0, 0, 0, 0.4)",
           }}
         />
 
@@ -98,10 +139,14 @@ const CleanKeralaLanding = () => {
             padding: 16,
           }}
         >
-          <h1 style={{ fontSize: 42 * scale, fontWeight: "bold", marginBottom: 16 * scale }}>
+          <h1 style={{
+             fontSize: 46 * scale,
+              fontWeight: "bold",
+              //  marginBottom: 16 * scale
+                }}>
             Towards a Clean Kerala
           </h1>
-          <p style={{ fontSize: 20 * scale, marginBottom: 24 * scale }}>
+          <p style={{ fontSize: 22 * scale, marginBottom: 24 * scale }}>
             Uniting efforts for a greener, cleaner, and healthier Kerala
           </p>
           <button
@@ -132,19 +177,19 @@ const CleanKeralaLanding = () => {
           }}
         >
           <FeatureCard
-            icon="https://icon2.cleanpng.com/lnd/20240426/fco/aa8k4horf.webp"
+            icon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsJp-o-kVocZqMDOAq0aDHTDUmrDvpcGFTRj4Y_gE_PRSoLtXRLmu3gX_cI3r3HhyOUMo&usqp=CAU"
             title="Management"
             description="Improve collection, segregation, and disposal practices."
             scale={scale}
           />
           <FeatureCard
-            icon="https://cdn-icons-png.flaticon.com/512/565/565722.png"
+            icon="https://www.activesustainability.com/media/816156/desarrollo-sostenible.jpg"
             title="Sustainability"
             description="Promote waste reduction and resource reuse."
             scale={scale}
           />
           <FeatureCard
-            icon="https://cdn-icons-png.flaticon.com/512/2921/2921222.png"
+            icon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAZtboZRD3iRJImhCmjsKp6UxHExGozGSWu4sjPWOUyc4RFfprkAFjvW4aHyfZQX__VYE&usqp=CAU"
             title="Volunteers"
             description="Engage citizens in ground-level initiatives."
             scale={scale}
@@ -153,7 +198,8 @@ const CleanKeralaLanding = () => {
       </div>
 
       {/* Spacer to avoid overlap with next content */}
-      <div style={{ height: `${cardOffset + 100}px` }} />
+      <div style={{ height: `${cardOffset + 100 * scale}px` }} />
+
     </div>
   );
 };
