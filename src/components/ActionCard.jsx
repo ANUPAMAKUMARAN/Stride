@@ -1,244 +1,257 @@
+import React, { useState, useEffect, useRef } from "react";
 
-import React from "react";
+const ActionCard = ({
+  emoji,
+  title,
+  subtitle,
+  buttonText,
+  bgColor,
+  textColor,
+  buttonColor,
+  cardWidth,
+  cardHeight,
+  scale,
+}) => {
+  const fontSize = 16 * scale;
+  const titleFontSize = 22 * scale;
+  const emojiFontSize = 32 * scale;
+  const buttonFontSize = 14 * scale;
+  const gap = 8 * scale;
+  const padding = 24 * scale;
+  const buttonPaddingY = 8 * scale;
+  const buttonPaddingX = 16 * scale;
 
-const ActionCard = ({ emoji, title, subtitle, buttonText, bgColor, textColor, buttonColor }) => (
-    <div
-        className={`rounded-2xl shadow-md p-6 ${bgColor} text-${textColor} flex flex-col justify-between`}
-        style={{
-            width: "clamp(160px, 42vw, 425px)",
-            height: "clamp(160px, 20vw, 200px)",
-        }}
-    >
-        <div style={{ flexGrow: 1 }}>
-            {/* Title - Single line but dynamically scaled */}
-            <h3
-                className="font-semibold flex items-center gap-2 mb-2"
-                style={{
-                    fontSize: "clamp(0.9rem, 2.1vw, 1.4rem)",
-                    whiteSpace: "nowrap",  // force one line
-                    overflow: "visible",   // no text cutting
-                }}
-            >
-                <span style={{ fontSize: "clamp(1.2rem, 3vw, 2rem)" }}>{emoji}</span>
-                {title}
-            </h3>
+  return (
+    <div
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+        width: `${cardWidth}px`,
+        height: `${cardHeight}px`,
+        padding: `${padding}px`,
+        borderRadius: `${16 * scale}px`,
+        boxShadow: `0 ${4 * scale}px ${10 * scale}px rgba(0,0,0,0.05)`,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ flexGrow: 1 }}>
+        <h3
+          style={{
+            fontWeight: 600,
+            display: "flex",
+            alignItems: "center",
+            gap: `${gap}px`,
+            marginBottom: `${gap}px`,
+            fontSize: `${titleFontSize}px`,
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span style={{ fontSize: `${emojiFontSize}px` }}>{emoji}</span>
+          {title}
+        </h3>
 
-            {/* Subtitle - Always 2 lines visible */}
-            <p
-                style={{
-                    fontSize: "clamp(0.75rem, 1.5vw, 1rem)",
-                    lineHeight: 1.3,
-                    maxHeight: "calc(1.3em * 2)", // exactly two lines
-                    overflow: "hidden", // prevent extra line overflow
-                }}
-            >
-                {subtitle}
-            </p>
-        </div>
+        <p
+          style={{
+            fontSize: `${fontSize}px`,
+            lineHeight: 1.3,
+            maxHeight: `${1.3 * fontSize * 2}px`,
+            overflow: "hidden",
+          }}
+        >
+          {subtitle}
+        </p>
+      </div>
 
-        {/* Button - Fixed size and position */}
-        <div className="flex justify-end mt-4">
-            <button
-                className={`text-white rounded-md shadow-md font-medium ${buttonColor}`}
-                style={{
-                    //   width: "140px",
-                    //   height: "38px",
-                    padding: "clamp(4px, 0.5vw, 8px) clamp(10px, 1vw, 16px)",
-                    fontSize: "clamp(0.7rem, 1.2vw, 0.9rem)",
-                    flexShrink: 0,
-                }}
-            >
-                {buttonText}
-            </button>
-        </div>
-    </div>
-);
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: `${gap * 2}px`,
+        }}
+      >
+        <button
+          style={{
+            backgroundColor: buttonColor,
+            color: "#fff",
+            borderRadius: `${6 * scale}px`,
+            fontWeight: 500,
+            boxShadow: `0 ${2 * scale}px ${6 * scale}px rgba(0,0,0,0.1)`,
+            padding: `${buttonPaddingY}px ${buttonPaddingX}px`,
+            fontSize: `${buttonFontSize}px`,
+            cursor: "pointer",
+          }}
+        >
+          {buttonText}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const ActionGrid = () => {
-    return (
-        <div className="w-full bg-gradient-to-b from-[#f4fff4] to-[#effef1] py-12 flex flex-col items-center">
-            <div className="text-center mb-10" style={{ maxWidth: "90%" }}>
-                <h1 className="text-4xl font-bold mb-2 text-black">
-                    Your Voice, A Cleaner Kerala
-                </h1>
-                <p className="text-xl italic font-semibold text-black">
-                    Report, Resolve, and Get Rewarded
-                </p>
-            </div>
+  const scrollRef = useRef();
+  const presetCardWidth = 425;
+  const presetCardHeight = 200;
+  const presetGap = 24;
+  const maxWidth = 1325; // This is now the max total width of the grid
 
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)", // keep fixed 2x2
-                    gap: "clamp(12px, 3vw, 24px)",
-                    maxWidth: "900px",
-                    width: "100%",
-                    padding: "0 16px",
-                }}
-            >
-                <ActionCard
-                    emoji="📝"
-                    title="Register a Complaint"
-                    subtitle="Facing uncollected waste, blocked drains, or broken bins?"
-                    buttonText="Register"
-                    bgColor="bg-green-100"
-                    textColor="green-800"
-                    buttonColor="bg-green-600 hover:bg-green-700"
-                />
-                <ActionCard
-                    emoji="🚫"
-                    title="Illegal Dumping"
-                    subtitle="Seen waste dumped in unauthorized areas?"
-                    buttonText="Report Now"
-                    bgColor="bg-orange-100"
-                    textColor="orange-700"
-                    buttonColor="bg-orange-500 hover:bg-orange-600"
-                />
-                <ActionCard
-                    emoji="🎁"
-                    title="Get Rewarded"
-                    subtitle="Earn rewards for verified reports."
-                    buttonText="Learn How"
-                    bgColor="bg-blue-100"
-                    textColor="blue-800"
-                    buttonColor="bg-blue-600 hover:bg-blue-700"
-                />
-                <ActionCard
-                    emoji="🌱"
-                    title="Community Programs"
-                    subtitle="Join clean-up drives, green clubs, and waste awareness campaigns across Kerala."
-                    buttonText="Explore Programs"
-                    bgColor="bg-green-50"
-                    textColor="green-800"
-                    buttonColor="bg-green-400 hover:bg-green-500"
-                />
-            </div>
-        </div>
-    );
+  const [scale, setScale] = useState(1);
+  const [outerMargin, setOuterMargin] = useState(80);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      
+      // Calculate the total required width for the grid at full scale (2 cards + 1 gap)
+      const fullGridWidth = (presetCardWidth * 2) + presetGap;
+      
+      // If the screen width is less than the full grid width, we need to scale down.
+      let newScale;
+      let newOuterMargin;
+
+      if (width > fullGridWidth) {
+        // Screen is wide enough, use a max width and center the grid.
+        newScale = 1;
+        newOuterMargin = (width - fullGridWidth) / 2;
+      } else {
+        // Screen is too narrow, calculate scale to make it fit
+        // The `16` here is a fixed small margin to prevent content from touching the edge.
+        const smallScreenMargin = 16;
+        const containerWidth = width - (smallScreenMargin * 2);
+        newScale = containerWidth / fullGridWidth;
+        newOuterMargin = smallScreenMargin;
+      }
+      
+      // Cap the scale at 1 to prevent elements from getting larger than their preset size
+      if (newScale > 1) {
+        newScale = 1;
+      }
+
+      setScale(newScale);
+      setOuterMargin(newOuterMargin);
+    };
+
+    handleResize();
+    const timeout = setTimeout(handleResize, 50);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const cardWidth = presetCardWidth * scale;
+  const cardHeight = presetCardHeight * scale;
+
+  return (
+    <div
+      ref={scrollRef}
+      style={{
+        width: "100%",
+        background: "linear-gradient(to bottom, #f4fff4, #effef1)",
+        paddingTop: `${48 * scale}px`,
+        paddingBottom: `${48 * scale}px`,
+        paddingLeft: `${outerMargin}px`,
+        paddingRight: `${outerMargin}px`,
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: `${40 * scale}px`,
+          maxWidth: "90%",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: `${36 * scale}px`,
+            fontWeight: "bold",
+            marginBottom: `${8 * scale}px`,
+            color: "#000",
+          }}
+        >
+          Your Voice, A Cleaner Kerala
+        </h1>
+        <p
+          style={{
+            fontSize: `${20 * scale}px`,
+            fontStyle: "italic",
+            fontWeight: 600,
+            color: "#000",
+          }}
+        >
+          Report, Resolve, and Get Rewarded
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, auto)", 
+          gap: `${presetGap * scale}px`,
+  
+          width: `${(presetCardWidth * 2 + presetGap) * scale}px`,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActionCard
+          emoji="📝"
+          title="Register a Complaint"
+          subtitle="Facing uncollected waste, blocked drains, or broken bins?"
+          buttonText="Register"
+          bgColor="#d1fae5"
+          textColor="#065f46"
+          buttonColor="#059669"
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          scale={scale}
+        />
+        <ActionCard
+          emoji="🚫"
+          title="Illegal Dumping"
+          subtitle="Seen waste dumped in unauthorized areas?"
+          buttonText="Report Now"
+          bgColor="#ffedd5"
+          textColor="#c2410c"
+          buttonColor="#f97316"
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          scale={scale}
+        />
+        <ActionCard
+          emoji="🎁"
+          title="Get Rewarded"
+          subtitle="Earn rewards for verified reports."
+          buttonText="Learn How"
+          bgColor="#dbeafe"
+          textColor="#1e3a8a"
+          buttonColor="#2563eb"
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          scale={scale}
+        />
+        <ActionCard
+          emoji="🌱"
+          title="Community Programs"
+          subtitle="Join clean-up drives, green clubs, and waste awareness campaigns across Kerala."
+          buttonText="Explore Programs"
+          bgColor="#ecfdf5"
+          textColor="#065f46"
+          buttonColor="#34d399"
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          scale={scale}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default ActionGrid;
-
-// import React, { useState, useEffect, useRef } from "react";
-
-// const ActionCard = ({ emoji, title, subtitle, buttonText, bgColor, textColor, buttonColor, cardWidth, cardHeight, fontScale }) => (
-//     <div
-//         className={`rounded-2xl shadow-md p-6 ${bgColor} text-${textColor} flex flex-col justify-between`}
-//         style={{
-//             width: cardWidth,
-//             height: cardHeight,
-//         }}
-//     >
-//         <div style={{ flexGrow: 1 }}>
-//             {/* Title */}
-//             <h3
-//                 className="font-semibold flex items-center gap-2 mb-2"
-//                 style={{
-//                     fontSize: `${1.4 * fontScale}rem`,
-//                     whiteSpace: "nowrap",
-//                     overflow: "visible",
-//                 }}
-//             >
-//                 <span style={{ fontSize: `${2 * fontScale}rem` }}>{emoji}</span>
-//                 {title}
-//             </h3>
-
-//             {/* Subtitle */}
-//             <p
-//                 style={{
-//                     fontSize: `${1 * fontScale}rem`,
-//                     lineHeight: 1.3,
-//                     maxHeight: `calc(1.3em * 2)`,
-//                     overflow: "hidden",
-//                 }}
-//             >
-//                 {subtitle}
-//             </p>
-//         </div>
-
-//         {/* Button */}
-//         <div className="flex justify-end mt-4">
-//             <button
-//                 className={`text-white rounded-md shadow-md font-medium ${buttonColor}`}
-//                 style={{
-//                     padding: `${0.5 * fontScale}rem ${1 * fontScale}rem`,
-//                     fontSize: `${0.9 * fontScale}rem`,
-//                     flexShrink: 0,
-//                 }}
-//             >
-//                 {buttonText}
-//             </button>
-//         </div>
-//     </div>
-// );
-
-// const ActionGrid = () => {
-//     const scrollRef = useRef();
-//     const presetCardWidth = 425;
-//     const presetCardHeight = 200;
-//     const minCardsToShow = 2;
-//     const cardGap = 24;
-
-//     const [dimensions, setDimensions] = useState({
-//         cardWidth: presetCardWidth,
-//         cardHeight: presetCardHeight,
-//         fontScale: 1,
-//     });
-
-//     useEffect(() => {
-//         const updateDimensions = () => {
-//             const containerWidth = scrollRef.current?.offsetWidth || 0;
-//             const baseRequiredWidth = presetCardWidth * minCardsToShow + (minCardsToShow - 1) * cardGap;
-
-//             if (containerWidth < baseRequiredWidth) {
-//                 const roughWidth = containerWidth / minCardsToShow;
-//                 const fontScale = roughWidth / presetCardWidth;
-//                 const scaledGap = cardGap * fontScale;
-//                 const adjustedWidth = (containerWidth - scaledGap * (minCardsToShow - 1)) / minCardsToShow;
-
-//                 setDimensions({
-//                     cardWidth: adjustedWidth,
-//                     cardHeight: (adjustedWidth * presetCardHeight) / presetCardWidth,
-//                     fontScale,
-//                 });
-//             } else {
-//                 setDimensions({
-//                     cardWidth: presetCardWidth,
-//                     cardHeight: presetCardHeight,
-//                     fontScale: 1,
-//                 });
-//             }
-//         };
-
-//         updateDimensions();
-//         window.addEventListener("resize", updateDimensions);
-//         return () => window.removeEventListener("resize", updateDimensions);
-//     }, []);
-
-//     return (
-//         <div ref={scrollRef} className="w-full bg-gradient-to-b from-[#f4fff4] to-[#effef1] py-12 flex flex-col items-center">
-//             <div className="text-center mb-10" style={{ maxWidth: "90%" }}>
-//                 <h1 className="text-4xl font-bold mb-2 text-black">Your Voice, A Cleaner Kerala</h1>
-//                 <p className="text-xl italic font-semibold text-black">Report, Resolve, and Get Rewarded</p>
-//             </div>
-
-//             <div
-//                 style={{
-//                     display: "grid",
-//                     gridTemplateColumns: "repeat(2, 1fr)",
-//                     gap: `${cardGap}px`,
-//                     maxWidth: "900px",
-//                     width: "100%",
-//                     padding: "0 16px",
-//                 }}
-//             >
-//                 <ActionCard emoji="📝" title="Register a Complaint" subtitle="Facing uncollected waste, blocked drains, or broken bins?" buttonText="Register" bgColor="bg-green-100" textColor="green-800" buttonColor="bg-green-600 hover:bg-green-700" {...dimensions} />
-//                 <ActionCard emoji="🚫" title="Illegal Dumping" subtitle="Seen waste dumped in unauthorized areas?" buttonText="Report Now" bgColor="bg-orange-100" textColor="orange-700" buttonColor="bg-orange-500 hover:bg-orange-600" {...dimensions} />
-//                 <ActionCard emoji="🎁" title="Get Rewarded" subtitle="Earn rewards for verified reports." buttonText="Learn How" bgColor="bg-blue-100" textColor="blue-800" buttonColor="bg-blue-600 hover:bg-blue-700" {...dimensions} />
-//                 <ActionCard emoji="🌱" title="Community Programs" subtitle="Join clean-up drives, green clubs, and waste awareness campaigns across Kerala." buttonText="Explore Programs" bgColor="bg-green-50" textColor="green-800" buttonColor="bg-green-400 hover:bg-green-500" {...dimensions} />
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ActionGrid;
