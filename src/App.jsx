@@ -10,7 +10,7 @@ import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 // import SampleComponent from './components/SampleComponent';
 import SaudiPccServices from './components/SaudiPccServices';
-// import WhyChooseUs from './components/WhyChooseUs';
+
 
 function App() {
   
@@ -18,7 +18,7 @@ function App() {
   return (
     <>
     <div>
-      <ActionCard/>
+      {/* <ActionCard/> */}
       {/* <SampleComponent attributes={SampleData}/> */}
       <SaudiPccServices/>
       <CleanKeralaLanding/>
