@@ -18,7 +18,7 @@ function App() {
   return (
     <>
     <div>
-      {/* <ActionCard/> */}
+      <ActionCard/>
       {/* <SampleComponent attributes={SampleData}/> */}
       <SaudiPccServices/>
       <CleanKeralaLanding/>
