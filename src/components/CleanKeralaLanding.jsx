@@ -3,12 +3,23 @@
 import React, { useState, useEffect } from "react";
 import img2 from "../assets/landingImg.png";
 
-
 const FeatureCard = ({ icon, title, description, scale }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const isMobile = window.innerWidth < 768;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const cardWidth = isMobile ? window.innerWidth * 0.22 : 260 * scale;
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+
+  const cardWidth = isMobile ? windowWidth * 0.22 : 260 * scale;
   const cardHeight = isMobile ? 90 : 210 * scale;
   const padding = isMobile ? 6 : 16 * scale;
 
@@ -84,6 +95,87 @@ const FeatureCard = ({ icon, title, description, scale }) => {
     </div>
   );
 };
+
+// const FeatureCard = ({ icon, title, description, scale }) => {
+//   const [isHovered, setIsHovered] = useState(false);
+//   const isMobile = window.innerWidth < 768;
+
+//   const cardWidth = isMobile ? window.innerWidth * 0.22 : 260 * scale;
+//   const cardHeight = isMobile ? 90 : 210 * scale;
+//   const padding = isMobile ? 6 : 16 * scale;
+
+//   return (
+//     <div
+//       onMouseEnter={() => setIsHovered(true)}
+//       onMouseLeave={() => setIsHovered(false)}
+//       style={{
+//         background: "#fff",
+//         borderRadius: 16 * scale,
+//         width: `${cardWidth}px`,
+//         height: `${cardHeight}px`,
+//         padding: padding,
+//         textAlign: "center",
+//         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+//         display: "flex",
+//         flexDirection: "column",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         position: "relative",
+//         cursor: isMobile ? "pointer" : "default",
+//         transition: "all 0.3s ease",
+//       }}
+//     >
+//       <img
+//         src={icon}
+//         alt={title}
+//         style={{
+//           width: `${50 * scale}px`,
+//           height: `${50 * scale}px`,
+//           marginBottom: 12 * scale,
+//         }}
+//       />
+//       <h3 style={{ fontSize: 20 * scale, fontWeight: "bold", marginBottom: 8 * scale }}>
+//         {title}
+//       </h3>
+
+//       {!isMobile && (
+//         <p
+//           style={{
+//             fontSize: 14 * scale,
+//             color: "#333",
+//             lineHeight: 1.4,
+//             maxWidth: "90%",
+//           }}
+//         >
+//           {description}
+//         </p>
+//       )}
+
+//       {isMobile && isHovered && (
+//         <div
+//           style={{
+//             position: "absolute",
+//             top: "100%",
+//             left: "50%",
+//             transform: "translateX(-50%)",
+//             backgroundColor: "#fff",
+//             color: "#333",
+//             fontSize: 13 * scale,
+//             padding: `${8 * scale}px ${12 * scale}px`,
+//             borderRadius: 8 * scale,
+//             boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+//             marginTop: 8 * scale,
+//             zIndex: 999,
+//             width: "220px",
+//             textAlign: "center",
+//           }}
+//         >
+//           {description}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 const CleanKeralaLanding = () => {
   const [scale, setScale] = useState(1);
