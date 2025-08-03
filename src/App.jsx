@@ -8,6 +8,7 @@ import CleanKeralaLanding from './components/CleanKeralaLanding';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
+import SaudiPccCarousel from './components/saudiPccCarousel';
 import SaudiPccSection from './components/SaudiPccSection';
 // import SaudiPCCSection from './components/SaudiPccServices';
 // import SampleComponent from './components/SampleComponent';
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
     <div>
+      <SaudiPccCarousel/>
       <SaudiPccSection/>
       <ActionCard/>
       {/* <SampleComponent attributes={SampleData}/> */}
