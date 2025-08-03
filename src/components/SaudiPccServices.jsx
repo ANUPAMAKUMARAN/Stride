@@ -118,7 +118,7 @@ const IconCard = ({ icon, title, description, link, scale }) => {
   );
 };
 
-const SaudiPCCSection = () => {
+const SaudiPccServices = () => {
   const containerRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [outerMargin, setOuterMargin] = useState(80);
@@ -264,4 +264,4 @@ const SaudiPCCSection = () => {
   );
 };
 
-export default SaudiPCCSection;
+export default SaudiPccServices;
