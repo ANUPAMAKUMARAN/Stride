@@ -13,6 +13,7 @@ import SaudiPccSection from './components/SaudiPccSection';
 // import SaudiPCCSection from './components/SaudiPccServices';
 // import SampleComponent from './components/SampleComponent';
 import SaudiPccServices from './components/SaudiPccServices';
+import ComparisonTable from './components/SaudiPccTable';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
     <div>
+      <ComparisonTable/>
       <SaudiPccCarousel/>
       <SaudiPccSection/>
       <ActionCard/>
