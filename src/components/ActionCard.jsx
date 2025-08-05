@@ -91,7 +91,7 @@ const ActionCard = ({
 const ActionGrid = () => {
   const presetCardWidth = 425;
   const presetCardHeight = 200;
-  const presetGap = 24;
+  const presetGap = 44;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {

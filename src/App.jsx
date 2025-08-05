@@ -22,7 +22,7 @@ function App() {
   return (
     <>
     <div>
-      <SaudiPccSection/>
+      {/* <SaudiPccSection/> */}
       <ComparisonTable/>
       <SaudiPccCarousel/>
       <SaudiPccSection/>

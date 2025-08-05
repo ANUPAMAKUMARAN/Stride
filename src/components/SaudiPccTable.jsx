@@ -1,10 +1,4 @@
-
-
-
-
 import React, { useEffect, useState } from "react";
-
-// // Hook to calculate scale based on screen width
 
 const useScaleMultiplier = (minScale = 0.6, maxScale = 1.2) => {
     const [scale, setScale] = useState(1);
@@ -154,7 +148,7 @@ const ComparisonTable = () => {
                 <div
                     style={{
                         background: "#fff", // table background
-                        borderRadius: 18 * scale, 
+                        borderRadius: 18 * scale,
                         overflowX: "auto",
                     }}
                 >
@@ -246,14 +240,15 @@ const ComparisonTable = () => {
             </p>
 
             {/* Buttons */}
+
             <div
                 style={{
                     display: "flex",
                     justifyContent: "center",
-                    gap: 16 * scale,   
+                    gap: 12 * scale, // reduced from 16
                     flexWrap: "nowrap",
-                    marginTop: 24 * scale,  
-                    transform: `scale(${scale})`, 
+                    marginTop: 20 * scale, // slightly reduced
+                    transform: `scale(${scale})`,
                     transformOrigin: "center",
                 }}
             >
@@ -261,13 +256,13 @@ const ComparisonTable = () => {
                     style={{
                         backgroundColor: "#00B3E3",
                         color: "white",
-                        width: 220 * scale,
-                        height: 50 * scale,
-                        borderRadius: 6 * scale,
+                        width: 150 * scale, 
+                        height: 34 * scale, 
+                        borderRadius: 4 * scale, 
                         border: "none",
                         fontWeight: 500,
-                        fontSize: 14 * scale,
-                        lineHeight: `${50 * scale}px`,
+                        fontSize: 12 * scale, 
+                        lineHeight: `${34 * scale}px`, 
                         cursor: "pointer",
                     }}
                 >
@@ -277,12 +272,12 @@ const ComparisonTable = () => {
                     style={{
                         border: "1px solid #00B3E3",
                         color: "#00B3E3",
-                        width: 260 * scale,
-                        height: 50 * scale,
-                        borderRadius: 6 * scale,
+                        width: 230 * scale, 
+                        height: 34 * scale,
+                        borderRadius: 4 * scale, 
                         fontWeight: 500,
-                        fontSize: 14 * scale,
-                        lineHeight: `${50 * scale}px`,
+                        fontSize: 12 * scale, 
+                        lineHeight: `${34 * scale}px`,
                         backgroundColor: "white",
                         cursor: "pointer",
                     }}
@@ -290,6 +285,7 @@ const ComparisonTable = () => {
                     REQUEST YOUR SAUDI PCC NOW
                 </button>
             </div>
+
 
         </div>
     );
@@ -302,6 +298,7 @@ const tableHeaderStyle = (scale) => ({
     fontWeight: 600,
     fontSize: 16 * scale,
 });
+
 
 const tableCellStyle = (scale) => ({
     padding: `${12 * scale}px ${16 * scale}px`,

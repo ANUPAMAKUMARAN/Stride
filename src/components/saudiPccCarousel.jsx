@@ -1,6 +1,6 @@
 
-// import React, { useEffect, useState } from "react";
 
+// import React, { useEffect, useState } from "react";
 
 // const carouselData = [
 //   { title: "UK NHS Trust Nurses Recruitment Agency Conducting Free Nurses Recruitment in Kerala" },
@@ -17,7 +17,8 @@
 //   useEffect(() => {
 //     const updateScale = () => {
 //       const w = window.innerWidth;
-//       setScale(w / baseWidth > 1 ? 1 : w / baseWidth);
+//       const ratio = w / baseWidth;
+//       setScale(ratio > 1 ? 1 : ratio);
 //     };
 //     updateScale();
 //     window.addEventListener("resize", updateScale);
@@ -26,7 +27,7 @@
 //   return scale;
 // };
 
-// const Arrow = ({ direction = "left", color = "black", size = 36, onClick, scale = 1  }) => (
+// const Arrow = ({ direction = "left", color = "black", size = 36, onClick }) => (
 //   <div
 //     onClick={onClick}
 //     style={{
@@ -41,7 +42,13 @@
 //       flexShrink: 0,
 //     }}
 //   >
-//     <span style={{ color: direction === "left" ? "white" : "black", fontSize: `${20 * scale}px` }}>
+//     <span
+//       style={{
+//         color: direction === "left" ? "white" : "black",
+//         fontSize: `${size * 0.6}px`,
+//         lineHeight: 1,
+//       }}
+//     >
 //       {direction === "left" ? "←" : "→"}
 //     </span>
 //   </div>
@@ -51,7 +58,8 @@
 //   const scale = useScale();
 //   const [currentIndex, setCurrentIndex] = useState(0);
 
-//   const prev = () => setCurrentIndex((prev) => (prev - 1 + carouselData.length) % carouselData.length);
+//   const prev = () =>
+//     setCurrentIndex((prev) => (prev - 1 + carouselData.length) % carouselData.length);
 //   const next = () => setCurrentIndex((prev) => (prev + 1) % carouselData.length);
 
 //   const visibleItems = [
@@ -65,7 +73,14 @@
 //   const fontWeights = [500, 600];
 
 //   return (
-//     <div style={{ width: "100%", height: `${140 * scale}px`, display: "flex" }}>
+//     <div
+//       style={{
+//         width: "100%",
+//         display: "flex",
+//         flexDirection: "row",
+//         minHeight: `${100 * scale}px`,
+//       }}
+//     >
 //       {visibleItems.map((item, idx) => (
 //         <div
 //           key={idx}
@@ -74,18 +89,17 @@
 //             background: bgColors[idx % 2],
 //             display: "flex",
 //             alignItems: "center",
-//             justifyContent: "center", 
-//             padding: `${30 * scale}px`,
+//             justifyContent: "center",
+//             padding: `${20 * scale}px`,
 //             boxSizing: "border-box",
-//             gap: `${10 * scale}px`, // space between arrow and text
-//             flexDirection: idx === 0 ? "row" : "row-reverse", // swap order for right block
+//             gap: `${10 * scale}px`,
+//             flexDirection: idx === 0 ? "row" : "row-reverse",
 //           }}
 //         >
 //           <Arrow
 //             direction={idx === 0 ? "left" : "right"}
 //             color={arrowColors[idx]}
 //             size={36 * scale}
-//             scale={scale} 
 //             onClick={idx === 0 ? prev : next}
 //           />
 //           <p
@@ -96,7 +110,8 @@
 //               margin: 0,
 //               lineHeight: 1.4,
 //               textAlign: idx === 0 ? "left" : "right",
-//               width: `${380 * scale}px`, 
+//               width: "100%",
+//               maxWidth: `${380 * scale}px`,
 //               overflow: "hidden",
 //               display: "-webkit-box",
 //               WebkitLineClamp: 2,
@@ -157,7 +172,7 @@ const Arrow = ({ direction = "left", color = "black", size = 36, onClick }) => (
   >
     <span
       style={{
-        color: direction === "left" ? "white" : "black",
+        color: direction ===  "black",
         fontSize: `${size * 0.6}px`,
         lineHeight: 1,
       }}
@@ -170,20 +185,28 @@ const Arrow = ({ direction = "left", color = "black", size = 36, onClick }) => (
 const ScalingCarousel = () => {
   const scale = useScale();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isBlueFirst, setIsBlueFirst] = useState(true); // new toggle state
 
-  const prev = () =>
+  const prev = () => {
     setCurrentIndex((prev) => (prev - 1 + carouselData.length) % carouselData.length);
-  const next = () => setCurrentIndex((prev) => (prev + 1) % carouselData.length);
+    setIsBlueFirst((prev) => !prev); // toggle background
+  };
+
+  const next = () => {
+    setCurrentIndex((prev) => (prev + 1) % carouselData.length);
+    setIsBlueFirst((prev) => !prev); // toggle background
+  };
 
   const visibleItems = [
     carouselData[currentIndex],
     carouselData[(currentIndex + 1) % carouselData.length],
   ];
 
-  const bgColors = ["#e3f7ff", "#00b9f1"];
-  const arrowColors = ["#009ddc", "white"];
-  const textColors = ["#1a1a1a", "white"];
-  const fontWeights = [500, 600];
+  // Colors depending on toggle
+  const bgColors = isBlueFirst ? ["#00b9f1", "#e3f7ff"] : ["#e3f7ff", "#00b9f1"];
+  const arrowColors = isBlueFirst ? ["white", "#009ddc"] : ["#009ddc", "white"];
+  const textColors = isBlueFirst ? ["white", "#1a1a1a"] : ["#1a1a1a", "white"];
+  const fontWeights = [600, 500];
 
   return (
     <div
@@ -199,7 +222,7 @@ const ScalingCarousel = () => {
           key={idx}
           style={{
             flex: 1,
-            background: bgColors[idx % 2],
+            background: bgColors[idx],
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
