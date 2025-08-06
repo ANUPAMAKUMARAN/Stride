@@ -1,7 +1,9 @@
+
+
 import React, { useState, useEffect } from "react";
 
 const ActionCard = ({
-  emoji,
+  imgSrc,
   title,
   subtitle,
   buttonText,
@@ -14,7 +16,7 @@ const ActionCard = ({
 }) => {
   const fontSize = 16 * scale;
   const titleFontSize = 22 * scale;
-  const emojiFontSize = 32 * scale;
+  const imgSize = 32 * scale; // Image scaling
   const buttonFontSize = 14 * scale;
   const gap = 8 * scale;
   const padding = 24 * scale;
@@ -48,7 +50,11 @@ const ActionCard = ({
             whiteSpace: "nowrap",
           }}
         >
-          <span style={{ fontSize: `${emojiFontSize}px` }}>{emoji}</span>
+          <img
+            src={imgSrc}
+            alt=""
+            style={{ width: `${imgSize}px`, height: `${imgSize}px`, objectFit: "contain" }}
+          />
           {title}
         </h3>
         <p
@@ -175,7 +181,7 @@ const ActionGrid = () => {
         }}
       >
         <ActionCard
-          emoji="📝"
+          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" // Register a Complaint icon
           title="Register a Complaint"
           subtitle="Facing uncollected waste, blocked drains, or broken bins?"
           buttonText="Register"
@@ -187,7 +193,7 @@ const ActionGrid = () => {
           scale={scale}
         />
         <ActionCard
-          emoji="🚫"
+          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828665.png" // Illegal Dumping icon
           title="Illegal Dumping"
           subtitle="Seen waste dumped in unauthorized areas?"
           buttonText="Report Now"
@@ -199,7 +205,7 @@ const ActionGrid = () => {
           scale={scale}
         />
         <ActionCard
-          emoji="🎁"
+          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" // Reward icon
           title="Get Rewarded"
           subtitle="Earn rewards for verified reports."
           buttonText="Learn How"
@@ -211,7 +217,7 @@ const ActionGrid = () => {
           scale={scale}
         />
         <ActionCard
-          emoji="🌱"
+          imgSrc="https://cdn-icons-png.flaticon.com/512/765/765485.png" // Community Programs icon
           title="Community Programs"
           subtitle="Join clean-up drives, green clubs, and waste awareness campaigns across Kerala."
           buttonText="Explore Programs"
