@@ -1,0 +1,41 @@
+
+
+
+export const SaudiPccTableData = {
+  caption: "Choose us for Saudi PCC Service?",
+  captionColor: "#00B3E8",              
+  title: "Why Choose HRstride.COM for Saudi PCC?",
+  titleColor: "#1E2A78",
+  tableBorder: 18,
+  tableHeaderColor: "linear-gradient(135deg, #00EFFF, #7B1FA2, #00EFFF)", 
+  tableHeaderOne: "Feature",
+  tableHeaderTwo: "HRstride.COM",
+  tableHeaderThree: "DIY",
+  tableHeaderFour: "Local Agents",
+  tableHeaderTextColor: "#ffffff",       
+  columnOneBackground: "#ffffff",
+  columnTwoBackground: "#00B3E8",
+  columnThreeBackground: "#ffffff",
+  columnFourBackground: "#ffffff",
+  tickColor: "white",                    
+  tickBackground: "#00B3E3",             
+  untickColor: "white",                  
+  untickBackground: "#00B3E3",          
+  itemsTextColor: "#000000",            
+  items: [
+    { text: "Direct application to Saudi police", columnOne: true, columnTwo: false, columnThree: true },
+    { text: "Fingerprint & photo from Police", columnOne: true, columnTwo: false, columnThree: true },
+    { text: "MOFA attestation included", columnOne: true, columnTwo: false, columnThree: true },
+    { text: "Transparent status updates", columnOne: true, columnTwo: false, columnThree: true },
+    { text: "End-to-end online process", columnOne: true, columnTwo: false, columnThree: true },
+    { text: "WhatsApp Support 7 Days a Week", columnOne: true, columnTwo: false, columnThree: true },
+  ],
+  description: "We handle everything – from application to translation, MOFA attestation, and courier delivery",
+  descriptionColor: "#1E2A78",
+  primaryButtonText: "CONTACT WITH US",
+  primaryButtonTextColor: "white",
+  primaryButtonColor: "#00B3E3",
+  SecondaryButtonText: "REQUEST YOUR SAUDI PCC NOW",
+  SecondaryButtonTextColor: "#00B3E3",
+  SecondaryButtonColor: "white"
+};

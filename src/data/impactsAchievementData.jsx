@@ -1,31 +1,44 @@
 // ImpactAchievementData.js
 
 export const ImpactAchievementData = {
-  mainHeading: "Impact & Achievements",
+  title: "Impact & Achievements",
+  titleColor: "#000000",
+  backgroundColor: "#E7F5E8",
+  slideGap: 30,
   slides: [
     {
-      title: "12,500+ Jobs Created",
-      titleColor: "#ffffff",
-      backgroundColor: "#007bff", // blue
-      icon: "https://cdn-icons-png.flaticon.com/512/4299/4299926.png",
-    },
-    {
-      title: "200+ Waste-Free Campaigns",
+      title: "12,500+ Tons of waste recycled",
       titleColor: "#000000",
-      backgroundColor: "#ffffff", // white
-      icon: "https://cdn-icons-png.flaticon.com/512/2913/2913469.png",
+      description: "Across 14 districts since 2020",
+      descriptionColor: "#000000",
+      backgroundColor: "#AFE1AF",
+      icon: "https://cdn-icons-png.flaticon.com/512/833/833776.png",
     },
     {
-      title: "350+ Local Partnerships",
-      titleColor: "#ffffff",
-      backgroundColor: "#28a745", // green
-      icon: "https://cdn-icons-png.flaticon.com/512/2620/2620511.png",
+      title: "200+ cleans campus Campaigns",
+      titleColor: "#000000",
+      description: "Reaching over 1.2 lakhs students",
+      descriptionColor: "#000000",
+      backgroundColor: "#AFE1AF",
+      icon: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
     },
     {
-      title: "20+ Awards Won",
-      titleColor: "#ffffff",
-      backgroundColor: "#dc3545", // red
-      icon: "https://cdn-icons-png.flaticon.com/512/190/190411.png",
+      title: "100+ LSGIs Partners",
+      titleColor: "#000000",
+      description: "in sustainable waste practices",
+      descriptionColor: "#000000",
+      backgroundColor: "#AFE1AF",
+      icon: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+
+    },
+    {
+      title: "15000+ People Engaged in Clean-up Drives",
+      titleColor: "#000000",
+      description: "Through volunteers & CSR ",
+      descriptionColor: "#000000",
+      backgroundColor: "#AFE1AF",
+
+      icon: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/workplace.svg",
     },
   ],
 };

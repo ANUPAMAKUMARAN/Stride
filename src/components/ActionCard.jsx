@@ -1,23 +1,25 @@
 
 
+
 import React, { useState, useEffect } from "react";
 
-const ActionCard = ({
-  imgSrc,
-  title,
-  subtitle,
-  buttonText,
-  bgColor,
-  textColor,
-  buttonColor,
-  cardWidth,
-  cardHeight,
-  scale,
-}) => {
-  const fontSize = 16 * scale;
-  const titleFontSize = 22 * scale;
-  const imgSize = 32 * scale; // Image scaling
-  const buttonFontSize = 14 * scale;
+const ActionCard = ({ slide, cardWidth, cardHeight, scale }) => {
+
+  const {
+    title,
+    titleColor,
+    description,
+    descriptionColor,
+    backgroundColor,
+    icon,
+    buttonText,
+    buttonColor,
+  } = slide;
+
+  const fontSize = 20 * scale;
+  const titleFontSize = 28 * scale;
+  const imgSize = 36 * scale; 
+  const buttonFontSize = 18 * scale;
   const gap = 8 * scale;
   const padding = 24 * scale;
   const buttonPaddingY = 8 * scale;
@@ -26,8 +28,7 @@ const ActionCard = ({
   return (
     <div
       style={{
-        backgroundColor: bgColor,
-        color: textColor,
+        backgroundColor: backgroundColor,
         width: `${cardWidth}px`,
         height: `${cardHeight}px`,
         padding: `${padding}px`,
@@ -47,11 +48,12 @@ const ActionCard = ({
             gap: `${gap}px`,
             marginBottom: `${gap}px`,
             fontSize: `${titleFontSize}px`,
+            color: titleColor || "#000000",
             whiteSpace: "nowrap",
           }}
         >
           <img
-            src={imgSrc}
+            src={icon}
             alt=""
             style={{ width: `${imgSize}px`, height: `${imgSize}px`, objectFit: "contain" }}
           />
@@ -63,9 +65,11 @@ const ActionCard = ({
             lineHeight: 1.3,
             maxHeight: `${1.3 * fontSize * 2}px`,
             overflow: "hidden",
+            color: descriptionColor || "#000000",
+
           }}
         >
-          {subtitle}
+          {description}
         </p>
       </div>
       <div
@@ -94,9 +98,16 @@ const ActionCard = ({
   );
 };
 
-const ActionGrid = () => {
-  const presetCardWidth = 425;
-  const presetCardHeight = 200;
+const ActionGrid = ({ attributes }) => {
+  const { title,
+    titleColor,
+    subTitle,
+    subTitleColor,
+    backgroundColor,
+    slides = [] } = attributes;
+
+  const presetCardWidth = 450;
+  const presetCardHeight = 225;
   const presetGap = 44;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -126,11 +137,22 @@ const ActionGrid = () => {
   const cardWidth = presetCardWidth * scale;
   const cardHeight = presetCardHeight * scale;
 
+  const getValidColor = (color) => {
+    if (!color || typeof color !== "string") return "#ffffff";
+    const isHex = /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(color);
+    const isRGB = /^rgb(a)?\([\d\s.,%]+\)$/.test(color);
+    const isGradient = /gradient\((.|\s)*\)/.test(color);
+    const isNamed = /^[a-zA-Z]+$/.test(color);
+    return color === "transparent" || isHex || isRGB || isGradient || isNamed
+      ? color
+      : "#ffffff";
+  };
+
   return (
     <div
       style={{
         width: "100%",
-        background: "linear-gradient(to bottom, #f4fff4, #effef1)",
+        background: getValidColor(backgroundColor),
         paddingTop: `${48 * scale}px`,
         paddingBottom: `${48 * scale}px`,
         paddingLeft: `${outerMargin}px`,
@@ -150,23 +172,23 @@ const ActionGrid = () => {
       >
         <h1
           style={{
-            fontSize: `${36 * scale}px`,
+            fontSize: `${40 * scale}px`,
             fontWeight: "bold",
             marginBottom: `${8 * scale}px`,
-            color: "#000",
+            color: titleColor || "#000",
           }}
         >
-          Your Voice, A Cleaner Kerala
+          {title}
         </h1>
         <p
           style={{
             fontSize: `${20 * scale}px`,
             fontStyle: "italic",
             fontWeight: 600,
-            color: "#000",
+            color: subTitleColor || "#000",
           }}
         >
-          Report, Resolve, and Get Rewarded
+          {subTitle}
         </p>
       </div>
 
@@ -180,54 +202,17 @@ const ActionGrid = () => {
           alignItems: "center",
         }}
       >
-        <ActionCard
-          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" // Register a Complaint icon
-          title="Register a Complaint"
-          subtitle="Facing uncollected waste, blocked drains, or broken bins?"
-          buttonText="Register"
-          bgColor="#d1fae5"
-          textColor="#065f46"
-          buttonColor="#059669"
-          cardWidth={cardWidth}
-          cardHeight={cardHeight}
-          scale={scale}
-        />
-        <ActionCard
-          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828665.png" // Illegal Dumping icon
-          title="Illegal Dumping"
-          subtitle="Seen waste dumped in unauthorized areas?"
-          buttonText="Report Now"
-          bgColor="#ffedd5"
-          textColor="#c2410c"
-          buttonColor="#f97316"
-          cardWidth={cardWidth}
-          cardHeight={cardHeight}
-          scale={scale}
-        />
-        <ActionCard
-          imgSrc="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" // Reward icon
-          title="Get Rewarded"
-          subtitle="Earn rewards for verified reports."
-          buttonText="Learn How"
-          bgColor="#dbeafe"
-          textColor="#1e3a8a"
-          buttonColor="#2563eb"
-          cardWidth={cardWidth}
-          cardHeight={cardHeight}
-          scale={scale}
-        />
-        <ActionCard
-          imgSrc="https://cdn-icons-png.flaticon.com/512/765/765485.png" // Community Programs icon
-          title="Community Programs"
-          subtitle="Join clean-up drives, green clubs, and waste awareness campaigns across Kerala."
-          buttonText="Explore Programs"
-          bgColor="#ecfdf5"
-          textColor="#065f46"
-          buttonColor="#34d399"
-          cardWidth={cardWidth}
-          cardHeight={cardHeight}
-          scale={scale}
-        />
+
+        {slides.map((slide, index) => (
+          <div key={index}>
+            <ActionCard
+              slide={slide}
+              cardWidth={cardWidth}
+              cardHeight={cardHeight}
+              scale={scale}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
