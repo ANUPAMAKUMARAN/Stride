@@ -872,11 +872,12 @@ const ComparisonTable = ({ attributes }) => {
                       ...tableCellStyle(scale),
                       whiteSpace: "normal",
                       wordWrap: "break-word",
+                      backgroundColor: columnOneBackground || "transparent"
                     }}
                   >
                     {row.text}
                   </td>
-                  <td style={iconCellStyle(scale)}>
+                  <td style={{...iconCellStyle(scale), backgroundColor: columnTwoBackground || "transparent" }}>
                     {row.columnOne ? (
                       <Check
                         scale={scale}
@@ -891,7 +892,7 @@ const ComparisonTable = ({ attributes }) => {
                       />
                     )}
                   </td>
-                  <td style={iconCellStyle(scale)}>
+                  <td style={{...iconCellStyle(scale), backgroundColor: columnThreeBackground || "transparent"}}>
                     {row.columnTwo ? (
                       <Check
                         scale={scale}
@@ -906,7 +907,7 @@ const ComparisonTable = ({ attributes }) => {
                       />
                     )}
                   </td>
-                  <td style={iconCellStyle(scale)}>
+                  <td style={{...iconCellStyle(scale), backgroundColor: columnFourBackground || "transparent"}}>
                     {row.columnThree ? (
                       <Check
                         scale={scale}

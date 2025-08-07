@@ -13,6 +13,7 @@ import SaudiPccCarousel from './components/saudiPccCarousel';
 import SaudiPccSection from './components/SaudiPccSection';
 import SaudiPccServices from './components/SaudiPccServices';
 import ComparisonTable from './components/SaudiPccTable';
+import Sidebar from './components/Sidebar';
 import { ActioncardData } from './data/ActioncardData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
@@ -26,8 +27,9 @@ function App() {
   return (
     <>
     <div>
-      {/* <ImpactsAcheivements attributes={impactsAchievementData}
-       /> */}
+
+      
+    <Sidebar/>
        <ActionCard attributes={ActioncardData}/>
      <ImpactsAcheivements attributes={ImpactAchievementData} />
       <ComparisonTable attributes={SaudiPccTableData}/>
