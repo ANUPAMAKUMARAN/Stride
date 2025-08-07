@@ -25,7 +25,7 @@ const Sidebar = () => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       setExpanded(false);
-    }, 3000);
+    }, 5000);
   };
 
   useEffect(() => {
