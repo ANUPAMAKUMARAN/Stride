@@ -3,7 +3,7 @@ export const SidebarData = {
   backgroundColor: "#f0f0f0",
   backgroundOpacity: .3,
   buttonColor: "black",
-  iconSize: 34,
+  iconSize: 37,
   hoverTextColor: "#fff",
   hoverTextBackground: "#333",
   isShowOnPC: true,

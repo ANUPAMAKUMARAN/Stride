@@ -96,7 +96,7 @@ const getValidColor = (color, opacity = 1) => {
     >
       <div
         style={{
-          width: expanded ? 50 : 8,
+          width: expanded ? 55 : 8,
           height: expanded ? "100%" : 40,
           backgroundColor: expanded
             ? getValidColor(backgroundColor, backgroundOpacity)
