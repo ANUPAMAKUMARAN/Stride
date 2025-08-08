@@ -101,7 +101,7 @@ const getValidColor = (color, opacity = 1) => {
           backgroundColor: expanded
             ? getValidColor(backgroundColor, backgroundOpacity)
             : getValidColor(buttonColor, backgroundOpacity),
-          borderRadius: expanded ? "20px" : "4px",
+          borderRadius: expanded ? "15px" : "4px",
           boxShadow: expanded ? "0 2px 10px rgba(0,0,0,0.2)" : "none",
           padding: expanded ? "10px 0" : 0,
           display: "flex",
