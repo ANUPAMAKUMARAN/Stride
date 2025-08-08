@@ -17,6 +17,7 @@ import Sidebar from './components/Sidebar';
 import { ActioncardData } from './data/ActioncardData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
+import { SidebarData } from './data/SidebarData';
 
 
 
@@ -29,7 +30,7 @@ function App() {
     <div>
 
       
-    <Sidebar/>
+     <Sidebar attributes={SidebarData}/>
        <ActionCard attributes={ActioncardData}/>
      <ImpactsAcheivements attributes={ImpactAchievementData} />
       <ComparisonTable attributes={SaudiPccTableData}/>
