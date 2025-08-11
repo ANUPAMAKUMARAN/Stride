@@ -57,7 +57,7 @@ const SaudiPccLandingpage = ({ attributes }) => {
                 justifyContent: "space-between",
                 alignItems: "center",
                 width: "100%",
-                maxWidth: `${1200 * scale}px`,
+                maxWidth: `${1400 * scale}px`,
                 margin: "0 auto",
                 backgroundColor: backgroundColor,
                 boxSizing: "border-box",
