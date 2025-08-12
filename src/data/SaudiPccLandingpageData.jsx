@@ -13,7 +13,7 @@ export const SaudiPccLandingpageData = {
 
     description: "Hassle-free process – fast, secure, and fully remote",
     descriptionColor: "#555",
-    mobileOverlayOpacity: 0.3,
+    mobileOverlayOpacity: 0.6,
 
     buttons: [
         { buttonText: "STEP–BY–STEP PROCESS", buttonTextColor: "#fff", buttonColor: "#00A8E8" },
