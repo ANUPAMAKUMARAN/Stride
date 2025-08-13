@@ -11,12 +11,12 @@ export const SaudiPccLandingpageData = {
     subTitle: "No need to travel. We do it all directly with the Saudi Police.",
     subTitleColor: "#333",
 
-    description: "Hassle-free process – fast, secure, and fully remote",
+    description: "Hassle-free process fast, secure, and fully remote",
     descriptionColor: "#555",
     mobileOverlayOpacity: 0.6,
 
     buttons: [
-        { buttonText: "STEP–BY–STEP PROCESS", buttonTextColor: "#fff", buttonColor: "#00A8E8" },
+        { buttonText: "STEP-BY-STEP PROCESS", buttonTextColor: "#fff", buttonColor: "#00A8E8" },
         { buttonText: "DELIVERY OPTIONS", buttonTextColor: "#000", buttonColor: "#f1f5f9" },
         { buttonText: "WANT HELP FAST?", buttonTextColor: "#000", buttonColor: "#f1f5f9" },
         { buttonText: "WHY CHOOSE HRSTRIDE.COM?", buttonTextColor: "#000", buttonColor: "#f1f5f9" },
@@ -24,15 +24,16 @@ export const SaudiPccLandingpageData = {
         { buttonText: "CONTACT US", buttonTextColor: "#000", buttonColor: "#f1f5f9" },
     ],
 
-    // Review section
+
     reviews: [
-        { image: "https://i.pravatar.cc/40?img=1", caption: "vjhvjvjhhvbjhbjhbjhbnbbhhhjhjjhbb" },
-        { image: "https://i.pravatar.cc/40?img=2", caption: "n mnbnbbmnbmbhnbmnbmnbmnbmnbmnbmnbmnbmnb" },
-        { image: "https://i.pravatar.cc/40?img=3", caption: "oioiooooooiiiiioiiiiioioioioi" },
-        { image: "https://i.pravatar.cc/40?img=4", caption: "sasasasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+        { name: "user1", image: "https://i.pravatar.cc/40?img=1", caption: "Excellent service, very fast.", stars: 5, date: "2025-08-01" },
+        { name: "user2", image: "https://i.pravatar.cc/40?img=2", caption: "Smooth process, highly recommend!", stars: 4, date: "2025-08-03" },
+        { name: "user3", image: "https://i.pravatar.cc/40?img=3", caption: "Affordable and efficient.", stars: 5, date: "2025-08-05" },
+        { name: "user4", image: "https://i.pravatar.cc/40?img=4", caption: "Very professional.", stars: 4, date: "2025-08-08" },
     ],
 
-    // videoImage: "https://project251.hrstride.academy/wp-content/uploads/2025/08/Img.png",
+
+
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
 
 
@@ -40,7 +41,6 @@ export const SaudiPccLandingpageData = {
         { img: "https://project251.hrstride.academy/wp-content/uploads/2025/08/1-8.png", text: "Saudi PCC Process Within Two Days" },
         { img: "https://project251.hrstride.academy/wp-content/uploads/2025/08/4-1.png", text: "Arabic to English Translation & Attestation" },
         { img: "https://project251.hrstride.academy/wp-content/uploads/2025/08/3-1.png", text: "MOFA Attestation & Fingerprint Support" },
-       
-         { img: "https://project251.hrstride.academy/wp-content/uploads/2025/08/2-51.png", text: "Fast & Reliable Processing" },
+        { img: "https://project251.hrstride.academy/wp-content/uploads/2025/08/2-51.png", text: "Fast & Reliable Processing" },
     ],
 };
