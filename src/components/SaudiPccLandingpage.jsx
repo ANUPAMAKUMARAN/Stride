@@ -167,11 +167,12 @@ const SaudiPccLandingpage = ({ attributes }) => {
                     {/* Title */}
                     <h1
                         style={{
-                            fontSize: `${55 * scale}px`,
+                            fontSize: `${50 * scale}px`,
                             fontWeight: 600,
                             lineHeight: 1.2,
                             marginBottom: `${18 * scale}px`,
                             color: isMobile ? "#fff" : titleColor,
+        //                    
                         }}
                     >
                         {title}
@@ -277,7 +278,11 @@ const SaudiPccLandingpage = ({ attributes }) => {
                                                 padding: `${10 * scale}px`,
                                                 borderRadius: "8px",
                                                 boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                                                width: "220px",
+                                              
+                                                width: `${180 * scale}px`, 
+                                                 maxHeight: `${150 * scale}px`,
+                                                maxWidth: "80vw",
+                                                 overflow: "hidden", 
                                                 textAlign: "left",
                                                 zIndex: 100,
                                             }}
