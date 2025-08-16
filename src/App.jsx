@@ -32,22 +32,19 @@ function App() {
   return (
     <>
     <div>
-
+       
+       <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
       <VideoCarousel attributes={VideoCarouselData}/>
 
-      <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
+      {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
      <Sidebar attributes={SidebarData}/>
        <ActionCard attributes={ActioncardData}/>
      <ImpactsAcheivements attributes={ImpactAchievementData} />
-      <ComparisonTable attributes={SaudiPccTableData}/>
-      
+      <ComparisonTable attributes={SaudiPccTableData}/>      
       <SaudiPccCarousel/>
-      <SaudiPccSection/>
-      
+      <SaudiPccSection/>      
       <SaudiPccServices/>
       <CleanKeralaLanding/>
-     
-     
       <LeaderCard/>
       <LeadersCarousel/>
       <DirectorsCarousel/>

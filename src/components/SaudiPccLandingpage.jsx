@@ -553,17 +553,60 @@ const SaudiPccLandingpage = ({ attributes }) => {
         mobileOverlayOpacity,
     } = attributes;
 
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [hoveredReview, setHoveredReview] = useState(null);
-    const isMobile = windowWidth <= 768;
-
-    const [scale, setScale] = useState(1);
-    const [outerMargin, setOuterMargin] = useState(80);
-    const landingPageRef = useRef(null);
-    const contentRef = useRef(null);
+    const isMobile = window.innerWidth <= 768;
 
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
+
+    const [scale, setScale] = useState(1);
+const [outerMargin, setOuterMargin] = useState(0);
+const [slideWidth, setSlideWidth] = useState(0);
+
+useEffect(() => {
+  const handleResize = () => {
+    const width = window.innerWidth;
+
+    // breakpoint (adjust as needed)
+    const isMobile = width <= 768;
+
+    // container width: full for mobile, half for desktop
+    const containerWidth = isMobile ? width : width / 2;
+
+    // margin relative to container width
+    const margin =
+      width <= 600
+        ? containerWidth * 0.02
+        : width <= 1000
+        ? containerWidth * 0.05
+        : containerWidth * 0.1;
+
+    // scale relative to max design width
+    const maxWidth = 1325;
+    let newScale = containerWidth / maxWidth;
+    if (newScale > 1) newScale = 1;
+
+    // set values
+    setOuterMargin(margin/2);
+    setScale(newScale);
+
+    if (isMobile) {
+      // only one visible card → 100% width
+      setSlideWidth(width);
+    } else {
+      // desktop → two cards
+      setSlideWidth(containerWidth - margin);
+    }
+  };
+
+  handleResize();
+
+  window.addEventListener("resize", handleResize);
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
+
 
     const togglePlay = () => {
         if (!videoRef.current) return;
@@ -575,46 +618,15 @@ const SaudiPccLandingpage = ({ attributes }) => {
         setIsPlaying(!isPlaying);
     };
 
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-
-
-            const margin = width <= 600 ? width * 0.25 : width <= 1000 ? width * 0.05 : width * 0.10;
-            const maxWidth = 670;
-            let newScale = width / maxWidth;
-
-            if (newScale > 1) newScale = 1;
-
-            setOuterMargin(margin);
-            if(isMobile){
-              setWindowWidth(width);
-            }else{
-              setWindowWidth(width);
-            }
-            if(isMobile){
-            setScale(newScale);
-            }else{
-            setScale(newScale);
-            }
-        };
-
-        handleResize();
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
     const iconItemBasis = `${100 / 4}%`;
 
 
     return (
         <div
-            ref={landingPageRef}
             style={{
                 display: "flex",
                 flexDirection: isMobile ? "column" : "row",
-                justifyContent: "space-between",
+                justifyContent: "center",
                 alignItems: "center",
                 width: "100%",
                 maxWidth: "100%",
@@ -626,10 +638,8 @@ const SaudiPccLandingpage = ({ attributes }) => {
         >
             {/* Left Content */}
             <div
-                ref={contentRef}
                 style={{
-
-                    width: isMobile ? "100%" : "50%",
+                    width: slideWidth,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -681,7 +691,6 @@ const SaudiPccLandingpage = ({ attributes }) => {
                         position: "relative",
                         zIndex: 2,
                         width: "100%",
-                        maxWidth: `${520 * scale}px`,
                         textAlign: "center",
                         display: "flex",
                         flexDirection: "column",
@@ -694,7 +703,7 @@ const SaudiPccLandingpage = ({ attributes }) => {
                             backgroundColor: "#d6f0ff",
                             color: captionColor,
                             padding: `${6 * scale}px ${12 * scale}px`,
-                            borderRadius: "20px",
+                            borderRadius: `${20 * scale}px`,
                             fontSize: `${15 * scale}px`,
                             fontWeight: 600,
                             marginBottom: `${16 * scale}px`,
@@ -885,14 +894,12 @@ const SaudiPccLandingpage = ({ attributes }) => {
             {!isMobile && (
                 <div
                     style={{
-                        width: "50%",
+                        width: slideWidth,
                         minHeight: `${500 * scale}px`,
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "flex-start",
                         alignItems: "center",
-                        position: "relative",
-                        paddingBottom: `${20 * scale}px`,
                         boxSizing: "border-box",
                     }}
                 >
@@ -902,23 +909,18 @@ const SaudiPccLandingpage = ({ attributes }) => {
                             flex: 1,
                             display: "flex",
                             justifyContent: "center",
+                            width: slideWidth,
                             alignItems: "center",
-                            position: "relative",
-                            width: "100%",
-                            // paddingRight: "80px"
                         }}
                     >
                         <video
                             ref={videoRef}
                             src={videoUrl}
                             style={{
-                                width: isMobile ? "50%" : "100%",
-                                maxWidth: `${650 * scale}px`,
-                                height: `${480 * scale}px`,
                                 borderRadius: "12px",
                                 objectFit: "cover",
+                            width: slideWidth-outerMargin,
                                 backgroundColor: "#000",
-                                marginTop: "50px",
 
                             }}
                             onClick={togglePlay}
@@ -927,8 +929,8 @@ const SaudiPccLandingpage = ({ attributes }) => {
                             <div
                                 style={{
                                     position: "absolute",
-                                    width: `${60 * scale}px`,
-                                    height: `${60 * scale}px`,
+                                    width: `${100 * scale}px`,
+                                    height: `${100 * scale}px`,
                                     borderRadius: "50%",
                                     backgroundColor: "#000",
                                     opacity: 0.75,
@@ -943,9 +945,9 @@ const SaudiPccLandingpage = ({ attributes }) => {
                                     style={{
                                         width: 0,
                                         height: 0,
-                                        borderLeft: `${18 * scale}px solid white`,
-                                        borderTop: `${12 * scale}px solid transparent`,
-                                        borderBottom: `${12 * scale}px solid transparent`,
+                                        borderLeft: `${25 * scale}px solid white`,
+                                        borderTop: `${18 * scale}px solid transparent`,
+                                        borderBottom: `${18 * scale}px solid transparent`,
                                     }}
                                 />
                             </div>
