@@ -15,11 +15,13 @@ import SaudiPccSection from './components/SaudiPccSection';
 import SaudiPccServices from './components/SaudiPccServices';
 import ComparisonTable from './components/SaudiPccTable';
 import Sidebar from './components/Sidebar';
+import VideoCarousel from './components/VideoCarousel';
 import { ActioncardData } from './data/ActioncardData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
 import { SidebarData } from './data/SidebarData';
+import { VideoCarouselData } from './data/VideoCarouselData';
 
 
 
@@ -30,6 +32,8 @@ function App() {
   return (
     <>
     <div>
+
+      <VideoCarousel attributes={VideoCarouselData}/>
 
       <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
      <Sidebar attributes={SidebarData}/>

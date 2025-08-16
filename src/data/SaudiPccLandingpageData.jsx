@@ -13,7 +13,7 @@ export const SaudiPccLandingpageData = {
 
     description: "Hassle-free process fast, secure, and fully remote",
     descriptionColor: "#555",
-    mobileOverlayOpacity: 0.6,
+    mobileOverlayOpacity: 0.8,
 
     buttons: [
         { buttonText: "STEP-BY-STEP PROCESS", buttonTextColor: "#fff", buttonColor: "#00A8E8" },
@@ -27,7 +27,7 @@ export const SaudiPccLandingpageData = {
 
     reviews: [
         { name: "user1", image: "https://i.pravatar.cc/40?img=1", caption: "Excellent service, very fast.", stars: 5, date: "2025-08-01" },
-        { name: "user2", image: "https://i.pravatar.cc/40?img=2", caption: "Smooth process, highly recommend!", stars: 4, date: "2025-08-03" },
+        { name: "user2", image: "https://i.pravatar.cc/40?img=2", caption: "Smooth process, highly recommend!", stars: 3, date: "2025-08-03" },
         { name: "user3", image: "https://i.pravatar.cc/40?img=3", caption: "Affordable and efficient.", stars: 5, date: "2025-08-05" },
         { name: "user4", image: "https://i.pravatar.cc/40?img=4", caption: "Very professional.", stars: 4, date: "2025-08-08" },
     ],
