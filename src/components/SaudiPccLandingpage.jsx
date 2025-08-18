@@ -21,13 +21,16 @@ const SaudiPccLandingpage = ({ attributes }) => {
 
     const [hoveredReview, setHoveredReview] = useState(null);
     const isMobile = window.innerWidth <= 768;
+    
 
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
     const [scale, setScale] = useState(1);
     const [outerMargin, setOuterMargin] = useState(0);
-    const [slideWidth, setSlideWidth] = useState(0);
+    // const [slideWidth, setSlideWidth] = useState(0);
+    // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+const [slideWidth, setSlideWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         const handleResize = () => {
