@@ -29,8 +29,8 @@ const SaudiPccLandingpage = ({ attributes }) => {
     const [scale, setScale] = useState(1);
     const [outerMargin, setOuterMargin] = useState(0);
     // const [slideWidth, setSlideWidth] = useState(0);
-    // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-const [slideWidth, setSlideWidth] = useState(window.innerWidth);
+// const [slideWidth, setSlideWidth] = useState(window.innerWidth);
+const [slideWidth, setSlideWidth] = useState(window.innerWidth - window.innerWidth* 0.02);
 
     useEffect(() => {
         const handleResize = () => {
