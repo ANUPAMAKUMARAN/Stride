@@ -5,6 +5,7 @@ import ActionCard from './components/ActionCard';
 import Carousel from './components/Carousel';
 import CleanKeralaLanding from './components/CleanKeralaLanding';
 import DirectorsCarousel from './components/DirectorsCarousel';
+import FaqCarousel from './components/FaqCarousel';
 import ImpactsAcheivements from './components/ImpactsAcheivements';
 
 import LeaderCard from './components/LeaderCard';
@@ -17,6 +18,7 @@ import ComparisonTable from './components/SaudiPccTable';
 import Sidebar from './components/Sidebar';
 import VideoCarousel from './components/VideoCarousel';
 import { ActioncardData } from './data/ActioncardData';
+import { FaqCarouselData } from './data/FaqCarouselData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
@@ -32,14 +34,15 @@ function App() {
   return (
     <>
     <div>
-       
-       <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
-      <VideoCarousel attributes={VideoCarouselData}/>
 
+      <FaqCarousel attributes={FaqCarouselData}/>
+       
       {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
-     <Sidebar attributes={SidebarData}/>
-       <ActionCard attributes={ActioncardData}/>
-     <ImpactsAcheivements attributes={ImpactAchievementData} />
+      <VideoCarousel attributes={VideoCarouselData}/>
+       <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
+      <Sidebar attributes={SidebarData}/>
+      <ActionCard attributes={ActioncardData}/>
+      <ImpactsAcheivements attributes={ImpactAchievementData} />
       <ComparisonTable attributes={SaudiPccTableData}/>      
       <SaudiPccCarousel/>
       <SaudiPccSection/>      
