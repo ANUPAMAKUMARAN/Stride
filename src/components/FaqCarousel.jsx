@@ -22,7 +22,7 @@ const FaqCarousel = ({ attributes }) => {
     const presetSlideWidth = 500;
     const scrollRef = useRef(null);
 
-    const [progress, setProgress] = useState(0);
+    // const [progress, setProgress] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -305,7 +305,7 @@ const FaqCarousel = ({ attributes }) => {
 
     return (
         <div
-            // className="relative select-none"
+
             style={{
                 background: getValidColor(backgroundColor),
                 paddingTop: `${80 * dimensions.fontScale}px`,
@@ -318,12 +318,14 @@ const FaqCarousel = ({ attributes }) => {
             }}
         >
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+
+
                 {/* LEFT SIDE */}
                 <div className="col-span-1">
                     <p
                         style={{
                             textAlign: "center",
-                            fontSize: `${20 * dimensions.fontScale}px`,
+                            fontSize: `${15 * dimensions.fontScale}px`,
                             color: { captionColor },
                             fontWeight: 600,
                             marginBottom: `${10 * dimensions.fontScale}px`,
@@ -336,7 +338,7 @@ const FaqCarousel = ({ attributes }) => {
                     <h2
                         style={{
                             textAlign: "center",
-                            fontSize: `${50 * dimensions.fontScale}px`,
+                            fontSize: `${56 * dimensions.fontScale}px`,
                             fontWeight: "bold",
                             lineHeight: 1.2,
                             marginBottom: `${30 * dimensions.fontScale}px`,
@@ -351,6 +353,7 @@ const FaqCarousel = ({ attributes }) => {
                     {/* Navigation Buttons */}
 
                     <div className="flex gap-4 justify-center">
+
                         {/* Left Button */}
                         <button
                             onClick={scrollLeft}
@@ -409,6 +412,8 @@ const FaqCarousel = ({ attributes }) => {
                                 <img
                                     src={item.image}
                                     alt={item.question}
+                                    draggable="false"
+                                    onDragStart={(e) => e.preventDefault()}
                                     className="w-full h-full object-cover rounded-[8px] sm:rounded-[8px] md:rounded-[12px] lg:rounded-[16px] xl:rounded-[24px]"
                                 />
 
@@ -423,7 +428,7 @@ const FaqCarousel = ({ attributes }) => {
                                         bottom: `${dimensions.cardHeight * 0.05}px`,
                                         transform: "translateX(-50%)", // Center horizontally
                                         width: `${dimensions.cardWidth * 0.9}px`,
-                                        height: `${dimensions.cardHeight * 0.25}px`, 
+                                        height: `${dimensions.cardHeight * 0.25}px`,
                                         backgroundColor: "rgba(255, 255, 255, 0.95)",
                                         padding: `${0.5 * dimensions.fontScale}rem ${0.75 * dimensions.fontScale}rem`,
                                         overflow: "hidden",
@@ -434,7 +439,7 @@ const FaqCarousel = ({ attributes }) => {
                                         className="font-semibold mb-1"
                                         style={{
                                             color: item.questionColor || "#0F172A",
-                                            fontSize: `${17 * dimensions.fontScale}px`,
+                                            fontSize: `${20 * dimensions.fontScale}px`,
                                             lineHeight: "1.2",
                                             whiteSpace: "nowrap",
                                             textOverflow: "ellipsis",
@@ -448,7 +453,7 @@ const FaqCarousel = ({ attributes }) => {
                                     <p
                                         style={{
                                             color: item.answerColor || "#334155",
-                                            fontSize: `${15 * dimensions.fontScale}px`,
+                                            fontSize: `${17 * dimensions.fontScale}px`,
                                             lineHeight: "1.2",
                                             display: "-webkit-box",
                                             WebkitLineClamp: 2,
