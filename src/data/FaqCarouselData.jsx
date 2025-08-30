@@ -12,7 +12,7 @@ export const FaqCarouselData = {
   backgroundColor: "#FFFFFF",
 
   slideGap: 20,
-  minSlidesToShow: 2.3,
+  minSlidesToShow: 2.17,
   autoScrolling: true,
 
   slides: [
