@@ -1,4 +1,525 @@
 
+
+import React, { useRef, useState, useEffect, useCallback } from "react";
+
+const FaqCarousel = ({ attributes }) => {
+
+    const {
+        caption,
+        captionColor,
+        title,
+        titleColor,
+        subtitle,
+        subtitleColor,
+        backgroundColor,
+        slideGap,
+        minSlidesToShow,
+        autoScrolling,
+        slides = [],
+    } = attributes;
+
+
+
+    const presetSlideHeight = 580;
+    const presetSlideWidth = 800;
+    const scrollRef = useRef(null);
+
+    // const [progress, setProgress] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+    const autoScrollInterval = useRef(null);
+
+    const [dimensions, setDimensions] = useState({
+        cardWidth: presetSlideWidth,
+        cardHeight: presetSlideHeight,
+        fontScale: 1,
+    });
+
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768); // md breakpoint
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+    // Update slide dimensions dynamically
+    useEffect(() => {
+        const updateDimensions = () => {
+            const containerWidth = scrollRef.current?.offsetWidth || 0;
+            const fullSlideWidth = presetSlideWidth;
+
+            const baseRequiredWidth =
+                fullSlideWidth * minSlidesToShow + (minSlidesToShow - 1) * slideGap;
+
+            if (containerWidth < baseRequiredWidth) {
+                const roughAdjustedWidth = containerWidth / minSlidesToShow;
+                const fontScale = roughAdjustedWidth / presetSlideWidth;
+
+                const scaledGap = slideGap * fontScale;
+                const totalGap = (minSlidesToShow - 1) * scaledGap;
+                const adjustedWidth = (containerWidth - totalGap) / minSlidesToShow;
+
+                setDimensions({
+                    cardWidth: adjustedWidth,
+                    cardHeight: (adjustedWidth * presetSlideHeight) / presetSlideWidth,
+                    fontScale,
+                });
+            } else {
+                setDimensions({
+                    cardWidth: fullSlideWidth,
+                    cardHeight: presetSlideHeight,
+                    fontScale: 1,
+                });
+            }
+        };
+
+        requestAnimationFrame(updateDimensions);
+        window.addEventListener("resize", updateDimensions);
+
+        return () => {
+            window.removeEventListener("resize", updateDimensions);
+        };
+    }, [minSlidesToShow, presetSlideWidth, presetSlideHeight, slideGap]);
+
+    const getScrollDistance = () =>
+        dimensions.cardWidth + dimensions.fontScale * slideGap;
+
+    // Scroll Left
+    const scrollLeft = useCallback(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({
+                left: -getScrollDistance(),
+                behavior: "smooth",
+            });
+        }
+    }, [dimensions, slideGap]);
+
+    // Scroll Right
+    const scrollRight = useCallback(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({
+                left: getScrollDistance(),
+                behavior: "smooth",
+            });
+        }
+    }, [dimensions, slideGap]);
+
+    // Start Dragging
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollPosition(scrollRef.current.scrollLeft);
+    };
+
+    // Drag Move with smooth animation
+    useEffect(() => {
+        let animationFrameId = null;
+
+        const smoothScroll = (target) => {
+            if (!scrollRef.current) return;
+            const start = scrollRef.current.scrollLeft;
+            const change = target - start;
+            let startTime = null;
+
+            const animate = (currentTime) => {
+                if (!startTime) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / 200, 1);
+                scrollRef.current.scrollLeft = start + change * easeInOutQuad(progress);
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(animate);
+                } else {
+                    setScrollPosition(target);
+                }
+            };
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        const easeInOutQuad = (t) =>
+            t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+        const handleMouseMove = (e) => {
+            if (!isDragging || !scrollRef.current) return;
+            e.preventDefault();
+            const x = e.pageX - scrollRef.current.offsetLeft;
+            const baseCardWidth = 400;
+            const scale = dimensions.cardWidth / baseCardWidth;
+            const scrollDistance = (x - startX) * scale;
+            const target = scrollPosition - scrollDistance;
+            smoothScroll(target);
+        };
+
+        if (isDragging) {
+            window.addEventListener("mousemove", handleMouseMove);
+        } else {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        }
+
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        };
+    }, [isDragging, startX, scrollPosition, dimensions.cardWidth]);
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    // Wheel & Trackpad Scrolling
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer) return;
+
+        const isTrackpad = (e) => Math.abs(e.deltaY) < 50 && e.deltaMode === 0;
+
+        const handleWheelScroll = (e) => {
+            if (!isHovered) return;
+
+            const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+            const atStart = scrollLeft <= 0;
+            const atEnd = scrollLeft + clientWidth >= scrollWidth - 1;
+
+            if (isTrackpad(e)) {
+                if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                    if (e.deltaX < 0 && !atStart) {
+                        scrollContainer.scrollLeft += e.deltaX;
+                        e.preventDefault();
+                    } else if (e.deltaX > 0 && !atEnd) {
+                        scrollContainer.scrollLeft += e.deltaX;
+                        e.preventDefault();
+                    }
+                }
+            } else {
+                const scrollDistance = getScrollDistance();
+                const scrollAmount = (e.deltaX || e.deltaY) * (scrollDistance / 100);
+
+                if (e.deltaY < 0 && !atStart) {
+                    scrollContainer.scrollBy({ left: -Math.abs(scrollAmount), behavior: "smooth" });
+                    e.preventDefault();
+                } else if (e.deltaY > 0 && !atEnd) {
+                    scrollContainer.scrollBy({ left: Math.abs(scrollAmount), behavior: "smooth" });
+                    e.preventDefault();
+                }
+            }
+        };
+
+        scrollContainer.addEventListener("wheel", handleWheelScroll, { passive: false });
+        return () => {
+            scrollContainer.removeEventListener("wheel", handleWheelScroll);
+        };
+    }, [isHovered, dimensions, slideGap]);
+
+    // Keyboard Scrolling
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!isHovered) return;
+            if (e.key === "ArrowLeft") {
+                scrollLeft();
+            } else if (e.key === "ArrowRight") {
+                scrollRight();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isHovered, scrollLeft, scrollRight]);
+
+    // Check Scrollability
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+
+        const updateScrollability = () => {
+            if (!scrollContainer) return;
+
+            setCanScrollLeft(scrollContainer.scrollLeft > 0);
+
+            setCanScrollRight(
+                scrollContainer.scrollLeft <
+                scrollContainer.scrollWidth - scrollContainer.offsetWidth - 1,
+            );
+        };
+
+        if (scrollContainer) {
+            scrollContainer.addEventListener("scroll", updateScrollability);
+        }
+
+        updateScrollability();
+
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener("scroll", updateScrollability);
+            }
+        };
+    }, [dimensions, slides]);
+
+    // Auto-scrolling
+    useEffect(() => {
+        if (!autoScrolling || slides.length <= 3) return;
+
+        const startAutoScroll = () => {
+            if (autoScrollInterval.current) return;
+            autoScrollInterval.current = setInterval(() => {
+                if (!isHovered && !isDragging) {
+                    if (scrollRef.current) {
+                        scrollRef.current.scrollBy({
+                            left: getScrollDistance(),
+                            behavior: "smooth",
+                        });
+                    }
+                }
+            }, 3000);
+        };
+
+        const stopAutoScroll = () => {
+            if (autoScrollInterval.current) {
+                clearInterval(autoScrollInterval.current);
+                autoScrollInterval.current = null;
+            }
+        };
+
+        startAutoScroll();
+        return stopAutoScroll;
+    }, [autoScrolling, isHovered, isDragging, dimensions.cardWidth, dimensions.fontScale, slideGap, slides.length]);
+
+    // Progress bar
+    useEffect(() => {
+        const slider = scrollRef.current;
+        if (!slider) return;
+        const handleScroll = () => {
+            const maxScroll = slider.scrollWidth - slider.clientWidth;
+            setProgress(maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0);
+        };
+        slider.addEventListener("scroll", handleScroll);
+        return () => slider.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const getValidColor = (color) => {
+        if (!color || typeof color !== "string") return "#ffffff";
+        const isHex = /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(color);
+        const isRGB = /^rgb(a)?\([\d\s.,%]+\)$/.test(color);
+        const isGradient = /gradient\((.|\s)*\)/.test(color);
+        const isNamed = /^[a-zA-Z]+$/.test(color);
+        if (color === "transparent" || isHex || isRGB || isGradient || isNamed) {
+            return color;
+        }
+        return "#ffffff";
+    };
+
+    return (
+        <div
+
+            style={{
+                background: getValidColor(backgroundColor),
+                padding: `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`, // top/bottom, left/right
+
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => {
+                handleMouseUp();
+                setIsHovered(false);
+            }}
+        >
+            <div className="max-w-9xl mx-auto  grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch">
+
+
+                {/* LEFT SIDE */}
+                <div className="col-span-1 flex flex-col relative  h-full">
+                    {isMobile ? (
+                        /* --- MOBILE LAYOUT --- */
+                        <div className="flex flex-row items-center justify-center gap-2">
+                            {/* Caption + Title */}
+                            <div className="flex flex-col items-center text-center">
+                                <p
+                                    style={{
+                                        textAlign: "center",
+                                        fontSize: `${15 * dimensions.fontScale}px`,
+                                        color: captionColor,
+                                        fontWeight: 600,
+                                        marginBottom: `${5 * dimensions.fontScale}px`,
+                                    }}
+                                >
+                                    {caption}
+                                </p>
+
+                                <h2
+                                    style={{
+                                        textAlign: "center",
+                                        fontSize: `${72 * dimensions.fontScale}px`,
+                                        fontWeight: 500,
+                                        lineHeight: 1.2,
+                                        marginBottom: `${5 * dimensions.fontScale}px`,
+                                    }}
+                                >
+                                    <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
+                                    <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
+                                </h2>
+                            </div>
+
+                            {/* Buttons next to titles */}
+                            <div className="flex gap-2 ml-4">
+                                <button
+                                    onClick={scrollLeft}
+                                    className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {"<"}
+                                </button>
+                                <button
+                                    onClick={scrollRight}
+                                    className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {">"}
+                                </button>
+                            </div>
+                        </div>
+
+                    ) : (
+                        /* --- DESKTOP LAYOUT --- */
+                        <div className="flex flex-col items-center justify-center text-center h-full">
+                            {/* Caption */}
+                            <p
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: `${15 * dimensions.fontScale}px`,
+                                    color: captionColor,
+                                    fontWeight: 600,
+                                    marginBottom: `${10 * dimensions.fontScale}px`,
+                                }}
+                            >
+                                {caption}
+                            </p>
+
+                            {/* Title & Subtitle */}
+                            <h2
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: `${72 * dimensions.fontScale}px`,
+                                    fontWeight: 500,
+                                    lineHeight: 1.2,
+                                    marginBottom: `${20 * dimensions.fontScale}px`,
+                                }}
+                            >
+                                <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
+                                <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
+                            </h2>
+
+                            {/* Buttons centered under subtitle (desktop) */}
+                            <div className="flex gap-4 justify-center mt-4">
+                                <button
+                                    onClick={scrollLeft}
+                                    className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {"<"}
+                                </button>
+                                <button
+                                    onClick={scrollRight}
+                                    className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {">"}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+
+                {/* RIGHT SIDE CAROUSEL */}
+                <div className="col-span-2 relative">
+                    <div
+                        ref={scrollRef}
+                        className={`flex overflow-x-auto no-scrollbar ${isDragging ? "cursor-grabbing" : "cursor-grab"
+                            }`}
+                        style={{
+                            gap: `${dimensions.fontScale * slideGap}px`,
+                            paddingBottom: `${20 * dimensions.fontScale}px`,
+                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseUp={handleMouseUp}
+                    >
+                        {slides.map((item, index) => (
+                            <div
+                                key={index}
+                                className="relative flex-shrink-0 rounded-2xl overflow-hidden shadow-md"
+                                style={{
+                                    width: `${dimensions.cardWidth}px`,
+                                    minHeight: `${dimensions.cardHeight}px`,
+                                }}
+                            >
+                                {/* Image */}
+                                <img
+                                    src={item.image}
+                                    alt={item.question}
+                                    draggable="false"
+                                    onDragStart={(e) => e.preventDefault()}
+                                    className="w-full h-full object-cover rounded-[8px] sm:rounded-[8px] md:rounded-[12px] lg:rounded-[16px] xl:rounded-[24px]"
+                                />
+
+                                {/* Q&A box */}
+
+                                <div
+                                    className="absolute rounded-lg shadow-md flex flex-col justify-center"
+                                    style={{
+
+                                        left: "50%",
+
+                                        bottom: `${dimensions.cardHeight * 0.05}px`,
+                                        transform: "translateX(-50%)", // Center horizontally
+                                        width: `${dimensions.cardWidth * 0.9}px`,
+                                        height: `${dimensions.cardHeight * 0.25}px`,
+                                        backgroundColor: "rgba(255, 255, 255, 0.95)",
+                                        padding: `${0.5 * dimensions.fontScale}rem ${0.75 * dimensions.fontScale}rem`,
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    {/* Question */}
+                                    <p
+                                        className="font-semibold mb-1"
+                                        style={{
+                                            color: item.questionColor || "#0F172A",
+                                            fontSize: `${28 * dimensions.fontScale}px`,
+                                            lineHeight: "1.2",
+                                            whiteSpace: "nowrap",
+                                            textOverflow: "ellipsis",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        {item.question}
+                                    </p>
+
+                                    {/* Answer */}
+                                    <p
+                                        style={{
+                                            color: item.answerColor || "#334155",
+                                            fontSize: `${24 * dimensions.fontScale}px`,
+                                            lineHeight: "1.2",
+                                            display: "-webkit-box",
+                                            WebkitLineClamp: 2,
+                                            WebkitBoxOrient: "vertical",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        {item.answer}
+                                    </p>
+                                </div>
+
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
+}
+export default FaqCarousel;
 // import React, { useCallback, useEffect, useRef, useState } from "react";
 
 // const SampleComponent = ({attributes}) => {
@@ -354,7 +875,7 @@
 // 				setIsHovered(false);
 // 			}}
 // 		>
-//             <div 
+//             <div
 //             style={{
 //                 marginLeft: isMobileView? "0px" : margin,
 //                     width : isMobileView? "100%" :"40%",
@@ -363,8 +884,8 @@
 //                     marginRight : isMobileView? "20px" : "0px",
 //             }}>
 
-//             {!isMobileView && 
-//                 <span 
+//             {!isMobileView &&
+//                 <span
 //                 style={{
 //                     fontSize: `${30 * dimensions.fontScale}px`
 //                 }}>{caption}</span>
@@ -583,486 +1104,3 @@
 // }
 
 // export default SampleComponent;
-
-import React, { useEffect, useState, useRef } from "react";
-
-const SaudiPccLandingpage = ({ attributes }) => {
-    const {
-        backgroundColor,
-        caption,
-        captionColor,
-        title,
-        titleColor,
-        subTitle,
-        subTitleColor,
-        description,
-        descriptionColor,
-        buttons = [],
-        reviews = [],
-        videoUrl,
-        iconLinks = [],
-        mobileOverlayOpacity,
-    } = attributes;
-
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const [hoveredReview, setHoveredReview] = useState(null);
-    const isMobile = windowWidth <= 768;
-    const scale = Math.min(1, Math.max(0.6, windowWidth / 1400));
-
-    // Video control state
-    const videoRef = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    const togglePlay = () => {
-        if (!videoRef.current) return;
-        if (isPlaying) {
-            videoRef.current.pause();
-        } else {
-            videoRef.current.play();
-        }
-        setIsPlaying(!isPlaying);
-    };
-
-    useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    const ICON_COLUMNS = 4;
-
-    const iconItemBasis = `${100 / ICON_COLUMNS}%`;
-
-    return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: isMobile ? "column" : "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: `${1200 * scale}px`,
-                margin: "0 auto",
-                backgroundColor: backgroundColor,
-                boxSizing: "border-box",
-
-            }}
-
-        >
-            {/* Left Content */}
-            <div
-                style={{
-
-
-                    width: isMobile ? "100%" : "50%",
-                    height: isMobile ? "auto" : `${559 * scale}px`,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: isMobile ? "center" : "flex-start",
-
-                    position: "relative",
-
-                    paddingRight: isMobile ? 0 : `${30 * scale}px`,
-                    boxSizing: "border-box",
-                    // overflow: "hidden",
-                }}
-            >
-                {/* Mobile Video Background */}
-                {isMobile && (
-                    <video
-                        src={videoUrl}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            zIndex: 0,
-                        }}
-                    />
-                )}
-
-                {/* Mobile dark overlay */}
-                {isMobile && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: `rgba(0,0,0,${mobileOverlayOpacity || 0.2})`,
-                            zIndex: 1,
-                        }}
-                    />
-                )}
-
-                <div
-                    style={{
-                        position: "relative",
-                        zIndex: 2,
-                        width: "100%",
-                        maxWidth: `${520 * scale}px`,
-                        textAlign: isMobile ? "center" : "left",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: isMobile ? "center" : "flex-start",
-                    }}
-                >
-                    {/* Tag */}
-                    <div
-                        style={{
-                            backgroundColor: "#d6f0ff",
-                            color: captionColor,
-                            padding: `${6 * scale}px ${12 * scale}px`,
-                            borderRadius: "20px",
-                            fontSize: `${15 * scale}px`,
-                            fontWeight: 600,
-                            marginBottom: `${16 * scale}px`,
-                            display: "inline-block",
-                            marginTop: "10px"
-                        }}
-                    >
-                        {caption}
-                    </div>
-
-                    {/* Title */}
-                    <h1
-                        style={{
-                            fontSize: `${55 * scale}px`,
-                            fontWeight: 600,
-                            lineHeight: 1.2,
-                            marginBottom: `${18 * scale}px`,
-                            color: isMobile ? "#fff" : titleColor,
-                        }}
-                    >
-                        {title}
-                    </h1>
-
-                    {/* Subtitle */}
-                    <p
-                        style={{
-                            fontSize: `${24 * scale}px`,
-                            color: isMobile ? "#fff" : subTitleColor,
-                            marginBottom: `${8 * scale}px`,
-                        }}
-                    >
-                        {subTitle}
-                    </p>
-
-                    {/* Description */}
-                    <p
-                        style={{
-                            fontSize: `${18 * scale}px`,
-                            color: isMobile ? "#fff" : descriptionColor,
-                            marginBottom: `${24 * scale}px`,
-                        }}
-                    >
-                        {description}
-                    </p>
-
-                    {/* Buttons */}
-                    <div
-                        style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: `${12 * scale}px`,
-                            marginBottom: `${20 * scale}px`,
-                        }}
-                    >
-                        {buttons.map((btn, idx) => (
-                            <button
-                                key={idx}
-                                style={{
-                                    padding: `${10 * scale}px ${14 * scale}px`,
-                                    backgroundColor: btn.buttonColor,
-                                    color: btn.buttonTextColor,
-                                    border: "none",
-                                    borderRadius: "6px",
-                                    fontWeight: 600,
-                                    fontSize: `${13 * scale}px`,
-                                    cursor: "pointer",
-                                }}
-                            >
-                                {btn.buttonText}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Reviews */}
-
-
-
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginBottom: `${30 * scale}px`,
-                        }}
-                    >
-                        {/* Reviewer images with overlap */}
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            {reviews.map((rev, idx) => (
-                                <div
-                                    key={idx}
-                                    style={{
-                                        position: "relative",
-                                        zIndex: reviews.length - idx, // ensures left-most is on top
-                                        marginLeft: idx === 0 ? 0 : `-${28 * scale}px`, // tight overlap
-                                    }}
-                                    onMouseEnter={() => setHoveredReview(idx)}
-                                    onMouseLeave={() => setHoveredReview(null)}
-                                >
-                                    <img
-                                        src={rev.image}
-                                        alt="Reviewer"
-                                        style={{
-                                            width: `${45 * scale}px`,
-                                            height: `${45 * scale}px`,
-                                            borderRadius: "50%",
-                                            border: `${2 * scale}px solid #fff`,
-                                            objectFit: "cover",
-                                            boxShadow: "0 0 0 1px rgba(0,0,0,0.05)", // subtle outline
-                                            cursor: "pointer",
-                                        }}
-                                    />
-                                    {hoveredReview === idx && (
-                                        <div
-                                            style={{
-                                                position: "absolute",
-                                                bottom: `${55 * scale}px`,
-                                                left: "50%",
-                                                transform: "translateX(-50%)",
-                                                background: "#000",
-                                                color: "#fff",
-                                                padding: `${6 * scale}px ${10 * scale}px`,
-                                                borderRadius: "6px",
-                                                fontSize: `${12 * scale}px`,
-                                                whiteSpace: "nowrap",
-                                                pointerEvents: "none",
-                                                zIndex: 100,
-                                            }}
-                                        >
-                                            {rev.caption}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Review text */}
-                        <div
-                            style={{
-                                marginLeft: `${15 * scale}px`,
-                                fontSize: `${14 * scale}px`,
-                                color: isMobile ? "#fff" : descriptionColor,
-                                fontWeight: "500",
-                            }}
-                        >
-
-                            <div>⭐⭐⭐⭐⭐</div>
-                            <div>End-to-end service trusted by</div>
-                            <div>500+ professionals worldwide</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            {/* Right Video + IconLinks */}
-            {!isMobile && (
-                <div
-                    style={{
-                        width: "50%",
-                        minHeight: `${500 * scale}px`,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                        position: "relative",
-                        paddingBottom: `${20 * scale}px`,
-                        boxSizing: "border-box",
-                    }}
-                >
-                    {/* Video with Play Button */}
-                    <div
-                        style={{
-                            flex: 1,
-                            display: "flex",
-
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            width: "100%",
-                        }}
-                    >
-                        <video
-                            ref={videoRef}
-                            src={videoUrl}
-                            style={{
-                                width: "100%",
-                                maxWidth: `${590 * scale}px`,
-                                height: `${480 * scale}px`,
-                                borderRadius: "12px",
-                                objectFit: "cover",
-                                backgroundColor: "#000",
-                                marginTop: "50px"
-                            }}
-
-                            onClick={togglePlay}
-                        />
-                        {!isPlaying && (
-                            <div
-                                style={{
-                                    position: "absolute",
-                                    width: `${60 * scale}px`,
-                                    height: `${60 * scale}px`,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#000",
-                                    opacity: 0.75,
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    cursor: "pointer",
-                                }}
-                                onClick={togglePlay}
-                            >
-                                <div
-                                    style={{
-                                        width: 0,
-                                        height: 0,
-                                        borderLeft: `${18 * scale}px solid white`,
-                                        borderTop: `${12 * scale}px solid transparent`,
-                                        borderBottom: `${12 * scale}px solid transparent`,
-                                    }}
-                                />
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Icon Links */}
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "flex-start",
-                            flexWrap: "nowrap",
-                            gap: `${1 * scale}px`,
-                            fontSize: `${14 * scale}px`,
-                            fontWeight: 500,
-                            color: "#000",
-                            width: "100%",
-                            maxWidth: `${590 * scale}px`,
-
-                            width: `${650 * scale}px`,
-                            marginBottom: "30px",
-                            marginTop: "20px"
-                        }}
-                    >
-                        {iconLinks.map((item, idx) => (
-                            <div
-                                key={idx}
-                                style={{
-                                    maxWidth: iconItemBasis,
-                                    display: "flex",
-                                    alignItems: "flex-start",
-                                    gap: `${2 * scale}px`,
-                                    padding: `${6 * scale}px ${4 * scale}px`,
-                                    boxSizing: "border-box",
-                                }}
-                            >
-                                <img
-                                    src={item.img}
-                                    alt={item.text}
-                                    style={{
-                                        width: `${28 * scale}px`,
-                                        height: `${28 * scale}px`,
-                                        objectFit: "contain",
-                                        flexShrink: 0,
-                                    }}
-                                />
-                                <span
-                                    style={{
-                                        lineHeight: 1.2,
-                                        fontSize: `${12 * scale}px`,
-                                        display: "-webkit-box",
-                                        WebkitLineClamp: 2,
-                                        WebkitBoxOrient: "vertical",
-                                        textOverflow: "ellipsis",
-                                        overflow: "hidden",
-                                        maxHeight: `${1.2 * 2 * 13 * scale}px`,
-                                    }}
-                                >
-                                    {item.text}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* Mobile iconLinks */}
-            {isMobile && (
-                <div
-                    style={{
-                        display: "flex",
-                        padding: "0px 10px",
-                        flexWrap: "nowrap",
-                        gap: `${20 * scale}px`,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: `${20 * scale}px`,
-                        fontSize: `${14 * scale}px`,
-                        fontWeight: 500,
-                        color: "#000",
-                        marginBottom: `${30 * scale}px`,
-                    }}
-                >
-                    {iconLinks.map((item, idx) => (
-                        <div
-                            key={idx}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: `${8 * scale}px`,
-                                width: "100%",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <img
-                                src={item.img}
-                                alt={item.text}
-                                style={{
-                                    width: `${28 * scale}px`,
-                                    height: `${28 * scale}px`,
-                                    objectFit: "contain",
-                                }}
-                            />
-                            <span
-                                style={{
-                                    lineHeight: 1.2,
-                                    fontSize: `${12 * scale}px`,
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    textOverflow: "ellipsis",
-                                    overflow: "hidden",
-                                    maxHeight: `${1.2 * 2 * 13 * scale}px`,
-                                }}
-                            >
-                                {item.text}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-};
-
-export default SaudiPccLandingpage;
