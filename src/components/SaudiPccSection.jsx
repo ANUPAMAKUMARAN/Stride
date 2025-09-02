@@ -1,475 +1,352 @@
-// import React, { useEffect, useState } from "react";
-
-// const SaudiPCCSection = () => {
-//     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-//     const isMobile = windowWidth <= 768;
-
-//     // Responsive scale directly from width (between 0.6 and 1)
-//     const scale = Math.min(1, Math.max(0.6, windowWidth / 1400));
-
-//     useEffect(() => {
-//         const handleResize = () => setWindowWidth(window.innerWidth);
-//         window.addEventListener("resize", handleResize);
-//         return () => window.removeEventListener("resize", handleResize);
-//     }, []);
-
-//     const backgroundImageUrl =
-//         "https://project251.hrstride.academy/wp-content/uploads/2025/08/Img.png";
-
-//     return (
-//         <div
-//             style={{
-//                 display: "flex",
-//                 flexDirection: isMobile ? "column" : "row",
-//                 width: "100%",
-//                 backgroundColor: "#1f2e84",
-//                 color: "white",
-//                 boxSizing: "border-box",
-//             }}
-//         >
-//             {/* Left Text Section */}
-//             <div
-//                 style={{
-//                     flex: 1,
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     justifyContent: "center",
-//                     alignItems: "center",
-//                     minWidth: isMobile ? "100%" : "50%",
-//                     backgroundImage: isMobile ? `url(${backgroundImageUrl})` : "none",
-//                     backgroundSize: "cover",
-//                     backgroundPosition: "center",
-//                     backgroundRepeat: "no-repeat",
-//                     minHeight: `${500 * scale}px`,
-//                     position: "relative",
-//                     padding: isMobile ? `${20 * scale}px` : `${40 * scale}px`,
-//                 }}
-//             >
-//                 {/* Dark Overlay for mobile */}
-//                 {isMobile && (
-//                     <div
-//                         style={{
-//                             position: "absolute",
-//                             top: 0,
-//                             left: 0,
-//                             width: "100%",
-//                             height: "100%",
-//                             backgroundColor: "rgba(0, 0, 0, 0.5)",
-//                             zIndex: 1,
-//                         }}
-//                     />
-//                 )}
-
-//                 {/* Content Block */}
-//                 <div
-//                     style={{
-//                         position: "relative",
-//                         zIndex: 2,
-//                         width: "100%",
-//                         maxWidth: `${480 * scale}px`,
-//                         textAlign: "left",
-//                         alignItems: "flex-start",
-//                         display: "flex",
-//                         flexDirection: "column",
-//                     }}
-//                 >
-//                     <p
-//                         style={{
-//                             color: "#cbd5e0",
-//                             fontSize: `${14 * scale}px`,
-//                             marginBottom: `${8 * scale}px`,
-//                         }}
-//                     >
-//                         SAUDI PCC SERVICE
-//                     </p>
-
-//                     <h1
-//                         style={{
-//                             fontSize: `${36 * scale}px`,
-//                             fontWeight: "bold",
-//                             lineHeight: 1.2,
-//                             marginBottom: `${16 * scale}px`,
-//                         }}
-//                     >
-//                         Want Your Saudi PCC–<br />
-//                         Fast & Hassle-Free?
-//                     </h1>
-
-//                     <p
-//                         style={{
-//                             fontSize: `${16 * scale}px`,
-//                             marginBottom: `${24 * scale}px`,
-//                         }}
-//                     >
-//                         Let our expert team do the legwork. You relax.
-//                     </p>
-
-//                     {/* Icons Row */}
-//                     {/* Icons Row */}
-//                     <div
-//                         style={{
-//                             display: "flex",
-//                             justifyContent: "center",
-//                             gap: `${24 * scale}px`,
-//                             marginBottom: `${24 * scale}px`,
-//                             fontSize: `${14 * scale}px`,
-//                             fontWeight: 600,
-//                             flexWrap: "wrap",
-//                         }}
-//                     >
-//                         <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-//                             <img
-//                                 src="https://project251.hrstride.academy/wp-content/uploads/2025/08/18-1.png"
-
-//                                 alt="Secure"
-//                                 style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-//                             />
-//                             <span>Secure</span>
-//                         </div>
-//                         <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-//                             <img
-//                                 src="https://project251.hrstride.academy/wp-content/uploads/2025/08/19-1.png"
-//                                 alt="Transparent"
-//                                 style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-//                             />
-//                             <span>Transparent</span>
-//                         </div>
-//                         <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-//                             <img
-//                                 src="https://project251.hrstride.academy/wp-content/uploads/2025/08/20-1.png"
-//                                 alt="Affordable"
-//                                 style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-//                             />
-//                             <span>Affordable</span>
-//                         </div>
-//                     </div>
 
 
-//                     {/* Description */}
-//                     <p
-//                         style={{
-//                             fontSize: `${15 * scale}px`,
-//                             marginBottom: `${24 * scale}px`,
-//                             lineHeight: 1.4,
-//                             maxWidth: "100%",
-//                             textAlign: "left",
-//                         }}
-//                     >
-//                         Tired of confusing embassy processes? We’ll handle your Saudi PCC completely online.
-//                     </p>
+import React, { useRef, useState, useEffect } from "react";
 
-//                     {/* Buttons */}
-//                     <div
-//                         style={{
-//                             display: "flex",
-//                             justifyContent: "center",
-//                             gap: `${12 * scale}px`,
-//                             marginBottom: `${16 * scale}px`,
-//                             flexWrap: "wrap",
-//                         }}
-//                     >
-//                         <button
-//                             style={{
-//                                 padding: `${12 * scale}px ${20 * scale}px`,
-//                                 backgroundColor: "#00c4ff",
-//                                 border: "none",
-//                                 borderRadius: "6px",
-//                                 fontWeight: 600,
-//                                 color: "#000",
-//                                 cursor: "pointer",
-//                                 fontSize: `${14 * scale}px`,
-//                             }}
-//                         >
-//                             GET STARTED NOW
-//                         </button>
-//                         <button
-//                             style={{
-//                                 padding: `${12 * scale}px ${20 * scale}px`,
-//                                 backgroundColor: "transparent",
-//                                 border: "1px solid #ccc",
-//                                 borderRadius: "6px",
-//                                 fontWeight: 600,
-//                                 color: "#fff",
-//                                 cursor: "pointer",
-//                                 fontSize: `${14 * scale}px`,
-//                             }}
-//                         >
-//                             REQUEST YOUR SAUDI PCC NOW
-//                         </button>
-//                     </div>
+const SaudiPccLandingpage = ({ attributes }) => {
+    const {
+        backgroundColor,
+        caption,
+        captionColor,
+        titleOne,
+        titleOneColor,
+        titleTwo,
+        titleTwoColor,
+        subtitle,
+        subtitleColor,
+        description,
+        descriptionColor,
+        buttons = [],
+        iconLinks = [],
+        backgroundImage,
+        endline,          
+        endlineColor,
+        mobileOverlayOpacity,
+    } = attributes;
 
-//                     <p
-//                         style={{
-//                             fontSize: `${13 * scale}px`,
-//                             color: "#ccc",
-//                             textAlign: "center",
-//                         }}
-//                     >
-//                         100% support until delivery. No hidden charges
-//                     </p>
-//                 </div>
-//             </div>
+    
+    
+    const isMobile = window.innerWidth <= 768;
 
-//             {/* Right Image (Desktop Only) */}
-//             {!isMobile && (
-//                 <div
-//                     style={{
-//                         flex: 1,
-//                         minWidth: "300px",
-//                         minHeight: `${500 * scale}px`,
-//                         display: "flex",
-//                     }}
-//                 >
-//                     <img
-//                         src={backgroundImageUrl}
-//                         alt="Saudi PCC"
-//                         style={{
-//                             width: "100%",
-//                             height: "100%",
-//                             objectFit: "cover",
-//                             borderRadius: "8px",
-//                         }}
-//                     />
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
+    const videoRef = useRef(null);              // kept so the API surface is unchanged
+    const [isPlaying, setIsPlaying] = useState(false); // kept to preserve original logic surface
 
-// export default SaudiPCCSection;
-
-import React, { useEffect, useState } from "react";
-
-const SaudiPCCSection = () => {
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const isMobile = windowWidth <= 768;
-
-    // Responsive scale directly from width (between 0.6 and 1)
-    const scale = Math.min(1, Math.max(0.6, windowWidth / 1400));
+    const [scale, setScale] = useState(1);
+    const [outerMargin, setOuterMargin] = useState(0);
+    const [slideWidth, setSlideWidth] = useState(0);
 
     useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
+        const handleResize = () => {
+            const width = window.innerWidth;
+            const isMobile = width <= 768;
+
+            // container width: full for mobile, half for desktop 
+            const containerWidth = isMobile ? width : width / 2;
+
+            // margin relative to container width 
+            const margin =
+                width <= 600
+                    ? containerWidth * 0.02
+                    : width <= 1000
+                        ? containerWidth * 0.05
+                        : containerWidth * 0.1;
+            const maxWidth = 1325;
+            let newScale = containerWidth / maxWidth;
+            if (newScale > 1) newScale = 1;
+
+            setOuterMargin(margin / 2);
+            setScale(newScale);
+
+            if (isMobile) {
+               
+                setSlideWidth(width);
+            } else {
+               
+                setSlideWidth(containerWidth - margin);
+            }
+        };
+
+        handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const backgroundImageUrl =
-        "https://project251.hrstride.academy/wp-content/uploads/2025/08/Img.png";
-
     return (
         <div
-    style={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        width: "100%",
-        backgroundColor: "#1f2e84",
-        color: "white",
-        boxSizing: "border-box",
-    }}
->
-    {/* Left Text Section */}
-    <div
-        style={{
-            width: isMobile ? "100%" : "50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundImage: isMobile ? `url(${backgroundImageUrl})` : "none",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            minHeight: `${500 * scale}px`,
-            position: "relative",
-            padding: isMobile ? `${20 * scale}px` : `${40 * scale}px`,
-            boxSizing: "border-box",
-        }}
-    >
-
-                {/* Dark Overlay for mobile */}
-                {isMobile && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            zIndex: 1,
-                        }}
-                    />
+            style={{
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                maxWidth: "100%",
+                margin: "0",
+                padding: "0",
+                backgroundColor,
+                boxSizing: "border-box",
+            }}
+        >
+            {/* LEFT CONTENT  */}
+            <div
+                style={{
+                    flex: 1,
+                    width: slideWidth,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "left",
+                    position: "relative",
+                    boxSizing: "border-box",
+                    overflow: "hidden",
+                }}
+            >
+                {/* MOBILE*/}
+                {isMobile && backgroundImage && (
+                    <>
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0, 
+                                width: "100%",
+                                height: "100%",
+                                minHeight: "100vh", 
+                                backgroundImage: `url(${backgroundImage})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                zIndex: 0,
+                            }}
+                        />
+                        {/* Mobile dark overlay */}
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: `rgba(0,0,0,${mobileOverlayOpacity || 0.2})`,
+                                zIndex: 1,
+                            }}
+                        />
+                    </>
                 )}
 
-                {/* Content Block */}
+                {/* TEXT STACK */}
                 <div
                     style={{
                         position: "relative",
                         zIndex: 2,
                         width: "100%",
-                        maxWidth: `${480 * scale}px`,
-                        textAlign: "left",
-                        alignItems: "flex-start",
+                        textAlign: "center",
                         display: "flex",
                         flexDirection: "column",
+                        alignItems: "center",
+                        paddingTop: isMobile ? `${16 * scale}px` : 0,
+                        paddingBottom: isMobile ? `${20 * scale}px` : 0,
                     }}
                 >
-                    <p
+                    {/* Caption  */}
+                    <div
                         style={{
-                            color: "#cbd5e0",
-                            fontSize: `${14 * scale}px`,
-                            marginBottom: `${8 * scale}px`,
+                            color: captionColor,
+                            padding: `${6 * scale}px ${12 * scale}px`,                         
+                            fontSize: `${24 * scale}px`,
+                            fontWeight: 600,
+                            marginBottom: `${18 * scale}px`,
+                            display: "inline-block",
+                            marginTop: isMobile ? "10px" : "10",
                         }}
                     >
-                        SAUDI PCC SERVICE
-                    </p>
+                        {caption}
+                    </div>
 
+                    {/* Titles */}
                     <h1
                         style={{
-                            fontSize: `${36 * scale}px`,
-                            fontWeight: "bold",
-                            lineHeight: 1.2,
-                            marginBottom: `${16 * scale}px`,
+                            fontSize: `${90 * scale}px`,
+                            fontWeight: 700,
+                            lineHeight: 1.1,
+                            margin: 0,
+                            color: isMobile ? "#fff" : titleOneColor,
+                            width: "min(90%, 700px)",
                         }}
                     >
-                        Want Your Saudi PCC–<br />
-                        Fast & Hassle-Free?
+                        {titleOne}
+                    </h1>
+                    <h1
+                        style={{
+                            fontSize: `${90 * scale}px`,
+                            fontWeight: 700,
+                            lineHeight: 1.1,
+                            marginTop: `${6 * scale}px`,
+                            marginBottom: `${22 * scale}px`,
+                            color: isMobile ? "#fff" : titleTwoColor,
+                            width: "min(90%, 700px)",
+                        }}
+                    >
+                        {titleTwo}
                     </h1>
 
+                    {/* Subtitle */}
                     <p
                         style={{
-                            fontSize: `${16 * scale}px`,
-                            marginBottom: `${24 * scale}px`,
+                            fontSize: `${40 * scale}px`,
+                            color: isMobile ? "#fff" : subtitleColor,
+                            marginBottom: `${14 * scale}px`,
+                            width: "min(90%, 720px)",
                         }}
                     >
-                        Let our expert team do the legwork. You relax.
+                        {subtitle}
                     </p>
 
-                    {/* Icons Row */}
-                    {/* Icons Row */}
+                    {/*  icon row   */}
                     <div
                         style={{
                             display: "flex",
-                            justifyContent: "center",
                             gap: `${24 * scale}px`,
-                            marginBottom: `${24 * scale}px`,
-                            fontSize: `${14 * scale}px`,
-                            fontWeight: 600,
+                            alignItems: "center",
+                            justifyContent: "center",
                             flexWrap: "wrap",
+                            marginBottom: `${16 * scale}px`,
+                            color: isMobile ? "#fff" : "#fff",
                         }}
                     >
-                        <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-                            <img
-                                src="https://project251.hrstride.academy/wp-content/uploads/2025/08/18-1.png"
-
-                                alt="Secure"
-                                style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-                            />
-                            <span>Secure</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-                            <img
-                                src="https://project251.hrstride.academy/wp-content/uploads/2025/08/19-1.png"
-                                alt="Transparent"
-                                style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-                            />
-                            <span>Transparent</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: `${6 * scale}px` }}>
-                            <img
-                                src="https://project251.hrstride.academy/wp-content/uploads/2025/08/20-1.png"
-                                alt="Affordable"
-                                style={{ width: `${28 * scale}px`, height: `${28 * scale}px`, objectFit: "contain" }}
-                            />
-                            <span>Affordable</span>
-                        </div>
+                        {iconLinks.map((item, idx) => (
+                            <div
+                                key={idx}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: `${10 * scale}px`,
+                                    fontSize: `${26 * scale}px`,
+                                    fontWeight: 600,
+                                }}
+                            >
+                                <img
+                                    src={item.icon}
+                                    alt={item.title}
+                                    style={{
+                                        width: `${40 * scale}px`,
+                                        height: `${40 * scale}px`,
+                                        objectFit: "contain",
+                                    }}
+                                />
+                                <span>{item.title}</span>
+                            </div>
+                        ))}
                     </div>
-
 
                     {/* Description */}
                     <p
                         style={{
-                            fontSize: `${15 * scale}px`,
-                            marginBottom: `${24 * scale}px`,
-                            lineHeight: 1.4,
-                            maxWidth: "100%",
-                            textAlign: "left",
+                            fontSize: `${35 * scale}px`,
+                            color: isMobile ? "#fff" : descriptionColor,
+                            marginBottom: `${20 * scale}px`,
+                            width: "min(90%, 720px)",
                         }}
                     >
-                        Tired of confusing embassy processes? We’ll handle your Saudi PCC completely online.
+                        {description}
                     </p>
 
-                    {/* Buttons */}
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: `${12 * scale}px`,
-                            marginBottom: `${16 * scale}px`,
-                            flexWrap: "wrap",
-                        }}
-                    >
-                        <button
+                    {/* Buttons  */}
+                    <div style={{ textAlign: "center", marginTop: `${10 * scale}px` }}>
+                       
+                        {/* Buttons row */}
+                        <div
                             style={{
-                                padding: `${12 * scale}px ${20 * scale}px`,
-                                backgroundColor: "#00c4ff",
-                                border: "none",
-                                borderRadius: "6px",
-                                fontWeight: 600,
-                                color: "#000",
-                                cursor: "pointer",
-                                fontSize: `${14 * scale}px`,
+                                display: "flex",
+                                flexDirection: "row", 
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: `${18 * scale}px`,
+                                marginTop: `${16 * scale}px`,
+                                flexWrap: "nowrap",
+                                
                             }}
                         >
-                            GET STARTED NOW
-                        </button>
-                        <button
-                            style={{
-                                padding: `${12 * scale}px ${20 * scale}px`,
-                                backgroundColor: "transparent",
-                                border: "1px solid #ccc",
-                                borderRadius: "6px",
-                                fontWeight: 600,
-                                color: "#fff",
-                                cursor: "pointer",
-                                fontSize: `${14 * scale}px`,
-                            }}
-                        >
-                            REQUEST YOUR SAUDI PCC NOW
-                        </button>
+                            {buttons.map((btn, idx) => (
+                                <a
+                                    key={idx}
+                                    href={btn.link}
+                                    style={{
+                                        backgroundColor: btn.bgColor,
+                                        color: btn.textColor,
+                                        padding: `${17 * scale}px ${20 * scale}px`,
+                                        fontSize: `${26 * scale}px`,
+                                        fontWeight: "600",
+                                        borderRadius: `${8 * scale}px`,
+                                        textDecoration: "none",
+                                        whiteSpace: "nowrap", 
+                                        textAlign: "center",
+                                        transition: "transform 0.2s ease",
+                                         border: "1px solid #ccc",
+                                    }}
+                                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                                >
+                                    {btn.text}
+                                </a>
+                            ))}
+                        </div>
+
                     </div>
 
-                    <p
-                        style={{
-                            fontSize: `${13 * scale}px`,
-                            color: "#ccc",
-                            textAlign: "center",
-                        }}
-                    >
-                        100% support until delivery. No hidden charges
-                    </p>
+
+                    {/* Endline */}
+                    {endline && (
+                        <p
+                            style={{
+                                fontSize: `${18 * scale}px`,
+                                color: isMobile ? "#fff" : endlineColor,
+                                opacity: 0.9,
+                                marginTop: `${4 * scale}px`,
+                            }}
+                        >
+                            {endline}
+                        </p>
+                    )}
                 </div>
             </div>
 
-            {/* Right Image (Desktop Only) */}
+            {/* RIGHT: Image area (desktop only),  */}
             {!isMobile && (
                 <div
                     style={{
-                        width: "50%", // fixed half
-                        minHeight: `${500 * scale}px`,
+                        flex: 1, 
+                        width: slideWidth,
                         display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        boxSizing: "border-box",
                     }}
                 >
-                    <img
-                        src={backgroundImageUrl}
-                        alt="Saudi PCC"
+                    {/* Image */}
+                    <div
                         style={{
-                            width: "100%",
+                            flex: 1,
+                            display: "flex",
+                            justifyContent: "center",
+                            width: " 100%",
                             height: "100%",
-                            objectFit: "cover",
-                            // borderRadius: "8px",
+                            alignItems: "center",
                         }}
-                    />
+                    >
+                        <div
+                            style={{
+
+                                width: "100%",            
+                                height: "100%",          
+                                minHeight: "70vh",       
+                                backgroundImage: `url(${backgroundImage})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                            }}
+
+
+                        />
+                    </div>
                 </div>
             )}
 
@@ -477,4 +354,4 @@ const SaudiPCCSection = () => {
     );
 };
 
-export default SaudiPCCSection;
+export default SaudiPccLandingpage;
