@@ -1,6 +1,7 @@
 
 
 
+
 import React, { useRef, useState, useEffect, useCallback } from "react";
 
 const StoryCraftCarousel = ({ attributes }) => {
@@ -92,7 +93,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     const scrollLeft = useCallback(() => {
         scrollRef.current?.scrollBy({
             left: -getScrollDistance(),
-            behavior: "smooth",
+            behavior: "auto",
         });
     }, [dimensions, slideGap]);
 
@@ -100,7 +101,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     const scrollRight = useCallback(() => {
         scrollRef.current?.scrollBy({
             left: getScrollDistance(),
-            behavior: "smooth",
+            behavior: "auto",
         });
     }, [dimensions, slideGap]);
 
@@ -145,7 +146,8 @@ const StoryCraftCarousel = ({ attributes }) => {
             const scale = dimensions.cardWidth / baseCardWidth;
             const scrollDistance = (x - startX) * scale;
             const target = scrollPosition - scrollDistance;
-            smoothScroll(target);
+            scrollRef.current.scrollLeft = target;
+
         };
 
         if (isDragging) {
@@ -247,7 +249,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                 if (!isHovered && !isDragging) {
                     scrollRef.current?.scrollBy({
                         left: getScrollDistance(),
-                        behavior: "smooth",
+                        behavior: "auto",
                     });
                 }
             }, 3000);
@@ -552,8 +554,6 @@ export default StoryCraftCarousel;
 
 
 
-
-
 // import React, { useRef, useState, useEffect, useCallback } from "react";
 
 // const StoryCraftCarousel = ({ attributes }) => {
@@ -596,38 +596,47 @@ export default StoryCraftCarousel;
 
 //     // 🔹 Resize handling
 //     useEffect(() => {
-//         const updateDimensions = () => {
-//             const containerWidth = scrollRef.current?.offsetWidth || 0;
-//             const fullSlideWidth = presetSlideWidth;
+//     const updateDimensions = () => {
+//         const containerWidth = scrollRef.current?.offsetWidth || 0;
+//         const fullSlideWidth = presetSlideWidth;
 
-//             const baseRequiredWidth =
-//                 fullSlideWidth * minSlidesToShow + (minSlidesToShow - 1) * slideGap;
+//         // 🔹 Decide slidesToShow dynamically
+//         let slidesToShow = minSlidesToShow;
 
-//             if (containerWidth < baseRequiredWidth) {
-//                 const roughAdjustedWidth = containerWidth / minSlidesToShow;
-//                 const fontScale = roughAdjustedWidth / presetSlideWidth;
-//                 const scaledGap = slideGap * fontScale;
-//                 const totalGap = (minSlidesToShow - 1) * scaledGap;
-//                 const adjustedWidth = (containerWidth - totalGap) / minSlidesToShow;
+//         // If mobile screen, force 1.5 slides
+//         if (window.innerWidth <= 768) {
+//             slidesToShow = 1.5;
+//         }
 
-//                 setDimensions({
-//                     cardWidth: adjustedWidth,
-//                     cardHeight: (adjustedWidth * presetSlideHeight) / presetSlideWidth,
-//                     fontScale,
-//                 });
-//             } else {
-//                 setDimensions({
-//                     cardWidth: fullSlideWidth,
-//                     cardHeight: presetSlideHeight,
-//                     fontScale: 1,
-//                 });
-//             }
-//         };
+//         const baseRequiredWidth =
+//             fullSlideWidth * slidesToShow + (slidesToShow - 1) * slideGap;
 
-//         requestAnimationFrame(updateDimensions);
-//         window.addEventListener("resize", updateDimensions);
-//         return () => window.removeEventListener("resize", updateDimensions);
-//     }, [minSlidesToShow, presetSlideWidth, presetSlideHeight, slideGap]);
+//         if (containerWidth < baseRequiredWidth) {
+//             const roughAdjustedWidth = containerWidth / slidesToShow;
+//             const fontScale = roughAdjustedWidth / presetSlideWidth;
+//             const scaledGap = slideGap * fontScale;
+//             const totalGap = (slidesToShow - 1) * scaledGap;
+//             const adjustedWidth = (containerWidth - totalGap) / slidesToShow;
+
+//             setDimensions({
+//                 cardWidth: adjustedWidth,
+//                 cardHeight: (adjustedWidth * presetSlideHeight) / presetSlideWidth,
+//                 fontScale,
+//             });
+//         } else {
+//             setDimensions({
+//                 cardWidth: fullSlideWidth,
+//                 cardHeight: presetSlideHeight,
+//                 fontScale: 1,
+//             });
+//         }
+//     };
+
+//     requestAnimationFrame(updateDimensions);
+//     window.addEventListener("resize", updateDimensions);
+//     return () => window.removeEventListener("resize", updateDimensions);
+// }, [minSlidesToShow, presetSlideWidth, presetSlideHeight, slideGap]);
+
 
 //     const getScrollDistance = () =>
 //         dimensions.cardWidth + dimensions.fontScale * slideGap;
@@ -974,7 +983,7 @@ export default StoryCraftCarousel;
 
 //                                 <p
 //                                     style={{
-//                                         fontSize: `${13 * dimensions.fontScale}px`,
+//                                         fontSize: `${16 * dimensions.fontScale}px`,
 //                                         color: "#555",
 //                                         margin: 0,
 //                                         paddingRight: `${14 * dimensions.fontScale}px`,
@@ -1014,20 +1023,20 @@ export default StoryCraftCarousel;
 //                                     aria-label="Open Slide"
 //                                     style={{
 //                                         position: "absolute",
-//                                         bottom: `${12 * dimensions.fontScale}px`,
-//                                         right: `${12 * dimensions.fontScale}px`,
-//                                         width: `${32 * dimensions.fontScale}px`,
-//                                         height: `${32 * dimensions.fontScale}px`,
+//                                         bottom: `${21 * dimensions.fontScale}px`,
+//                                         right: `${19 * dimensions.fontScale}px`,
+//                                         width: `${42 * dimensions.fontScale}px`,
+//                                         height: `${42 * dimensions.fontScale}px`,
 //                                         borderRadius: `${6 * dimensions.fontScale}px`,
 //                                         background: "rgba(255,255,255,0.9)",
-//                                         border: "1px solid #ddd",
+//                                         border: "1px solid #7b3fe4",
 //                                         display: "flex",
 //                                         alignItems: "center",
 //                                         justifyContent: "center",
-//                                         boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+//                                         boxShadow: "0 2px 5px rgba(0,0,0,0.5)",
 //                                         cursor: "pointer",
 //                                         transition: "all 0.3s ease",
-//                                         fontSize: `${18 * dimensions.fontScale}px`,
+//                                         fontSize: `${32 * dimensions.fontScale}px`,
 //                                         fontWeight: "bold",
 //                                         color: "#333",
 //                                     }}
@@ -1039,7 +1048,7 @@ export default StoryCraftCarousel;
 //                                         arrow.style.transform = "rotate(0deg)";
 //                                     }}
 //                                     onMouseLeave={(e) => {
-//                                         e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+//                                         e.currentTarget.style.background = "rgba(255,255,255,0.9)";
 //                                         const arrow = e.currentTarget.querySelector("span");
 //                                         arrow.style.color = "#333";
 //                                         arrow.style.transform = "rotate(-45deg)";
@@ -1092,6 +1101,7 @@ export default StoryCraftCarousel;
 // };
 
 // export default StoryCraftCarousel;
+
 
 
 
