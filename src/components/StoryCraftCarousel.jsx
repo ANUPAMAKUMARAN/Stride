@@ -470,8 +470,8 @@ const StoryCraftCarousel = ({ attributes }) => {
                                     aria-label="Open Slide"
                                     style={{
                                         position: "absolute",
-                                        bottom: `${12 * dimensions.fontScale}px`,
-                                        right: `${12 * dimensions.fontScale}px`,
+                                        bottom: `${21 * dimensions.fontScale}px`,
+                                        right: `${19 * dimensions.fontScale}px`,
                                         width: `${42 * dimensions.fontScale}px`,
                                         height: `${42 * dimensions.fontScale}px`,
                                         borderRadius: `${6 * dimensions.fontScale}px`,
@@ -483,7 +483,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                                         boxShadow: "0 2px 5px rgba(0,0,0,0.5)",
                                         cursor: "pointer",
                                         transition: "all 0.3s ease",
-                                        fontSize: `${18 * dimensions.fontScale}px`,
+                                        fontSize: `${32 * dimensions.fontScale}px`,
                                         fontWeight: "bold",
                                         color: "#333",
                                     }}
