@@ -837,7 +837,7 @@ const StoryCraftCarousel = ({ attributes }) => {
 
   // auto scrolling (keeps your logic but uses "auto" for instant step)
   useEffect(() => {
-    if (!autoScrolling || slides.length <= 3) return;
+    if (!autoScrolling || slides.length <= 2) return;
     const startAutoScroll = () => {
       if (autoScrollInterval.current) return;
       autoScrollInterval.current = setInterval(() => {
@@ -893,7 +893,7 @@ const StoryCraftCarousel = ({ attributes }) => {
 
   // responsive padding: much smaller on small screens so titles have space
   const outerPaddingLeft =
-    windowWidth <= 768 ? 20 * dimensions.fontScale : 140 * dimensions.fontScale;
+    windowWidth <= 768 ? 10 * dimensions.fontScale : 140 * dimensions.fontScale;
 
   return (
     <div
@@ -922,7 +922,7 @@ const StoryCraftCarousel = ({ attributes }) => {
         {caption}
       </p>
 
-      {/* Titles (stacked: one line each; fitted to container) */}
+      {/* Titles  */}
       <div
         style={{
           display: "flex",
@@ -941,10 +941,10 @@ const StoryCraftCarousel = ({ attributes }) => {
               fontWeight: "bold",
               margin: 0,
               color: titleOneColor || "#111",
-              lineHeight: 1.05,
+              lineHeight: 1.5,
               whiteSpace: "nowrap",
               overflow: "hidden",
-              textOverflow: "ellipsis",
+         
             }}
           >
             {titleOne}
@@ -956,10 +956,10 @@ const StoryCraftCarousel = ({ attributes }) => {
               fontWeight: "bold",
               margin: 0,
               color: titleTwoColor || "#3a2d84",
-              lineHeight: 1.05,
+              lineHeight: 1.5,
               whiteSpace: "nowrap",
               overflow: "hidden",
-              textOverflow: "ellipsis",
+          
             }}
           >
             {titleTwo}
