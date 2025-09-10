@@ -92,9 +92,8 @@ export const StoryCraftCarouselData = {
       subtitle: "Get your business profile set up quickly and efficiently",
     },
   ],
-  slideGap: 30,
+  slideGap: 16,
   backgroundColor: "#ffffff",
-  
   minSlidesToShow: 3,
   autoScrolling: true,
   buttonSize: 50,
