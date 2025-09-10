@@ -39,7 +39,7 @@ function App() {
     <>
     <div>
       <StoryCraftCarousel attributes={StoryCraftCarouselData} />
-      <SaudiPccCarousel/>
+     
        <SaudiPccSection attributes={SaudiPccSectionData}/>   
       <FaqCarousel attributes={FaqCarouselData}/>
        

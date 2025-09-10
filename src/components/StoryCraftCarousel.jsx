@@ -1,5 +1,6 @@
 
 
+
 import React, { useRef, useState, useEffect, useCallback } from "react";
 
 const StoryCraftCarousel = ({ attributes }) => {
@@ -23,7 +24,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     const presetSlideWidth = 380;
     const scrollRef = useRef(null);
 
-   
+
     const [progress, setProgress] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -78,7 +79,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     const getScrollDistance = () =>
         dimensions.cardWidth + dimensions.fontScale * slideGap;
 
- 
+
     const scrollLeft = useCallback(() => {
         scrollRef.current?.scrollBy({
             left: -getScrollDistance(),
@@ -147,7 +148,7 @@ const StoryCraftCarousel = ({ attributes }) => {
         };
     }, [isDragging, startX, scrollPosition, dimensions.cardWidth]);
 
-   
+
     useEffect(() => {
         const scrollContainer = scrollRef.current;
         if (!scrollContainer) return;
@@ -200,7 +201,7 @@ const StoryCraftCarousel = ({ attributes }) => {
         };
     }, [isHovered, dimensions, slideGap]);
 
-   
+
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (!isHovered) return;
@@ -211,7 +212,7 @@ const StoryCraftCarousel = ({ attributes }) => {
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [isHovered, scrollLeft, scrollRight]);
 
-  
+
     useEffect(() => {
         const scrollContainer = scrollRef.current;
         const updateScrollability = () => {
@@ -228,7 +229,7 @@ const StoryCraftCarousel = ({ attributes }) => {
             scrollContainer?.removeEventListener("scroll", updateScrollability);
     }, [dimensions, slides]);
 
- 
+
     useEffect(() => {
         if (!autoScrolling || slides.length <= 3) return;
         const startAutoScroll = () => {
@@ -302,7 +303,7 @@ const StoryCraftCarousel = ({ attributes }) => {
             style={{
                 background: backgroundColor,
                 marginTop: `${60 * dimensions.fontScale}px `,
-                 paddingLeft: `${140 * dimensions.fontScale}px`, 
+                paddingLeft: `${140 * dimensions.fontScale}px`,
                 textAlign: "center",
             }}
             onMouseEnter={() => setIsHovered(true)}
@@ -327,7 +328,7 @@ const StoryCraftCarousel = ({ attributes }) => {
             {/* Titles */}
             <div
                 style={{
-                    
+
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "flex-end",
@@ -360,6 +361,7 @@ const StoryCraftCarousel = ({ attributes }) => {
             </div>
 
             {/* Carousel */}
+
             <div style={{ position: "relative", width: "100%" }}>
                 <div
                     ref={scrollRef}
@@ -391,95 +393,113 @@ const StoryCraftCarousel = ({ attributes }) => {
                             }}
                         >
                             {/*  Title + Subtitle + Arrow */}
+                           
                             <div
                                 style={{
-                                    padding: `${20 * dimensions.fontScale}px`,
                                     display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "flex-start",
+                                    flexDirection: "column",
+                                    gap: `${8 * dimensions.fontScale}px`,
+                                    padding: `${16 * dimensions.fontScale}px`,
+                                     textAlign: "left", 
                                 }}
                             >
-                                <div>
-                                    <h3
-                                        style={{
-                                            fontSize: `${18 * dimensions.fontScale}px`,
-                                            fontWeight: "600",
-                                            margin: "0 0 6px 0",
-                                            color: "#222",
-                                        }}
-                                    >
-                                        {item.title}
-                                    </h3>
+                                {/* Title */}
+                                <h3
+                                    style={{
+                                        fontSize: `${22 * dimensions.fontScale}px`,
+                                        fontWeight: "600",
+                                        paddingRight: `${14 * dimensions.fontScale}px`,
+                                        color: "#111",
+                                        margin: 0,
+                                         textAlign: "left", 
+                                    }}
+                                >
+                                    {item.title}
+                                </h3>
+
+                                {/* Subtitle + Arrow in same row */}
+                               
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        marginTop: "6px",
+                                    }}
+                                >
                                     <p
                                         style={{
-                                            fontSize: `${14 * dimensions.fontScale}px`,
+                                            fontSize: `${13 * dimensions.fontScale}px`,
                                             color: "#555",
                                             margin: 0,
+                                            flex: 1,
+                                             paddingRight: `${14 * dimensions.fontScale}px`,
                                         }}
                                     >
                                         {item.subtitle}
                                     </p>
-                                </div>
 
-                                {/*  Arrow Button */}
-                                <button
                                     
-                                    aria-label="Open Slide"
-                                    style={{
-                                        width: `${32 * dimensions.fontScale}px`,
-                                        height: `${32 * dimensions.fontScale}px`,
-                                        borderRadius:  `${8 * dimensions.fontScale}px`, // 🔹 Rounded square
-                                        padding: 0,
-                                        backgroundColor: "rgba(255,255,255,0.9)",
-                                        border: "1px solid #ddd",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                                        cursor: "pointer",
-                                        flexShrink: 0,
-                                        transition: "all 0.25s ease",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#7b3fe4"; // purple bg
-                                        e.currentTarget.querySelector("svg").style.color = "#fff"; // white arrow
-                                        e.currentTarget.style.transform = "scale(1.1)";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.9)";
-                                        e.currentTarget.querySelector("svg").style.color = "#333"; // dark arrow
-                                        e.currentTarget.style.transform = "scale(1)";
-                                    }}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
+                                    <button
+                                        aria-label="Open Slide"
                                         style={{
-                                            width: "50%",
-                                            height: "50%",
-                                            transform: "rotate(-45deg)", // ↗ shape
-                                            color: "#333", // default dark arrow
-                                            transition: "color 0.25s ease",
+                                            width: `${32 * dimensions.fontScale}px`,       
+                                            height: `${32 * dimensions.fontScale}px`,
+                                            borderRadius: `${6 * dimensions.fontScale}px`,   
+                                            background: "rgba(255,255,255,0.9)",
+                                            border: "1px solid #ddd",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                                            cursor: "pointer",
+                                            transition: "all 0.3s ease",
+                                            flexShrink: 0,          
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.background =
+                                                "linear-gradient(135deg, #7b3fe4, #3f9be4)";
+                                            e.currentTarget.querySelector("svg").style.color = "#fff";
+                                            e.currentTarget.querySelector("svg").style.transform =
+                                                "rotate(45deg)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.background = "rgba(255,255,255,0.9)";
+                                            e.currentTarget.querySelector("svg").style.color = "#333";
+                                            e.currentTarget.querySelector("svg").style.transform =
+                                                "rotate(-45deg)";
                                         }}
                                     >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            style={{
+                                                width: "60%",
+                                                height: "60%",
+                                                transform: "rotate(-45deg)", // default
+                                                color: "#333",
+                                                transition: "transform 0.3s ease, color 0.3s ease",
+                                            }}
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                </div>
 
                             </div>
 
-                            
-                            {/*  Image */}
-                            {item.image && (
-                                <div
-                                    style={{
-                                        flex: 1,
-                                        padding: `0 ${20 * dimensions.fontScale}px ${20 * dimensions.fontScale}px ${20 * dimensions.fontScale}px`,
-                                    }}
-                                >
+
+                           {/* image */}
+                            <div
+                                style={{
+                                    flex: 1,
+                                    padding: `0 ${20 * dimensions.fontScale}px ${20 * dimensions.fontScale}px ${20 * dimensions.fontScale}px`,
+                                    position: "relative", 
+                                }}
+                            >
+                                {item.image && (
                                     <img
                                         src={item.image}
                                         alt={item.title}
@@ -490,9 +510,11 @@ const StoryCraftCarousel = ({ attributes }) => {
                                             borderRadius: `${12 * dimensions.fontScale}px`,
                                         }}
                                     />
-                                </div>
-                            )}
+                                )}
 
+
+
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -525,3 +547,6 @@ const StoryCraftCarousel = ({ attributes }) => {
 };
 
 export default StoryCraftCarousel;
+
+
+
