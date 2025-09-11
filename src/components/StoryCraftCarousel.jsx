@@ -2,7 +2,7 @@
 
 
 
-import React, {useRef,useState,useEffect,useCallback,useLayoutEffect,} from "react";
+import React, { useRef, useState, useEffect, useCallback, useLayoutEffect, } from "react";
 
 const StoryCraftCarousel = ({ attributes }) => {
   const {
@@ -13,12 +13,14 @@ const StoryCraftCarousel = ({ attributes }) => {
     titleTwo,
     titleTwoColor,
     slides = [],
-    slideGap ,
+    slideGap,
     backgroundColor,
-    minSlidesToShow ,
+    minSlidesToShow,
     autoScrolling,
     progressbarColor,
     progressbar,
+    hoverColor,
+
   } = attributes;
 
   const presetSlideHeight = 550;
@@ -29,9 +31,9 @@ const StoryCraftCarousel = ({ attributes }) => {
     typeof window !== "undefined" ? window.innerWidth : 1325
   );
 
- 
+
   const initialSlidesToShow = windowWidth <= 768 ? 1.5 : minSlidesToShow;
-  const initialCardWidth = presetSlideWidth; 
+  const initialCardWidth = presetSlideWidth;
 
   const [dimensions, setDimensions] = useState({
     cardWidth: initialCardWidth,
@@ -50,17 +52,17 @@ const StoryCraftCarousel = ({ attributes }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  
+
   const titleOneRef = useRef(null);
   const titleTwoRef = useRef(null);
   const [titleOneFont, setTitleOneFont] = useState(42);
   const [titleTwoFont, setTitleTwoFont] = useState(42);
 
-  // Helper: scroll step
+
   const getScrollDistance = () =>
     dimensions.cardWidth + dimensions.fontScale * slideGap;
 
-  
+
   useLayoutEffect(() => {
     const updateDimensions = () => {
       const containerWidth =
@@ -110,14 +112,14 @@ const StoryCraftCarousel = ({ attributes }) => {
     const fitSingleLine = (ref, basePx, minPx = 12) => {
       const el = ref.current;
       if (!el) return Math.round(basePx);
-    
+
       el.style.whiteSpace = "nowrap";
       el.style.overflow = "visible";
       el.style.textOverflow = "clip";
       let fontPx = Math.floor(basePx);
       el.style.fontSize = fontPx + "px";
 
-      
+
       const maxW =
         el.clientWidth || el.parentElement?.clientWidth || el.offsetWidth || 0;
       let attempts = 0;
@@ -126,7 +128,7 @@ const StoryCraftCarousel = ({ attributes }) => {
         el.style.fontSize = fontPx + "px";
         attempts++;
       }
-      
+
       el.style.whiteSpace = "nowrap";
       el.style.overflow = "hidden";
       el.style.textOverflow = "ellipsis";
@@ -138,10 +140,10 @@ const StoryCraftCarousel = ({ attributes }) => {
     const newOne = fitSingleLine(titleOneRef, base, minFont);
     const newTwo = fitSingleLine(titleTwoRef, base, minFont);
 
-   
+
     if (newOne !== titleOneFont) setTitleOneFont(newOne);
     if (newTwo !== titleTwoFont) setTitleTwoFont(newTwo);
-   
+
   }, [
     dimensions.cardWidth,
     dimensions.fontScale,
@@ -150,7 +152,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     windowWidth,
   ]);
 
-  
+
   const scrollLeft = useCallback(() => {
     scrollRef.current?.scrollBy({
       left: -getScrollDistance(),
@@ -250,7 +252,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     };
   }, [isHovered, dimensions, slideGap]);
 
-  // keyboard nav
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isHovered) return;
@@ -268,7 +270,7 @@ const StoryCraftCarousel = ({ attributes }) => {
       setCanScrollLeft(scrollContainer.scrollLeft > 0);
       setCanScrollRight(
         scrollContainer.scrollLeft <
-          scrollContainer.scrollWidth - scrollContainer.offsetWidth - 1
+        scrollContainer.scrollWidth - scrollContainer.offsetWidth - 1
       );
     };
     scrollContainer?.addEventListener("scroll", updateScrollability);
@@ -277,7 +279,7 @@ const StoryCraftCarousel = ({ attributes }) => {
       scrollContainer?.removeEventListener("scroll", updateScrollability);
   }, [dimensions, slides]);
 
-  
+
   useEffect(() => {
     if (!autoScrolling || slides.length <= 2) return;
     const startAutoScroll = () => {
@@ -309,7 +311,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     slides.length,
   ]);
 
-  
+
   useEffect(() => {
     const slider = scrollRef.current;
     if (!slider) return;
@@ -322,7 +324,7 @@ const StoryCraftCarousel = ({ attributes }) => {
     return () => slider.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
+
   const getValidColor = (color) => {
     const valid =
       /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(color) ||
@@ -385,7 +387,7 @@ const StoryCraftCarousel = ({ attributes }) => {
               lineHeight: 1.5,
               whiteSpace: "nowrap",
               overflow: "hidden",
-         
+
             }}
           >
             {titleOne}
@@ -400,7 +402,7 @@ const StoryCraftCarousel = ({ attributes }) => {
               lineHeight: 1.5,
               whiteSpace: "nowrap",
               overflow: "hidden",
-          
+
             }}
           >
             {titleTwo}
@@ -437,6 +439,26 @@ const StoryCraftCarousel = ({ attributes }) => {
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden",
+                position: "relative", // needed for hover targeting
+              }}
+              // 🔥 Hover effect now applies when hovering card
+              onMouseEnter={(e) => {
+                const btn = e.currentTarget.querySelector(".slide-btn");
+                const arrow = e.currentTarget.querySelector(".arrow-box");
+                if (btn) btn.style.background = hoverColor;
+                if (arrow) {
+                  arrow.style.color = "#fff";
+                  arrow.style.transform = "rotate(300deg)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                const btn = e.currentTarget.querySelector(".slide-btn");
+                const arrow = e.currentTarget.querySelector(".arrow-box");
+                if (btn) btn.style.background = "rgba(255,255,255,0.9)";
+                if (arrow) {
+                  arrow.style.color = "#333";
+                  arrow.style.transform = "rotate(180deg)";
+                }
               }}
             >
               <div
@@ -494,8 +516,10 @@ const StoryCraftCarousel = ({ attributes }) => {
                   />
                 )}
 
+                {/* 🔥 Button still works the same, but now reacts to card hover too */}
                 <button
                   aria-label="Open Slide"
+                  className="slide-btn"
                   style={{
                     position: "absolute",
                     bottom: `${29 * dimensions.fontScale}px`,
@@ -511,33 +535,22 @@ const StoryCraftCarousel = ({ attributes }) => {
                     boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
-                    fontSize: `${32 * dimensions.fontScale}px`,
-                    fontWeight: "bold",
-                    color: "#333",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background =
-                      "linear-gradient(135deg, #7b3fe4, #3f9be4)";
-                    const arrow = e.currentTarget.querySelector("span");
-                    if (arrow) {
-                      arrow.style.color = "#fff";
-                      arrow.style.transform = "rotate(130deg)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.9)";
-                    const arrow = e.currentTarget.querySelector("span");
-                    if (arrow) {
-                      arrow.style.color = "#333";
-                      arrow.style.transform = "rotate(-45deg)";
-                    }
                   }}
                 >
                   <span
+                    className="arrow-box"
                     style={{
-                      display: "inline-block",
-                      transform: "rotate(-45deg)",
-                      transition: "transform 0.3s ease, color 0.3s ease",
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: `${32 * dimensions.fontScale}px`,
+                      fontWeight: "bold",
+                      color: "#333",
+                      lineHeight: 1,
+                      transform: "rotate(180deg)",
+                      transition: "transform 0.5s ease, color 0.3s ease",
                     }}
                   >
                     →
@@ -546,6 +559,7 @@ const StoryCraftCarousel = ({ attributes }) => {
               </div>
             </div>
           ))}
+
         </div>
       </div>
 

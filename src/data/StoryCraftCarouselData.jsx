@@ -99,4 +99,6 @@ export const StoryCraftCarouselData = {
   buttonSize: 50,
   progressbarColor: "#7b3fe4",
   progressbar: true,
+  hoverColor:"linear-gradient(135deg, #7b3fe4, #3f9be4)",
+ 
 };
