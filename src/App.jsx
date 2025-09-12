@@ -40,11 +40,12 @@ function App() {
   return (
     <>
     <div>
+            <FaqCarousel attributes={FaqCarouselData}/>
       <RecoveryHero attributes={RecoveryHeroData}/>
       <StoryCraftCarousel attributes={StoryCraftCarouselData} />
      
        <SaudiPccSection attributes={SaudiPccSectionData}/>   
-      <FaqCarousel attributes={FaqCarouselData}/>
+      {/* <FaqCarousel attributes={FaqCarouselData}/> */}
        
       {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
       <VideoCarousel attributes={VideoCarouselData}/>
