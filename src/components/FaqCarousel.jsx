@@ -318,7 +318,10 @@ const FaqCarousel = ({ attributes }) => {
 
             style={{
                 background: getValidColor(backgroundColor),
-                padding: `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`, // top/bottom, left/right
+                // padding: `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`, // top/bottom, left/right
+                padding: isMobile
+                    ? `${40 * dimensions.fontScale}px ${10 * dimensions.fontScale}px` // smaller padding on mobile
+                    : `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`,
 
             }}
             onMouseEnter={() => setIsHovered(true)}
@@ -327,105 +330,110 @@ const FaqCarousel = ({ attributes }) => {
                 setIsHovered(false);
             }}
         >
-            <div className="max-w-9xl mx-auto  grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch">
+            {/* <div className="max-w-9xl mx-auto  grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch"> */}
+            <div
+                className={`max-w-9xl mx-auto grid grid-cols-1 md:grid-cols-3 ${isMobile ? "gap-4" : "gap-10"
+                    } items-stretch`}
+            >
 
 
                 {/* LEFT SIDE */}
                 <div className="col-span-1 flex flex-col relative  h-full">
                     {isMobile ? (
 
-                    <div className="flex flex-row items-center justify-between w-full">
-                        {/* Caption + Title */}
-                        <div className="flex flex-col items-start px-4">
-                            <p
-                                style={{
-                                    fontSize: `${25 * dimensions.fontScale}px`,
-                                    color: captionColor,
-                                    fontWeight: 600,
-                                    marginBottom: `${5 * dimensions.fontScale}px`,
-                                }}
-                            >
-                                {caption}
-                            </p>
+                        <div className="flex flex-row items-center justify-between w-full">
+                            {/* Caption + Title */}
+                            <div className="flex flex-col items-start px-4">
+                                <p
+                                    style={{
+                                        fontSize: `${25 * dimensions.fontScale}px`,
+                                        color: captionColor,
+                                        fontWeight: 600,
+                                        marginBottom: `${5 * dimensions.fontScale}px`,
+                                    }}
+                                >
+                                    {caption}
+                                </p>
 
-                            <h2
-                                style={{
-                                    fontSize: `${78 * dimensions.fontScale}px`,
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                }}
-                            >
-                                <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
-                                <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
-                            </h2>
-                        </div>
+                                <h2
+                                    style={{
+                                        fontSize: `${78 * dimensions.fontScale}px`,
+                                        fontWeight: 500,
+                                        lineHeight: 1.2,
+                                        marginBottom: isMobile ? `${10 * dimensions.fontScale}px` : `${20 * dimensions.fontScale}px`, // ✅ smaller gap on mobile
+                                    }}
+                                >
+                                    <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
+                                    <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
+                                </h2>
+                            </div>
 
-                        {/* Buttons aligned to the right */}
-                        <div className="flex gap-2 ml-4">
-                            <button
-                                onClick={scrollLeft}
-                                className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
-                            >
-                                {"<"}
-                            </button>
-                            <button
-                                onClick={scrollRight}
-                                className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
-                            >
-                                {">"}
-                            </button>
+                            {/* Buttons aligned to the right */}
+                            <div className="flex gap-2 ml-4">
+                                <button
+                                    onClick={scrollLeft}
+                                    className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {"<"}
+                                </button>
+                                <button
+                                    onClick={scrollRight}
+                                    className="rounded-full w-8 h-8 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {">"}
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
 
 
 
                     ) : (
-                    /* --- DESKTOP LAYOUT --- */
-                    <div className="flex flex-col items-center justify-center text-center h-full">
-                        {/* Caption */}
-                        <p
-                            style={{
-                                textAlign: "center",
-                                fontSize: `${25 * dimensions.fontScale}px`,
-                                color: captionColor,
-                                fontWeight: 600,
-                                marginBottom: `${10 * dimensions.fontScale}px`,
-                            }}
-                        >
-                            {caption}
-                        </p>
-
-                        {/* Title & Subtitle */}
-                        <h2
-                            style={{
-                                textAlign: "center",
-                                fontSize: `${85 * dimensions.fontScale}px`,
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: `${20 * dimensions.fontScale}px`,
-                            }}
-                        >
-                            <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
-                            <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
-                        </h2>
-
-                        {/* Buttons centered under subtitle (desktop) */}
-                        <div className="flex gap-4 justify-center mt-4">
-                            <button
-                                onClick={scrollLeft}
-                                className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                        /* --- DESKTOP LAYOUT --- */
+                        <div className="flex flex-col items-center justify-center text-center h-full">
+                            {/* Caption */}
+                            <p
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: `${25 * dimensions.fontScale}px`,
+                                    color: captionColor,
+                                    fontWeight: 600,
+                                    marginBottom: `${10 * dimensions.fontScale}px`,
+                                }}
                             >
-                                {"<"}
-                            </button>
-                            <button
-                                onClick={scrollRight}
-                                className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                                {caption}
+                            </p>
+
+                            {/* Title & Subtitle */}
+                            <h2
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: `${85 * dimensions.fontScale}px`,
+                                    fontWeight: 500,
+                                    lineHeight: 1.2,
+                                    marginBottom: `${20 * dimensions.fontScale}px`,
+                                }}
                             >
-                                {">"}
-                            </button>
+                                <div style={{ color: titleColor || "#0F172A" }}>{title}</div>
+                                <div style={{ color: subtitleColor || "#0F172A" }}>{subtitle}</div>
+                            </h2>
+
+                            {/* Buttons centered under subtitle (desktop) */}
+                            <div className="flex gap-4 justify-center mt-4">
+                                <button
+                                    onClick={scrollLeft}
+                                    className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {"<"}
+                                </button>
+                                <button
+                                    onClick={scrollRight}
+                                    className="rounded-full w-12 h-12 bg-white shadow text-gray-600 flex items-center justify-center"
+                                >
+                                    {">"}
+                                </button>
+                            </div>
                         </div>
-                    </div>
                     )}
                 </div>
 
