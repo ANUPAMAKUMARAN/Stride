@@ -145,7 +145,8 @@ const RecoveryHero = ({ attributes }) => {
 
             <h2
               style={{
-                fontSize: 58 * scale,
+                
+                fontSize: (isMobile ? 38 : 58) * scale,
                 lineHeight: 1.12,
                 margin: `0 0 ${18 * scale}px 0`,
                 color: titleColor || "#0b2a26",
@@ -154,36 +155,7 @@ const RecoveryHero = ({ attributes }) => {
             >
               {title}
             </h2>
-            {/* <h2
-  style={{
-    fontSize: `clamp0px, ${58 * scale}px, 58px)`, // shrinks but never smaller than 20px
-    lineHeight: 1.2,
-    margin: `0 0 ${18 * scale}px 0`,
-    color: titleColor || "#0b2a26",
-    wordBreak: "break-word",
-    textAlign: "left",
-  }}
->
-  {title}
-</h2> */}
-
-            {/* <h2
-  style={{
-    fontSize: 58 * scale,
-    lineHeight: 1.12,
-    margin: `0 0 ${18 * scale}px 0`,
-    color: titleColor || "#0b2a26",
-    wordBreak: "break-word",
-
-    display: "-webkit-box",
-    WebkitLineClamp: 3,        // ✅ Always 3 lines
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "ellipsis",  // ✅ If text is longer, add "..."
-  }}
->
-  {title}
-</h2> */}
+          
 
 
             <p
@@ -199,53 +171,50 @@ const RecoveryHero = ({ attributes }) => {
               {description}
             </p>
 
-            <button
+            
+
+            <div
               style={{
-                backgroundColor: buttonColor || "#0a63ff",
-                color: buttonTextColor || "#fff",
-                border: "none",
-                padding: `${12 * scale}px ${28 * scale}px`,
-                borderRadius: 28 * scale,
-                fontSize: 16 * scale,
-                fontWeight: 600,
-                cursor: "pointer",
-                marginBottom: 8 * scale,
-                alignSelf: "flex-start",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%", 
+                flexWrap: isMobile ? "wrap" : "nowrap", 
               }}
             >
-              {buttonText}
-            </button>
+              <button
+                style={{
+                  backgroundColor: buttonColor || "#0a63ff",
+                  color: buttonTextColor || "#fff",
+                  border: "none",
+                  padding: `${12 * scale}px ${28 * scale}px`,
+                  borderRadius: 28 * scale,
+                  fontSize: 16 * scale,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  marginBottom: isMobile ? 8 * scale : 0, 
+                }}
+              >
+                {buttonText}
+              </button>
 
-            {/* imageTwo positioning */}
-            {imageTwo &&
-              (isMobile ? (
-                <img
-                  src={imageTwo}
-                  alt="Decorative"
-                  style={{
-                    marginTop: 16 * scale,
-                    width: 96 * scale,
-                    height: 96 * scale,
-                    borderRadius: 12 * scale,
-                    objectFit: "cover",
-                    alignSelf: "flex-end",
-                  }}
-                />
-              ) : (
+              {imageTwo && (
                 <img
                   src={imageTwo}
                   alt="Decorative"
                   style={{
                     width: 96 * scale,
                     height: 96 * scale,
-                    borderRadius: 12 * scale,
                     objectFit: "cover",
-                    position: "absolute",
-                    right: 0,
-                    bottom: 0,
+                    borderRadius: 12 * scale,
+                    
                   }}
                 />
-              ))}
+              )}
+            </div>
+
+
+           
           </div>
 
           {/* ✅ Light overlay for readability */}
