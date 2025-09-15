@@ -318,9 +318,9 @@ const FaqCarousel = ({ attributes }) => {
 
             style={{
                 background: getValidColor(backgroundColor),
-                // padding: `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`, // top/bottom, left/right
+                
                 padding: isMobile
-                    ? `${40 * dimensions.fontScale}px ${10 * dimensions.fontScale}px` // smaller padding on mobile
+                    ? `${40 * dimensions.fontScale}px ${10 * dimensions.fontScale}px` 
                     : `${140 * dimensions.fontScale}px ${10 * dimensions.fontScale}px`,
 
             }}
@@ -330,7 +330,7 @@ const FaqCarousel = ({ attributes }) => {
                 setIsHovered(false);
             }}
         >
-            {/* <div className="max-w-9xl mx-auto  grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch"> */}
+            
             <div
                 className={`max-w-9xl mx-auto grid grid-cols-1 md:grid-cols-3 ${isMobile ? "gap-4" : "gap-10"
                     } items-stretch`}
@@ -384,10 +384,6 @@ const FaqCarousel = ({ attributes }) => {
                                 </button>
                             </div>
                         </div>
-
-
-
-
                     ) : (
                         /* --- DESKTOP LAYOUT --- */
                         <div className="flex flex-col items-center justify-center text-center h-full">

@@ -439,16 +439,16 @@ const StoryCraftCarousel = ({ attributes }) => {
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden",
-                position: "relative", // needed for hover targeting
+                position: "relative", 
               }}
-              // 🔥 Hover effect now applies when hovering card
+              
               onMouseEnter={(e) => {
                 const btn = e.currentTarget.querySelector(".slide-btn");
                 const arrow = e.currentTarget.querySelector(".arrow-box");
                 if (btn) btn.style.background = hoverColor;
                 if (arrow) {
                   arrow.style.color = "#fff";
-                  arrow.style.transform = "rotate(300deg)";
+                  arrow.style.transform = "translateY(2px) rotate(300deg)";
                 }
               }}
               onMouseLeave={(e) => {
@@ -457,7 +457,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                 if (btn) btn.style.background = "rgba(255,255,255,0.9)";
                 if (arrow) {
                   arrow.style.color = "#333";
-                  arrow.style.transform = "rotate(180deg)";
+                  arrow.style.transform = "translateY(2px) rotate(180deg)";
                 }
               }}
             >
@@ -516,7 +516,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                   />
                 )}
 
-                {/* 🔥 Button still works the same, but now reacts to card hover too */}
+                {/* button */}
                 <button
                   aria-label="Open Slide"
                   className="slide-btn"
@@ -549,7 +549,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                       fontWeight: "bold",
                       color: "#333",
                       lineHeight: 1,
-                      transform: "rotate(180deg)",
+                      transform: "translateY(2px) rotate(180deg)", 
                       transition: "transform 0.5s ease, color 0.3s ease",
                     }}
                   >
