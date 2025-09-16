@@ -11,6 +11,7 @@ import ImpactsAcheivements from './components/ImpactsAcheivements';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import RecoveryHero from './components/RecoveryHero';
+import RecoveryPage from './components/RecoveryPage';
 import SaudiPccCarousel from './components/saudiPccCarousel';
 import SaudiPccLandingpage from './components/SaudiPccLandingpage';
 import SaudiPCCpage from './components/SaudiPCCpage';
@@ -24,6 +25,7 @@ import { ActioncardData } from './data/ActioncardData';
 import { FaqCarouselData } from './data/FaqCarouselData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
+import { RecoveryPageData } from './data/RecoveryPageData';
 import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
@@ -40,7 +42,8 @@ function App() {
   return (
     <>
     <div>
-            <FaqCarousel attributes={FaqCarouselData}/>
+      <RecoveryPage attributes={RecoveryPageData}/>
+            {/* <FaqCarousel attributes={FaqCarouselData}/> */}
       <RecoveryHero attributes={RecoveryHeroData}/>
       <StoryCraftCarousel attributes={StoryCraftCarouselData} />
      
