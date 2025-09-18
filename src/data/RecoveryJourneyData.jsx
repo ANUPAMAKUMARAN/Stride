@@ -1,0 +1,75 @@
+export const RecoveryJourneyData = {
+  caption: "HOW IT WORKS FOR PATIENTS",
+  captionColor: "#00bcd4",
+
+  titleOne: "Your Recovery Journey in",
+  titleOneColor: "#000",
+  titleTwo: " Three Simple Steps",
+  titleTwoColor: "#000",
+
+  slides: [
+    {
+      icon: "🔍",
+      title: "Search & Compare",
+      description: "Use our powerful search to find a specialist in your area. Compare clinics based on expertise and patient reviews.",
+      backgroundColor: "#eef7ff",
+      borderColor: "#b3d9ff",
+    },
+    {
+      icon: "📅",
+      title: "Book with Confidence",
+      description: "View real-time availability and book your appointment directly through our secure platform.",
+      backgroundColor: "#eafff5",
+      borderColor: "#a3e5c6",
+    },
+    {
+      icon: "💛",
+      title: "Start Your Recovery",
+      description: "Attend your appointment and begin your personalized treatment plan.",
+      backgroundColor: "#fff7e6",
+      borderColor: "#ffd699",
+    },
+    {
+      icon: "🧑‍⚕️",
+      title: "Find Specialists",
+      description: "Choose from a wide range of trusted healthcare professionals.",
+      backgroundColor: "#eef7ff",
+      borderColor: "#b3d9ff",
+    },
+    {
+      icon: "🏥",
+      title: "Clinic Options",
+      description: "Select clinics based on expertise and location.",
+      backgroundColor: "#eafff5",
+      borderColor: "#a3e5c6",
+    },
+    {
+      icon: "💬",
+      title: "Consult Easily",
+      description: "Communicate with healthcare providers quickly and securely.",
+      backgroundColor: "#fff7e6",
+      borderColor: "#ffd699",
+    },
+    {
+      icon: "📊",
+      title: "Track Progress",
+      description: "Monitor your recovery journey with real-time updates.",
+      backgroundColor: "#eef7ff",
+      borderColor: "#b3d9ff",
+    },
+    {
+      icon: "🔒",
+      title: "Secure Platform",
+      description: "Your data is protected with the highest standards of security.",
+      backgroundColor: "#eafff5",
+      borderColor: "#a3e5c6",
+    },
+    {
+      icon: "⭐",
+      title: "Patient Reviews",
+      description: "Read verified patient feedback to make informed decisions.",
+      backgroundColor: "#fff7e6",
+      borderColor: "#ffd699",
+    },
+  ],
+};
