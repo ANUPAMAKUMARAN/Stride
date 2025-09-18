@@ -59,7 +59,7 @@ function App() {
        
       {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
       <VideoCarousel attributes={VideoCarouselData}/>
-       <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/>
+       {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
       <Sidebar attributes={SidebarData}/>
       <ActionCard attributes={ActioncardData}/>
       <ImpactsAcheivements attributes={ImpactAchievementData} />
