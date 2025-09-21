@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import { RecoveryJourneyData } from "./RecoveryJourneyData";
 
-const RecoveryJourney = ({attributes}) => {
+const RecoveryJourney = ({ attributes }) => {
   const { caption, captionColor, titleOne, titleOneColor, titleTwo, titleTwoColor, slides } = attributes;
 
   const [page, setPage] = useState(0); // 0 = first 3 slides, 1 = second 3 slides, 2 = last 3 slides
@@ -24,68 +24,49 @@ const RecoveryJourney = ({attributes}) => {
         <span style={{ color: titleTwoColor || "#000" }}>{titleTwo}</span>
       </h2>
 
-{/* Pagination */}
-{/* Pagination with dots */}
-<div style={{ marginTop: "40px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
-  {Array.from({ length: totalPages }).map((_, i) => (
-    <React.Fragment key={i}>
-      {/* Page number */}
-      <button
-        onClick={() => setPage(i)}
-        style={{
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          border: "none",
-          backgroundColor: page === i ? "#00bcd4" : "#ddd",
-          color: "#fff",
-          cursor: "pointer",
-          fontWeight: "600",
-        }}
-      >
-        {i + 1}
-      </button>
-
-      {/* Connector dots (only show if not the last number) */}
-      {i < totalPages - 1 && (
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          {Array.from({ length: 5 }).map((_, dotIndex) => (
-            <div
-              key={dotIndex}
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                backgroundColor: "#ccc",
-              }}
-            ></div>
-          ))}
-        </div>
-      )}
-    </React.Fragment>
-  ))}
-</div>
-
-      {/* <div style={{ marginTop: "30px", display: "flex", justifyContent: "center", gap: "12px" }}>
+      
+      {/* Pagination with dots */}
+      <div style={{ marginTop: "40px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
         {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage(i)}
-            style={{
-              width: "35px",
-              height: "35px",
-              borderRadius: "50%",
-              border: "none",
-              backgroundColor: page === i ? "#00bcd4" : "#ddd",
-              color: "#fff",
-              cursor: "pointer",
-              fontWeight: "600",
-            }}
-          >
-            {i + 1}
-          </button>
+          <React.Fragment key={i}>
+            {/* Page number */}
+            <button
+              onClick={() => setPage(i)}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                border: "none",
+                backgroundColor: page === i ? "#00bcd4" : "#ddd",
+                color: "#fff",
+                cursor: "pointer",
+                fontWeight: "600",
+              }}
+            >
+              {i + 1}
+            </button>
+
+            {/* Connector dots (only show if not the last number) */}
+            {i < totalPages - 1 && (
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                {Array.from({ length: 5 }).map((_, dotIndex) => (
+                  <div
+                    key={dotIndex}
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      backgroundColor: "#ccc",
+                    }}
+                  ></div>
+                ))}
+              </div>
+            )}
+          </React.Fragment>
         ))}
-      </div> */}
+      </div>
+
+
       {/* Slides */}
       <div
         style={{
@@ -94,7 +75,7 @@ const RecoveryJourney = ({attributes}) => {
           gap: "20px",
           maxWidth: "1100px",
           margin: "0 auto",
-          marginTop:"30px",
+          marginTop: "30px",
         }}
       >
         {visibleSlides.map((slide, index) => (
@@ -110,7 +91,16 @@ const RecoveryJourney = ({attributes}) => {
             }}
           >
             {/* Icon */}
-            <div style={{ fontSize: "28px", marginBottom: "16px" }}>{slide.icon || "🔹"}</div>
+            {/* Image */}
+{slide.image && (
+  <img
+    src={slide.image}
+    alt={slide.title}
+    style={{ width: "48px", height: "48px", marginBottom: "16px", objectFit: "contain" }}
+  />
+)}
+
+            {/* <div style={{ fontSize: "28px", marginBottom: "16px" }}>{slide.icon || "🔹"}</div> */}
 
             {/* Title */}
             <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
@@ -123,7 +113,7 @@ const RecoveryJourney = ({attributes}) => {
         ))}
       </div>
 
-      
+
     </div>
   );
 };
