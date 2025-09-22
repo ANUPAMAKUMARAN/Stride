@@ -1,12 +1,13 @@
 
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const CountryChart = ({ attributes }) => {
   const { slideShow, slides } = attributes;
   const [openIndex, setOpenIndex] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const listRef = useRef(null); // reference for scrollable div
 
   const toggleSlide = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -52,6 +53,44 @@ const CountryChart = ({ attributes }) => {
     slide.countryName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Scroll controls
+  // Scroll controls - one by one
+const scrollPrev = () => {
+  if (listRef.current) {
+    listRef.current.scrollBy({
+      top: -slideHeight, // scroll exactly one slide
+      behavior: "smooth",
+    });
+  }
+};
+
+const scrollNext = () => {
+  if (listRef.current) {
+    listRef.current.scrollBy({
+      top: slideHeight, // scroll exactly one slide
+      behavior: "smooth",
+    });
+  }
+};
+
+  // const scrollPrev = () => {
+  //   if (listRef.current) {
+  //     listRef.current.scrollBy({
+  //       top: -slideHeight * slideShow,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
+
+  // const scrollNext = () => {
+  //   if (listRef.current) {
+  //     listRef.current.scrollBy({
+  //       top: slideHeight * slideShow,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
+
   return (
     <Wrapper>
       <div
@@ -66,7 +105,7 @@ const CountryChart = ({ attributes }) => {
           flexDirection: "column",
         }}
       >
-        {/* Search Bar (fixed, not scrollable) */}
+        {/* Search Bar */}
         <input
           type="text"
           placeholder="Search countries..."
@@ -85,18 +124,16 @@ const CountryChart = ({ attributes }) => {
 
         {/* Scrollable country list */}
         <div
+          ref={listRef}
           style={{
             height: filteredSlides.length > 0 ? containerHeight : "60px",
-            overflowY: filteredSlides.length > 0 ? "scroll" : "hidden", 
+            overflowY: filteredSlides.length > 0 ? "auto" : "hidden",
             paddingRight: "4px",
-            scrollbarWidth: "none",     // Firefox
-            msOverflowStyle: "none",    // IE/Edge
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
           }}
-        
-
         >
           {filteredSlides.length > 0 ? (
-
             filteredSlides.map((slide, index) => (
               <div
                 key={index}
@@ -174,11 +211,47 @@ const CountryChart = ({ attributes }) => {
             >
               No countries found.
             </div>
-          )
+          )}
+        </div>
 
-
-
-          }
+        {/* Scroll Buttons */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
+          }}
+        >
+          <button
+            onClick={scrollPrev}
+            style={{
+              fontSize: buttonFont,
+              padding: "6px 14px",
+              border: "1px solid #4A6CF7",
+              borderRadius: "8px",
+              background: "#fff",
+              color: "#4A6CF7",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            ⬆ Prev
+          </button>
+          <button
+            onClick={scrollNext}
+            style={{
+              fontSize: buttonFont,
+              padding: "6px 14px",
+              border: "1px solid #4A6CF7",
+              borderRadius: "8px",
+              background: "#fff",
+              color: "#4A6CF7",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            Next ⬇
+          </button>
         </div>
       </div>
     </Wrapper>

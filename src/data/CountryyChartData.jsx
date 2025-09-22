@@ -1,5 +1,5 @@
 export const CountryyChartData = {
-  slideShow:3,
+  slideShow:3.3,
 
   slides: [
     {
