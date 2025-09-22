@@ -1,4 +1,4 @@
-export const SearchCountryData = {
+export const CountryScrollData = {
   slideShow:3.2,
   navigationButton:"true",
 

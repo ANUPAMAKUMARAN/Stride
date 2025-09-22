@@ -4,7 +4,7 @@ import './App.css'
 import ActionCard from './components/ActionCard';
 import Carousel from './components/Carousel';
 import CleanKeralaLanding from './components/CleanKeralaLanding';
-// import CountryChart from './components/CountryChart';
+import CountryScroll from './components/CountryScroll';
 import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
@@ -22,23 +22,24 @@ import SaudiPCCpage from './components/SaudiPCCpage';
 import SaudiPccSection from './components/SaudiPccSection';
 import SaudiPccServices from './components/SaudiPccServices';
 import ComparisonTable from './components/SaudiPccTable';
-import SearchCountry from './components/SearchCountry';
+
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
 import { ActioncardData } from './data/ActioncardData';
+import { CountryScrollData } from './data/CountryScrollData';
 import { CountryyChartData } from './data/CountryyChartData';
 import { FaqCarouselData } from './data/FaqCarouselData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
 import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
-// import { CountryChartData } from './data/Sampledata';
+
 // import { PhyshealCarouselData, RecoveryJourneyData } from './data/Sampledata';
 // import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
-import { SearchCountryData } from './data/SearchCountryData';
+
 import { SidebarData } from './data/SidebarData';
 import { StoryCraftCarouselData } from './data/StoryCraftCarouselData';
 import { VideoCarouselData } from './data/VideoCarouselData';
@@ -47,46 +48,46 @@ import { VideoCarouselData } from './data/VideoCarouselData';
 
 
 function App() {
-  
+
 
   return (
     <>
-    <div>
+      <div>
+        <CountryScroll attributes={CountryScrollData} />
 
-      <SearchCountry attributes={SearchCountryData}/>
 
-      <CountryyChart attributes={CountryyChartData}/> 
-       
-      
-      {/* <CountryChart attributes={CountryChartData}/> */}
-      <RecoveryJourney attributes={RecoveryJourneyData}/>
-      {/* <PhyshealCarousel attributes={PhyshealCarouselData}/> */}
-      <RecoveryPage attributes={RecoveryPageData}/>
-           
-      <RecoveryHero attributes={RecoveryHeroData}/>
-      <FaqCarousel attributes={FaqCarouselData}/>
-      <StoryCraftCarousel attributes={StoryCraftCarouselData} />
-     
-       <SaudiPccSection attributes={SaudiPccSectionData}/>          
-      {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
-      <VideoCarousel attributes={VideoCarouselData}/>
-       {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
-      <Sidebar attributes={SidebarData}/>
-      <ActionCard attributes={ActioncardData}/>
-      <ImpactsAcheivements attributes={ImpactAchievementData} />
-      <ComparisonTable attributes={SaudiPccTableData}/>      
-      <SaudiPccCarousel/>
-       <SaudiPCCpage/>
-         
-      <SaudiPccServices/>
-      <CleanKeralaLanding/>
-      <LeaderCard/>
-      <LeadersCarousel/>
-      <DirectorsCarousel/>
-      <Carousel/>
-      
-    </div>
-     
+        <CountryyChart attributes={CountryyChartData} />
+
+
+
+        <RecoveryJourney attributes={RecoveryJourneyData} />
+        {/* <PhyshealCarousel attributes={PhyshealCarouselData}/> */}
+        <RecoveryPage attributes={RecoveryPageData} />
+
+        <RecoveryHero attributes={RecoveryHeroData} />
+        <FaqCarousel attributes={FaqCarouselData} />
+        <StoryCraftCarousel attributes={StoryCraftCarouselData} />
+
+        <SaudiPccSection attributes={SaudiPccSectionData} />
+        {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
+        <VideoCarousel attributes={VideoCarouselData} />
+        {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
+        <Sidebar attributes={SidebarData} />
+        <ActionCard attributes={ActioncardData} />
+        <ImpactsAcheivements attributes={ImpactAchievementData} />
+        <ComparisonTable attributes={SaudiPccTableData} />
+        <SaudiPccCarousel />
+        <SaudiPCCpage />
+
+        <SaudiPccServices />
+        <CleanKeralaLanding />
+        <LeaderCard />
+        <LeadersCarousel />
+        <DirectorsCarousel />
+        <Carousel />
+
+      </div>
+
     </>
   )
 }
