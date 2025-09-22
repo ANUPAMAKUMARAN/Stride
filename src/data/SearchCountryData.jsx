@@ -1,12 +1,12 @@
 export const SearchCountryData = {
   slideShow:3.2,
+  navigationButton:"true",
 
   slides: [
     {
       countryName: "Albania",
       organisation: "Republic of albania ministry of justice",
-      website:
-        "contact albanian embassay in the united kingdom for consular",
+      website:"contact albanian embassay in the united kingdom for consular",
     },
     {
       countryName: "Argentina",
@@ -29,28 +29,38 @@ export const SearchCountryData = {
       website: "Contact Bahamas Embassy",
     },
      {
-      countryName: "india",
+      countryName: "Bulgaria",
       organisation: "Republic of albania ministry of justice",
       website:
         "contact albanian embassay in the united kingdom for consular",
     },
     {
-      countryName: "pakisthan",
+      countryName: "canada",
       organisation: "Argentina Ministry of Justice",
       website: "Contact Argentina Embassy in London",
     },
     {
-      countryName: "hvjhvtralia",
+      countryName: "chile",
       organisation: "Australian Federal Police",
       website: "https://www.afp.gov.au",
     },
     {
-      countryName: "hjwghgkAustria",
+      countryName: "china",
       organisation: "Austrian Ministry of Justice",
       website: "Contact Austrian Embassy",
     },
     {
-      countryName: "kjehlkheBahamas",
+      countryName: "cyprus",
+      organisation: "Bahamas Ministry of Justice",
+      website: "Contact Bahamas Embassy",
+    },
+     {
+      countryName: "korea",
+      organisation: "Bahamas Ministry of Justice",
+      website: "Contact Bahamas Embassy",
+    },
+     {
+      countryName: "malaysia",
       organisation: "Bahamas Ministry of Justice",
       website: "Contact Bahamas Embassy",
     },

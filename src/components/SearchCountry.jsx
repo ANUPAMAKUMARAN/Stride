@@ -1,14 +1,19 @@
 
+
 import React, { useState, useEffect, useRef } from "react";
 
 const CountryChart = ({ attributes }) => {
-  const { slideShow, slides } = attributes;
+  const {
+    slideShow,
+    navigationButton , 
+    slides = [],
+  } = attributes;
+
   const [openIndex, setOpenIndex] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const listRef = useRef(null); // reference for scrollable div
-
+  const listRef = useRef(null);
   const toggleSlide = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -31,51 +36,43 @@ const CountryChart = ({ attributes }) => {
   const bodyFont = isSmallScreen ? "14px" : "16px";
   const buttonFont = isSmallScreen ? "12px" : "14px";
 
-  const Wrapper = ({ children }) =>
-    isSmallScreen ? (
-      <>{children}</>
-    ) : (
-      <div
-        style={{
-          width: "100%",
-          // padding: "40px",
-          padding: isSmallScreen ? "16px" : "40px",
-          background: "#f0f4ff",
-          
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {children}
-      </div>
-    );
+  const Wrapper = ({ children }) => (
+    <div
+      style={{
+        width: "100%",
+        padding: isSmallScreen ? "16px" : "40px",
+        background: "#f0f4ff",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      {children}
+    </div>
+  );
 
   // Filtered slides
   const filteredSlides = slides.filter((slide) =>
     slide.countryName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Scroll controls
   // Scroll controls - one by one
-const scrollPrev = () => {
-  if (listRef.current) {
-    listRef.current.scrollBy({
-      top: -slideHeight, // scroll exactly one slide
-      behavior: "smooth",
-    });
-  }
-};
+  const scrollPrev = () => {
+    if (listRef.current) {
+      listRef.current.scrollBy({
+        top: -slideHeight,
+        behavior: "smooth",
+      });
+    }
+  };
 
-const scrollNext = () => {
-  if (listRef.current) {
-    listRef.current.scrollBy({
-      top: slideHeight, // scroll exactly one slide
-      behavior: "smooth",
-    });
-  }
-};
-
- 
+  const scrollNext = () => {
+    if (listRef.current) {
+      listRef.current.scrollBy({
+        top: slideHeight,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <Wrapper>
@@ -200,48 +197,52 @@ const scrollNext = () => {
           )}
         </div>
 
-        {/* Scroll Buttons */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "16px",
-          }}
-        >
-          <button
-            onClick={scrollPrev}
+        {/* Scroll Buttons - only if enabled */}
+        {navigationButton === "true" && (
+          <div
             style={{
-              fontSize: buttonFont,
-              padding: "6px 14px",
-              border: "1px solid #4A6CF7",
-              borderRadius: "8px",
-              background: "#fff",
-              color: "#4A6CF7",
-              fontWeight: "500",
-              cursor: "pointer",
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "16px",
             }}
           >
-            ⬆ Prev
-          </button>
-          <button
-            onClick={scrollNext}
-            style={{
-              fontSize: buttonFont,
-              padding: "6px 14px",
-              border: "1px solid #4A6CF7",
-              borderRadius: "8px",
-              background: "#fff",
-              color: "#4A6CF7",
-              fontWeight: "500",
-              cursor: "pointer",
-            }}
-          >
-            Next ⬇
-          </button>
-        </div>
+            <button
+              onClick={scrollPrev}
+              style={{
+                fontSize: buttonFont,
+                padding: "6px 14px",
+                border: "1px solid #4A6CF7",
+                borderRadius: "8px",
+                background: "#fff",
+                color: "#4A6CF7",
+                fontWeight: "500",
+                cursor: "pointer",
+              }}
+            >
+              ⬆ Prev
+            </button>
+            <button
+              onClick={scrollNext}
+              style={{
+                fontSize: buttonFont,
+                padding: "6px 14px",
+                border: "1px solid #4A6CF7",
+                borderRadius: "8px",
+                background: "#fff",
+                color: "#4A6CF7",
+                fontWeight: "500",
+                cursor: "pointer",
+              }}
+            >
+              Next ⬇
+            </button>
+          </div>
+        )}
       </div>
     </Wrapper>
   );
 };
 
 export default CountryChart;
+
+
