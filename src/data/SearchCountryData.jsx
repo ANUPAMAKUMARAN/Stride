@@ -1,5 +1,5 @@
-export const CountryyChartData = {
-  slideShow:3,
+export const SearchCountryData = {
+  slideShow:3.2,
 
   slides: [
     {
@@ -29,28 +29,28 @@ export const CountryyChartData = {
       website: "Contact Bahamas Embassy",
     },
      {
-      countryName: "Albania",
+      countryName: "india",
       organisation: "Republic of albania ministry of justice",
       website:
         "contact albanian embassay in the united kingdom for consular",
     },
     {
-      countryName: "Argentina",
+      countryName: "pakisthan",
       organisation: "Argentina Ministry of Justice",
       website: "Contact Argentina Embassy in London",
     },
     {
-      countryName: "Australia",
+      countryName: "hvjhvtralia",
       organisation: "Australian Federal Police",
       website: "https://www.afp.gov.au",
     },
     {
-      countryName: "Austria",
+      countryName: "hjwghgkAustria",
       organisation: "Austrian Ministry of Justice",
       website: "Contact Austrian Embassy",
     },
     {
-      countryName: "The Bahamas",
+      countryName: "kjehlkheBahamas",
       organisation: "Bahamas Ministry of Justice",
       website: "Contact Bahamas Embassy",
     },

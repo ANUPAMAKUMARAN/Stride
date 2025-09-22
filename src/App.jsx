@@ -17,11 +17,12 @@ import RecoveryHero from './components/RecoveryHero';
 import RecoveryJourney from './components/RecoveryJourney';
 import RecoveryPage from './components/RecoveryPage';
 import SaudiPccCarousel from './components/saudiPccCarousel';
-import SaudiPccLandingpage from './components/SaudiPccLandingpage';
+// import SaudiPccLandingpage from './components/SaudiPccLandingpage';
 import SaudiPCCpage from './components/SaudiPCCpage';
 import SaudiPccSection from './components/SaudiPccSection';
 import SaudiPccServices from './components/SaudiPccServices';
 import ComparisonTable from './components/SaudiPccTable';
+import SearchCountry from './components/SearchCountry';
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
@@ -34,9 +35,10 @@ import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
 // import { CountryChartData } from './data/Sampledata';
 // import { PhyshealCarouselData, RecoveryJourneyData } from './data/Sampledata';
-import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
+// import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
+import { SearchCountryData } from './data/SearchCountryData';
 import { SidebarData } from './data/SidebarData';
 import { StoryCraftCarouselData } from './data/StoryCraftCarouselData';
 import { VideoCarouselData } from './data/VideoCarouselData';
@@ -50,7 +52,11 @@ function App() {
   return (
     <>
     <div>
-      <CountryyChart attributes={CountryyChartData}/>
+
+      <SearchCountry attributes={SearchCountryData}/>
+
+      <CountryyChart attributes={CountryyChartData}/> 
+       
       
       {/* <CountryChart attributes={CountryChartData}/> */}
       <RecoveryJourney attributes={RecoveryJourneyData}/>
