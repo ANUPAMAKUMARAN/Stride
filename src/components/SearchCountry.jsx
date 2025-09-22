@@ -38,8 +38,10 @@ const CountryChart = ({ attributes }) => {
       <div
         style={{
           width: "100%",
-          padding: "40px",
+          // padding: "40px",
+          padding: isSmallScreen ? "16px" : "40px",
           background: "#f0f4ff",
+          
           display: "flex",
           justifyContent: "center",
         }}
@@ -73,23 +75,7 @@ const scrollNext = () => {
   }
 };
 
-  // const scrollPrev = () => {
-  //   if (listRef.current) {
-  //     listRef.current.scrollBy({
-  //       top: -slideHeight * slideShow,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // };
-
-  // const scrollNext = () => {
-  //   if (listRef.current) {
-  //     listRef.current.scrollBy({
-  //       top: slideHeight * slideShow,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // };
+ 
 
   return (
     <Wrapper>
