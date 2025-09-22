@@ -85,85 +85,85 @@ const CountryChart = ({ attributes }) => {
 
         {/* Scrollable country list */}
         <div
-
           style={{
             height: filteredSlides.length > 0 ? containerHeight : "60px",
-            overflowY: filteredSlides.length > 0 ? "auto" : "hidden",
+            overflowY: filteredSlides.length > 0 ? "scroll" : "hidden", 
             paddingRight: "4px",
-            scrollbarWidth: "thin",   
-            msOverflowStyle: "none",  
-
+            scrollbarWidth: "none",     // Firefox
+            msOverflowStyle: "none",    // IE/Edge
           }}
+        
+
         >
           {filteredSlides.length > 0 ? (
-           
-              filteredSlides.map((slide, index) => (
+
+            filteredSlides.map((slide, index) => (
+              <div
+                key={index}
+                style={{
+                  border: "1px solid #4A6CF7",
+                  borderRadius: "12px",
+                  marginBottom: "16px",
+                  padding: "16px",
+                  background: "#fff",
+                  boxShadow: "0 2px 6px rgba(74,108,247,0.1)",
+                  minHeight: `${slideHeight - 20}px`,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <div
-                  key={index}
                   style={{
-                    border: "1px solid #4A6CF7",
-                    borderRadius: "12px",
-                    marginBottom: "16px",
-                    padding: "16px",
-                    background: "#fff",
-                    boxShadow: "0 2px 6px rgba(74,108,247,0.1)",
-                    minHeight: `${slideHeight - 20}px`,
+                    fontSize: titleFont,
+                    fontWeight: "600",
+                    marginBottom: "8px",
                     display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: "#1e3a8a",
                   }}
                 >
-                  <div
+                  {slide.countryName}
+                  <button
+                    onClick={() => toggleSlide(index)}
                     style={{
-                      fontSize: titleFont,
-                      fontWeight: "600",
-                      marginBottom: "8px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      color: "#1e3a8a",
+                      fontSize: buttonFont,
+                      padding: "4px 10px",
+                      border: "1px solid #4A6CF7",
+                      borderRadius: "20px",
+                      background: openIndex === index ? "#4A6CF7" : "#fff",
+                      color: openIndex === index ? "#fff" : "#4A6CF7",
+                      fontWeight: "500",
+                      cursor: "pointer",
+                      transition: "0.3s",
                     }}
                   >
-                    {slide.countryName}
-                    <button
-                      onClick={() => toggleSlide(index)}
-                      style={{
-                        fontSize: buttonFont,
-                        padding: "4px 10px",
-                        border: "1px solid #4A6CF7",
-                        borderRadius: "20px",
-                        background: openIndex === index ? "#4A6CF7" : "#fff",
-                        color: openIndex === index ? "#fff" : "#4A6CF7",
-                        fontWeight: "500",
-                        cursor: "pointer",
-                        transition: "0.3s",
-                      }}
-                    >
-                      {openIndex === index ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                  {openIndex === index && (
-                    <div
-                      style={{
-                        fontSize: bodyFont,
-                        color: "#374151",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <p style={{ marginBottom: "6px" }}>
-                        <strong style={{ color: "#111827" }}>
-                          Organisation or Body:{" "}
-                        </strong>
-                        {slide.organisation}
-                      </p>
-                      <p>
-                        <strong style={{ color: "#111827" }}>Website: </strong>
-                        {slide.website}
-                      </p>
-                    </div>
-                  )}
+                    {openIndex === index ? "Hide" : "Show"}
+                  </button>
                 </div>
-              ))
+                {openIndex === index && (
+                  <div
+                    style={{
+                      fontSize: bodyFont,
+                      color: "#374151",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <p style={{ marginBottom: "6px" }}>
+                      <strong style={{ color: "#111827" }}>
+                        Organisation or Body:{" "}
+                      </strong>
+                      {slide.organisation}
+                    </p>
+                    <p>
+                      <strong style={{ color: "#111827" }}>Website: </strong>
+                      {slide.website}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))
           ) : (
             <div
               style={{
