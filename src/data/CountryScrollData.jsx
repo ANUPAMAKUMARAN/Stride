@@ -1,6 +1,7 @@
 export const CountryScrollData = {
-  slideShow:3.2,
+  slideShow:3.3,
   navigationButton:"true",
+  backgroundColor: "#f0f4ff",
 
   slides: [
     {
