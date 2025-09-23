@@ -171,7 +171,18 @@ const CountryScroll = ({ attributes }) => {
                                         </p>
                                         <p>
                                             <strong style={{ color: "#111827" }}>Website: </strong>
-                                            {slide.website}
+                                            <a
+                                                href={slide.website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    color: "#2563eb", 
+                                                    textDecoration: "underline",
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                {slide.website}
+                                            </a>
                                         </p>
                                     </div>
                                 )}
