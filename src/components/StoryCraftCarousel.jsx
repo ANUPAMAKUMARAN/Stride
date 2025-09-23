@@ -439,27 +439,31 @@ const StoryCraftCarousel = ({ attributes }) => {
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden",
-                position: "relative", 
+                position: "relative",
               }}
-              
+
               onMouseEnter={(e) => {
                 const btn = e.currentTarget.querySelector(".slide-btn");
-                const arrow = e.currentTarget.querySelector(".arrow-box");
-                if (btn) btn.style.background = hoverColor;
+                const arrow = e.currentTarget.querySelector(".arrow-box path");
+
+                if (btn) btn.style.background = hoverColor || "#7b3fe4";
                 if (arrow) {
-                  arrow.style.color = "#fff";
-                  arrow.style.transform = "translateY(2px) rotate(300deg)";
+                  arrow.setAttribute("d", "M7 17L17 7M7 7h10v10"); // ↗ up-right arrow
+                  arrow.parentNode.style.color = "#fff";
                 }
               }}
+
               onMouseLeave={(e) => {
                 const btn = e.currentTarget.querySelector(".slide-btn");
-                const arrow = e.currentTarget.querySelector(".arrow-box");
+                const arrow = e.currentTarget.querySelector(".arrow-box path");
+
                 if (btn) btn.style.background = "rgba(255,255,255,0.9)";
                 if (arrow) {
-                  arrow.style.color = "#333";
-                  arrow.style.transform = "translateY(2px) rotate(180deg)";
+                  arrow.setAttribute("d", "M19 12H5M12 19l-7-7 7-7"); // back to left arrow
+                  arrow.parentNode.style.color = "#333";
                 }
               }}
+
             >
               <div
                 style={{
@@ -534,28 +538,32 @@ const StoryCraftCarousel = ({ attributes }) => {
                     justifyContent: "center",
                     boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                     cursor: "pointer",
-                    transition: "all 0.3s ease",
+                    transition: "all 0.25s ease",
                   }}
                 >
-                  <span
+                  {/* Default: left arrow  */}
+                  <svg
                     className="arrow-box"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={`${24 * dimensions.fontScale}px`}
+                    height={`${24 * dimensions.fontScale}px`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: `${32 * dimensions.fontScale}px`,
-                      fontWeight: "bold",
                       color: "#333",
-                      lineHeight: 1,
-                      transform: "translateY(2px) rotate(180deg)", 
-                      transition: "transform 0.5s ease, color 0.3s ease",
+                      transition: "all 0.35s cubic-bezier(.2,.9,.2,1)",
                     }}
                   >
-                    →
-                  </span>
+                    <path d="M19 12H5M12 19l-7-7 7-7" /> {/* Left arrow */}
+                  </svg>
                 </button>
+
+
+
               </div>
             </div>
           ))}

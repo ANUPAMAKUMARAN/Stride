@@ -7,7 +7,10 @@ const CountryScroll = ({ attributes }) => {
     const {
         slideShow,
         navigationButton,
-        slides
+        slides,
+        borderColor,
+        ButtonTextColor,
+        countryColor
     } = attributes;
 
 
@@ -72,7 +75,8 @@ const CountryScroll = ({ attributes }) => {
             <div
                 style={{
                     width: containerWidth,
-                    border: "1px solid #e0e7ff",
+                    border: "1px solid ",
+                    borderColor:borderColor,                   
                     borderRadius: "12px",
                     padding: containerPadding,
                     background: "#ffffff",
@@ -114,7 +118,8 @@ const CountryScroll = ({ attributes }) => {
                             <div
                                 key={slide.countryName}
                                 style={{
-                                    border: "1px solid #4A6CF7",
+                                    border: "1px solid ",
+                                    borderColor:borderColor,
                                     borderRadius: "12px",
                                     marginBottom: "16px",
                                     padding: "16px",
@@ -129,12 +134,14 @@ const CountryScroll = ({ attributes }) => {
                                 <div
                                     style={{
                                         fontSize: titleFont,
+                            
                                         fontWeight: "600",
                                         marginBottom: "8px",
                                         display: "flex",
                                         justifyContent: "space-between",
                                         alignItems: "center",
-                                        color: "#1e3a8a",
+                                        Color: countryColor,
+                                        
                                     }}
                                 >
                                     {slide.countryName}
@@ -143,10 +150,11 @@ const CountryScroll = ({ attributes }) => {
                                         style={{
                                             fontSize: buttonFont,
                                             padding: "4px 15px",
-                                            border: "1px solid #4A6CF7",
+                                            border: "1px solid ",
+                                            borderColor:borderColor,
                                             borderRadius: "20px",
                                             background: openIndex === index ? "#4A6CF7" : "#fff",
-                                            color: openIndex === index ? "#fff" : "#4A6CF7",
+                                            color: openIndex === index ? "#fff" : ButtonTextColor,
                                             fontWeight: "500",
                                             cursor: "pointer",
                                             transition: "0.3s",
@@ -190,72 +198,73 @@ const CountryScroll = ({ attributes }) => {
                     )}
                 </div>
 
-               {/* Navigation buttons */}
-{navigationButton === "true" && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      marginTop: "16px",
-    }}
-  >
-    <button
-      onClick={scrollPrev}
-      style={{
-        fontSize: buttonFont,
-        padding: "6px 14px",
-        border: "1px solid #4A6CF7",
-        borderRadius: "8px",
-        background: "#fff",
-        color: "#4A6CF7",
-        fontWeight: "500",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        gap: "6px",
-      }}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path d="M12 8l6 6H6z" /> {/* Up arrow */}
-      </svg>
-      Prev
-    </button>
+                {/* Navigation buttons */}
+                {navigationButton === "true" && (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginTop: "16px",
+                        }}
+                    >
+                        <button
+                            onClick={scrollPrev}
+                            style={{
+                                fontSize: buttonFont,
+                                padding: "6px 14px",
+                                border: "1px solid",
+                                borderRadius: "8px",
+                                borderColor:borderColor,
+                                background: "#fff",
+                                color: "#4A6CF7",
+                                fontWeight: "500",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                            }}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M12 8l6 6H6z" /> {/* Up arrow */}
+                            </svg>
+                            Prev
+                        </button>
 
-    <button
-      onClick={scrollNext}
-      style={{
-        fontSize: buttonFont,
-        padding: "6px 15px",
-        border: "1px solid #4A6CF7",
-        borderRadius: "8px",
-        background: "#fff",
-        color: "#4A6CF7",
-        fontWeight: "500",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        gap: "6px",
-      }}
-    >
-      Next
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path d="M12 16l-6-6h12z" /> {/* Down arrow */}
-      </svg>
-    </button>
-  </div>
-)}
+                        <button
+                            onClick={scrollNext}
+                            style={{
+                                fontSize: buttonFont,
+                                padding: "6px 15px",
+                                border: "1px solid #4A6CF7",
+                                borderRadius: "8px",
+                                background: "#fff",
+                                color: "#4A6CF7",
+                                fontWeight: "500",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                            }}
+                        >
+                            Next
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M12 16l-6-6h12z" /> {/* Down arrow */}
+                            </svg>
+                        </button>
+                    </div>
+                )}
 
             </div>
         </div>
