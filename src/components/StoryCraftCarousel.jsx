@@ -444,25 +444,28 @@ const StoryCraftCarousel = ({ attributes }) => {
 
               onMouseEnter={(e) => {
                 const btn = e.currentTarget.querySelector(".slide-btn");
-                const arrow = e.currentTarget.querySelector(".arrow-box path");
+                const svg = e.currentTarget.querySelector(".arrow-box");
 
                 if (btn) btn.style.background = hoverColor || "#7b3fe4";
-                if (arrow) {
-                  arrow.setAttribute("d", "M7 17L17 7M7 7h10v10"); // ↗ up-right arrow
-                  arrow.parentNode.style.color = "#fff";
+
+                if (svg) {
+                  svg.style.color = "#fff";
+                  svg.style.transform = "rotate(145deg)";
                 }
               }}
 
               onMouseLeave={(e) => {
                 const btn = e.currentTarget.querySelector(".slide-btn");
-                const arrow = e.currentTarget.querySelector(".arrow-box path");
+                const svg = e.currentTarget.querySelector(".arrow-box");
 
                 if (btn) btn.style.background = "rgba(255,255,255,0.9)";
-                if (arrow) {
-                  arrow.setAttribute("d", "M19 12H5M12 19l-7-7 7-7"); // back to left arrow
-                  arrow.parentNode.style.color = "#333";
+
+                if (svg) {
+                  svg.style.color = "#333";
+                  svg.style.transform = "rotate(0deg)";
                 }
               }}
+
 
             >
               <div
@@ -541,7 +544,7 @@ const StoryCraftCarousel = ({ attributes }) => {
                     transition: "all 0.25s ease",
                   }}
                 >
-                  {/* Default: left arrow  */}
+
                   <svg
                     className="arrow-box"
                     xmlns="http://www.w3.org/2000/svg"
@@ -555,11 +558,12 @@ const StoryCraftCarousel = ({ attributes }) => {
                     strokeLinejoin="round"
                     style={{
                       color: "#333",
-                      transition: "all 0.35s cubic-bezier(.2,.9,.2,1)",
+                      transition: "transform 0.35s ease, color 0.25s ease", 
                     }}
                   >
-                    <path d="M19 12H5M12 19l-7-7 7-7" /> {/* Left arrow */}
+                    <path d="M19 12H5M12 19l-7-7 7-7" /> 
                   </svg>
+
                 </button>
 
 
