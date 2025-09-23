@@ -1,12 +1,16 @@
 export const CountryyChartData = {
   slideShow:3.3,
+  navigationButton:"true",
+  backgroundColor: "#f0f4ff",
+  borderColor:"#4A6CF7",
+  countryColor:"#f0f4ff",
+  ButtonTextColor:"#4A6CF7",
 
   slides: [
     {
       countryName: "Albania",
       organisation: "Republic of albania ministry of justice",
-      website:
-        "contact albanian embassay in the united kingdom for consular",
+      website:"contact albanian embassay in the united kingdom for consular",
     },
     {
       countryName: "Argentina",
@@ -29,28 +33,38 @@ export const CountryyChartData = {
       website: "Contact Bahamas Embassy",
     },
      {
-      countryName: "Albania",
+      countryName: "Bulgaria",
       organisation: "Republic of albania ministry of justice",
       website:
         "contact albanian embassay in the united kingdom for consular",
     },
     {
-      countryName: "Argentina",
+      countryName: "canada",
       organisation: "Argentina Ministry of Justice",
       website: "Contact Argentina Embassy in London",
     },
     {
-      countryName: "Australia",
+      countryName: "chile",
       organisation: "Australian Federal Police",
       website: "https://www.afp.gov.au",
     },
     {
-      countryName: "Austria",
+      countryName: "china",
       organisation: "Austrian Ministry of Justice",
       website: "Contact Austrian Embassy",
     },
     {
-      countryName: "The Bahamas",
+      countryName: "cyprus",
+      organisation: "Bahamas Ministry of Justice",
+      website: "Contact Bahamas Embassy",
+    },
+     {
+      countryName: "korea",
+      organisation: "Bahamas Ministry of Justice",
+      website: "Contact Bahamas Embassy",
+    },
+     {
+      countryName: "malaysia",
       organisation: "Bahamas Ministry of Justice",
       website: "Contact Bahamas Embassy",
     },
