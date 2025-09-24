@@ -11,6 +11,9 @@ export const MacCarouselData = {
       image:
         "https://img.freepik.com/premium-photo/light-bulb-with-pink-blue-light-bulb-itcolorful-3d-light-bulbs-white-background-new_432516-26613.jpg?w=360",
       backgroundColor: "#f5f5f7",
+      
+      description:
+        "Mac is built with privacy and security at its core, giving you full control over your data."
     },
     {
       caption: "Performance and Battery Life",
@@ -20,6 +23,9 @@ export const MacCarouselData = {
       image:
         "https://img.freepik.com/premium-photo/light-bulb-with-pink-blue-light-bulb-itcolorful-3d-light-bulbs-white-background-new_432516-26613.jpg?w=360",
       backgroundColor: "#000",
+      description:
+        "Mac is built with privacy and security at its core, giving you full control over your data."
+   
     },
     {
       caption: "Mac and iPhone",
@@ -29,6 +35,9 @@ export const MacCarouselData = {
       image:
         "https://img.freepik.com/premium-photo/light-bulb-with-pink-blue-light-bulb-itcolorful-3d-light-bulbs-white-background-new_432516-26613.jpg?w=360",
       backgroundColor: "#e6f3ef",
+      description:
+        "Mac is built with privacy and security at its core, giving you full control over your data."
+   
     },
     {
       caption: "Compatibility",
