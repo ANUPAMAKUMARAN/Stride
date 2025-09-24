@@ -147,7 +147,7 @@ const MacCarousel = ({ attributes }) => {
                 overflow: "hidden",
                 padding: `${40 * scaleMultiplier}px 0`,
                 // paddingLeft: `${100 * scaleMultiplier}px`,
-                paddingLeft: window.innerWidth < 768 ? "0px" : `${100 * scaleMultiplier}px`,
+                paddingLeft: window.innerWidth < 768 ? "20px" : `${100 * scaleMultiplier}px`,
 
             }}
         >
