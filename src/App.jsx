@@ -12,6 +12,7 @@ import ImpactsAcheivements from './components/ImpactsAcheivements';
 
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
+import MacCarousel from './components/MacCarousel';
 // import PhyshealCarousel from './components/PhyshealCarousel';
 import RecoveryHero from './components/RecoveryHero';
 import RecoveryJourney from './components/RecoveryJourney';
@@ -31,6 +32,7 @@ import { CountryScrollData } from './data/CountryScrollData';
 import { CountryyChartData } from './data/CountryyChartData';
 import { FaqCarouselData } from './data/FaqCarouselData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
+import { MacCarouselData } from './data/MacCarouselData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
 import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
@@ -53,6 +55,7 @@ function App() {
   return (
     <>
       <div>
+        <MacCarousel attributes={MacCarouselData}/>
         <CountryScroll attributes={CountryScrollData} />
 
 

@@ -1,6 +1,6 @@
 export const CountryyChartData = {
   slideShow:3.3,
-  navigationButton:"true",
+  navigationButton:"false",
   backgroundColor: "#f0f4ff",
   borderColor:"#4A6CF7",
   countryColor:"#f0f4ff",

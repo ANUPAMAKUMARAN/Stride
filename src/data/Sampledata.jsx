@@ -1,32 +1,37 @@
-export const CountryChartData = {
-  minslideShow: "3.5",
-
+export const MacCarouselData = {
+  backgroundColor:"",
+  title:"Get to know Mac.",
+  titleColor:"",
   slides: [
     {
-      countryName: "Albania",
-      organisation: "Republic of albania ministry of justice",
-      website:
-        "contact albanian embassay in the united kingdom for consular",
+      caption: "Apple intelligence and macos",
+      captionColor:"",
+      title:"East to use. East to love.",
+      titleColor:"",
+      image:"",
     },
     {
-      countryName: "Argentina",
-      organisation: "Argentina Ministry of Justice",
-      website: "Contact Argentina Embassy in London",
+      caption: "Apple intelligence and macos",
+      captionColor:"",
+      title:"East to use. East to love.",
+      titleColor:"",
+      image:"",
     },
     {
-      countryName: "Australia",
-      organisation: "Australian Federal Police",
-      website: "https://www.afp.gov.au",
+      caption: "Apple intelligence and macos",
+      captionColor:"",
+      title:"East to use. East to love.",
+      titleColor:"",
+      image:"",
     },
     {
-      countryName: "Austria",
-      organisation: "Austrian Ministry of Justice",
-      website: "Contact Austrian Embassy",
+      caption: "Apple intelligence and macos",
+      captionColor:"",
+      title:"East to use. East to love.",
+      titleColor:"",
+      image:"",
     },
-    {
-      countryName: "The Bahamas",
-      organisation: "Bahamas Ministry of Justice",
-      website: "Contact Bahamas Embassy",
-    },
+
+    
   ],
 };
