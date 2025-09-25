@@ -166,12 +166,24 @@ const MacCarousel = ({ attributes }) => {
       {/* Slide Wrapper */}
       <div
         ref={containerRef}
-        style={{
-          display: "flex",
-          transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-          transform: `translateX(-${scrollOffset}px)`,
-          paddingLeft: `${20 * scaleMultiplier}px`,
-        }}
+          style={{
+    display: "flex",
+    transition: isDesktop
+      ? "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)"
+      : "none",
+    transform: isDesktop ? `translateX(-${scrollOffset}px)` : "none",
+    paddingLeft: `${20 * scaleMultiplier}px`,
+    overflowX: isDesktop ? "hidden" : "auto",   // 👈 enable native scroll on mobile
+    WebkitOverflowScrolling: "touch",          // 👈 smooth scroll for iOS
+    scrollbarWidth: "none",                    // 👈 hide scrollbar (Firefox)
+    msOverflowStyle: "none",                   // 👈 hide scrollbar (IE/Edge)
+  }}
+        // style={{
+        //   display: "flex",
+        //   transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+        //   transform: `translateX(-${scrollOffset}px)`,
+        //   paddingLeft: `${20 * scaleMultiplier}px`,
+        // }}
       >
         {slides.map((slide, index) => (
           <div
@@ -181,7 +193,7 @@ const MacCarousel = ({ attributes }) => {
               marginRight:
                 index === slides.length - 1 ? "0" : `${20 * scaleMultiplier}px`,
               borderRadius: `${16 * scaleMultiplier}px`,
-              overflow: "auto",
+              overflow: "hidden",
               position: "relative",
               backgroundColor: slide.backgroundColor || "#f5f5f5",
             }}
