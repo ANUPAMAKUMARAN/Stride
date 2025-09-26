@@ -5,7 +5,9 @@ const MacCarousel = ({ attributes }) => {
   const [scaleMultiplier, setScaleMultiplier] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [selectedSlide, setSelectedSlide] = useState(null);
-  // const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const containerRef = useRef(null);
 
@@ -57,7 +59,7 @@ const MacCarousel = ({ attributes }) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={isDesktop ? `${38 * scaleMultiplier}` : `25px`}
-      height={isDesktop ? `${38 * scaleMultiplier}` : `25px`} 
+      height={isDesktop ? `${38 * scaleMultiplier}` : `25px`}
       fill="currentColor"
       viewBox="0 0 16 16"
       style={{ filter: "drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2))" }}
@@ -128,10 +130,10 @@ const MacCarousel = ({ attributes }) => {
           display: "flex",
           gap: `${20 * scaleMultiplier}px`,
           paddingLeft: `${20 * scaleMultiplier}px`,
-          overflowX: "auto", 
-          scrollbarWidth: "none", 
-          msOverflowStyle: "none", 
-          WebkitOverflowScrolling: "touch", 
+          overflowX: "auto",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {slides.map((slide, index) => (
@@ -146,20 +148,35 @@ const MacCarousel = ({ attributes }) => {
               backgroundColor: slide.backgroundColor || "#f5f5f5",
             }}
           >
+
             {slide.image && (
+              // <img
+              //   src={slide.image}
+              //   alt={slide.title}
+              //   style={{
+              //     width: "100%",
+              //     height: "100%",
+              //     objectFit: "cover",
+              //     borderRadius: `${16 * scaleMultiplier}px`,
+              //     userSelect: "none",
+              //     pointerEvents: "none",
+              //   }}
+              //   draggable={false}
+              // />
               <img
                 src={slide.image}
                 alt={slide.title}
                 style={{
                   width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
+                  maxHeight: `${650 * scaleMultiplier}px`,
+                  objectFit: "cover", 
                   borderRadius: `${16 * scaleMultiplier}px`,
                   userSelect: "none",
                   pointerEvents: "none",
                 }}
                 draggable={false}
               />
+
             )}
 
             {/* Text Overlay */}
@@ -303,7 +320,7 @@ const MacCarousel = ({ attributes }) => {
               padding: "30px",
               textAlign: "left",
               position: "relative",
-              scrollbarWidth: "none",     
+              scrollbarWidth: "none",
               msOverflowStyle: "none",
             }}
           >
@@ -325,11 +342,11 @@ const MacCarousel = ({ attributes }) => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="36"   
+                width="36"
                 height="36"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#333"     
+                stroke="#333"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
