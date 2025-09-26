@@ -286,7 +286,7 @@ useEffect(() => {
         style={{
           display: "flex",
           justifyContent: isDesktop ? "flex-end" : "center",
-          marginTop: `${15 * scaleMultiplier}px`,
+          marginTop:isDesktop ? `${15 * scaleMultiplier}px`:`${45 * scaleMultiplier}px` ,
           gap: `${20 * scaleMultiplier}px`,
           paddingRight: isDesktop ? "20px" : "0",
         }}
@@ -294,8 +294,9 @@ useEffect(() => {
         <button
           onClick={() => jumpSlide("prev")}
           style={{
-            width: `${40 * scaleMultiplier}px`,
-            height: `${40 * scaleMultiplier}px`,
+            width: isDesktop ? `${40 * scaleMultiplier}px` : `36px`,
+            
+             height: isDesktop ? `${40 * scaleMultiplier}px` : `36px`,
             borderRadius: "50%",
             border: `1px solid #ccc`,
             background: "#fff",
@@ -310,8 +311,9 @@ useEffect(() => {
         <button
           onClick={() => jumpSlide("next")}
           style={{
-            width: `${40 * scaleMultiplier}px`,
-            height: `${40 * scaleMultiplier}px`,
+            width: isDesktop ? `${40 * scaleMultiplier}px` : `36px`,
+            
+             height: isDesktop ? `${40 * scaleMultiplier}px` : `36px`,
             borderRadius: "50%",
             border: `1px solid #ccc`,
             background: "#fff",
@@ -348,7 +350,7 @@ useEffect(() => {
               width: "100%",
               maxHeight: "90vh",
               overflowY: "auto",
-              padding: "30px",
+              padding: "0px 10px",
               textAlign: "left",
               position: "relative",
               scrollbarWidth: "none",
