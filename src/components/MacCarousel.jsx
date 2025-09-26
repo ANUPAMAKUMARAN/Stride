@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef ,useCallback} from "react";
 
 const MacCarousel = ({ attributes }) => {
   const { title, titleColor, slides } = attributes;
@@ -10,7 +10,7 @@ const MacCarousel = ({ attributes }) => {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const containerRef = useRef(null);
-
+const modalOverlayRef = useRef(null); 
 
   const getScaleMultiplier = () => {
     const width = window.innerWidth;
@@ -53,7 +53,41 @@ const MacCarousel = ({ attributes }) => {
 
   const isDesktop = window.innerWidth >= 768;
 
+// 👇 ADDED: Memoized function to close the modal
+const handleClose = useCallback(() => {
+    setShowModal(false);
+    setSelectedSlide(null); // Clear selected slide
+}, []);
 
+// 👇 ADDED: useEffect for handling ESC key and Click Outside
+useEffect(() => {
+    if (!showModal) return;
+
+    // Handler for ESC key press
+    const handleKeyDown = (event) => {
+        if (event.key === "Escape") {
+            handleClose();
+        }
+    };
+
+    // Handler for clicking outside the content box
+    const handleClickOutside = (event) => {
+        // Check if the click occurred on the modal overlay (the fixed parent)
+        if (modalOverlayRef.current && event.target === modalOverlayRef.current) {
+            handleClose();
+        }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        document.removeEventListener("mousedown", handleClickOutside);
+    };
+}, [showModal, handleClose]); // Depend on showModal and handleClose
+
+// ... (existing useEffect for body overflow remains the same)
   // SVG icons 
   
     const plusIconSvg = (
@@ -294,6 +328,7 @@ const MacCarousel = ({ attributes }) => {
       {/* Modal */}
       {showModal && selectedSlide && (
         <div
+        ref={modalOverlayRef}
           style={{
             position: "fixed",
             inset: 0,
@@ -336,7 +371,8 @@ const MacCarousel = ({ attributes }) => {
             >
              
               <button
-                onClick={() => setShowModal(false)}
+                // onClick={() => setShowModal(false)}
+                onClick={handleClose}
                 style={{
                                     position: "static",
                   background: "#fff",
