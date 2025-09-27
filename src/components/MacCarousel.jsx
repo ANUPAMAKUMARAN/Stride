@@ -158,7 +158,7 @@ useEffect(() => {
         style={{
           display: "flex",
           gap: `${20 * scaleMultiplier}px`,
-          paddingLeft: `${20 * scaleMultiplier}px`,
+          padding: `0px ${20 * scaleMultiplier}px`,
           overflowX: "auto",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
