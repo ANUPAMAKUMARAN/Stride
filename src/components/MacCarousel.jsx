@@ -192,19 +192,7 @@ useEffect(() => {
                 }}
                 draggable={false}
               />
-              // <img
-              //   src={slide.image}
-              //   alt={slide.title}
-              //   style={{
-              //     width: "100%",
-              //     maxHeight: `${650 * scaleMultiplier}px`,
-              //     objectFit: "cover",
-              //     borderRadius: `${16 * scaleMultiplier}px`,
-              //     userSelect: "none",
-              //     pointerEvents: "none",
-              //   }}
-              //   draggable={false}
-              // />
+            
 
             )}
 
@@ -275,7 +263,7 @@ useEffect(() => {
               }}
             >
               {plusIconSvg}
-              {/* {infoIconSvg} */}
+            
             </button>
           </div>
         ))}
@@ -328,119 +316,111 @@ useEffect(() => {
       </div>
 
       {/* Modal */}
-     
-      
-      {showModal && selectedSlide && (
+     {showModal && selectedSlide && (
+  <div
+    ref={modalOverlayRef}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.85)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "flex-start",
+      zIndex: 9999,
+      padding: "40px 20px",
+      overflowY: "auto",       
+      scrollbarWidth: "none",  
+      msOverflowStyle: "none",
+    }}
+    // className="modal-overlay"   
+  >
+    {/* Close Button  */}
+    <button
+      onClick={handleClose}
+      style={{
+        position: "fixed",
+        top: "20px",
+        right: "20px",
+        background: "#fff",
+        borderRadius: "50%",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+        width: "40px",
+        height: "40px",
+        border: "none",
+        cursor: "pointer",
+        padding: "0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 10000,
+      }}
+    >
+      {/* Close SVG */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={isDesktop ? `${35 * scaleMultiplier}` : `25px`}
+        height={isDesktop ? `${35 * scaleMultiplier}` : `25px`}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#333"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+
+    {/* Content Box */}
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "20px",
+        maxWidth: "800px",
+        width: "100%",
+        padding: "20px",
+        textAlign: "left",
+      }}
+    >
+      {selectedSlide.pages?.map((page, idx) => (
         <div
-          ref={modalOverlayRef}
+          key={idx}
           style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.85)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 9999,
-            padding: "20px 20px 0px 20px",
-            //  marginTop:"40px"
-           
+            paddingBottom: "20px",
+            borderBottom:
+              idx !== selectedSlide.pages.length - 1
+                ? "1px solid #eee"
+                : "none",
           }}
         >
-          {/* Close Button Outside */}
-          <button
-            onClick={handleClose}
+          {page.img && (
+            <img
+              src={page.img}
+              alt={`page-${idx}`}
+              style={{
+                maxWidth: "100%",
+                borderRadius: "12px",
+                marginBottom: "15px",
+              }}
+            />
+          )}
+          <p
             style={{
-              position: "absolute",
-              top: "20px",
-              right: "20px",
-              background: "#fff",
-              borderRadius: "50%",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-              width: "40px",
-              height: "40px",
-              border: "none",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              zIndex: 10000,
+              fontSize: "18px",
+              color: page.descriptionColor || "#444",
+              lineHeight: "1.6",
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={isDesktop ? `${35 * scaleMultiplier}` : `25px`}
-              height={isDesktop ? `${35 * scaleMultiplier}` : `25px`}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#333"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-
-          {/* Content Box */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "20px",
-              maxWidth: "800px",
-              width: "100%",
-              maxHeight: "90vh",
-              overflowY: "auto",
-              padding: "10px 10px",
-              textAlign: "left",
-              position: "relative",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            {selectedSlide.pages && selectedSlide.pages.length > 0 && (
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: "30px" }}
-              >
-                {selectedSlide.pages.map((page, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      paddingBottom: "20px",
-                      borderBottom:
-                        idx !== selectedSlide.pages.length - 1
-                          ? "1px solid #eee"
-                          : "none",
-                    }}
-                  >
-                    {page.img && (
-                      <img
-                        src={page.img}
-                        alt={`page-${idx}`}
-                        style={{
-                          maxWidth: "100%",
-                          borderRadius: "12px",
-                          marginBottom: "15px",
-                        }}
-                      />
-                    )}
-                    <p
-                      style={{
-                        fontSize: "18px",
-                        color: page.descriptionColor || "#444",
-                        lineHeight: "1.6",
-                      }}
-                    >
-                      {page.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+            {page.description}
+          </p>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };
