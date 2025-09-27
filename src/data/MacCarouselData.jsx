@@ -15,7 +15,7 @@ export const MacCarouselData = {
                 {
                     description: "Mac is built with privacy and security at its core, giving you full control over your data.",
                     descriptionColor: "#555",
-                    img: "https://thumbs.dreamstime.com/b/earth-globe-family-hands-world-environment-day-concept-elements-image-furnished-nasa-172933016.jpg",
+                    img:  "https://i.pinimg.com/originals/d2/6b/93/d26b93970c974a944536144e6accb1d3.jpg",
                 },
                 {
                     description: "Mac is built with privacy and security at its core, giving you full control over your data.",
