@@ -341,7 +341,9 @@ useEffect(() => {
             justifyContent: "center",
             alignItems: "center",
             zIndex: 9999,
-            padding: "20px",
+            padding: "20px 20px 0px 20px",
+            //  marginTop:"40px"
+           
           }}
         >
           {/* Close Button Outside */}
@@ -390,7 +392,7 @@ useEffect(() => {
               width: "100%",
               maxHeight: "90vh",
               overflowY: "auto",
-              padding: "0px 10px",
+              padding: "10px 10px",
               textAlign: "left",
               position: "relative",
               scrollbarWidth: "none",
