@@ -9,7 +9,7 @@ import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
 import ImpactsAcheivements from './components/ImpactsAcheivements';
-
+import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import MacCarousel from './components/MacCarousel';
@@ -27,21 +27,22 @@ import ComparisonTable from './components/SaudiPccTable';
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
+
+
 import { ActioncardData } from './data/ActioncardData';
 import { CountryScrollData } from './data/CountryScrollData';
 import { CountryyChartData } from './data/CountryyChartData';
 import { FaqCarouselData } from './data/FaqCarouselData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
+import { KlarnaBrandsData } from './data/KlarnaBrandsData';
 import { MacCarouselData } from './data/MacCarouselData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
 import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
-
 // import { PhyshealCarouselData, RecoveryJourneyData } from './data/Sampledata';
 // import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
-
 import { SidebarData } from './data/SidebarData';
 import { StoryCraftCarouselData } from './data/StoryCraftCarouselData';
 import { VideoCarouselData } from './data/VideoCarouselData';
@@ -55,6 +56,7 @@ function App() {
   return (
     <>
       <div>
+        <KlarnaBrands attributes={KlarnaBrandsData}/>
         <MacCarousel attributes={MacCarouselData}/>
         <CountryScroll attributes={CountryScrollData} />
 
