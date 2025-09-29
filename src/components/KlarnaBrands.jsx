@@ -1575,7 +1575,7 @@ const KlarnaBrands = ({ attributes }) => {
     // --- Styles ---
     const styles = {
         container: {
-            padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(100)}`,
+            padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(180)}`,
             fontFamily: 'Arial, sans-serif',
             backgroundColor: '#fff',
         },
