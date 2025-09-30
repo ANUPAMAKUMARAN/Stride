@@ -548,8 +548,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-// FIX 1: Ensure ChevronRight is defined outside the main component 
-// and only accepts props for sizing/color.
+// FIX: Ensure ChevronRight is defined outside the main component 
 const ChevronRight = ({ color = '#fff', size = 24 }) => (
     <svg 
         xmlns="http://www.w3.org/2000/svg" 
@@ -569,6 +568,7 @@ const ChevronRight = ({ color = '#fff', size = 24 }) => (
 
 
 const FlippedSlides = ({ attributes }) => {
+    // ... (rest of the component's state, constants, and useEffects remain the same)
     const data = attributes || {};
     const { title, titleColor, slides } = data;
 
@@ -585,7 +585,6 @@ const FlippedSlides = ({ attributes }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
     
-    // Existing states (including mobile flip state from prior fix)
     const [flippedMobileCardId, setFlippedMobileCardId] = useState(null); 
     const [hoveredIndex, setHoveredIndex] = useState(null); 
 
@@ -622,8 +621,6 @@ const FlippedSlides = ({ attributes }) => {
                 };
         }
     };
-    // ---------------------------------------------------------------
-
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -632,7 +629,6 @@ const FlippedSlides = ({ attributes }) => {
                 setWindowWidth(width);
                 setIsMobile(width <= MOBILE_BREAKPOINT);
                 
-                // Clear mobile flip state on resize if switching to desktop
                 if (width > MOBILE_BREAKPOINT) {
                     setFlippedMobileCardId(null);
                 }
@@ -656,11 +652,10 @@ const FlippedSlides = ({ attributes }) => {
 
     const scale = getScaleFactor();
     const getScaledValue = (px) => isMobile ? Math.round(px * scale) : px;
-    const scaleValue = (px) => `${getScaledValue(px)}px`; // Helper function inside component scope
-
+    const scaleValue = (px) => `${getScaledValue(px)}px`; 
  
     useEffect(() => {
-        // ... (scrolling effect logic remains the same)
+        // ... (auto-scrolling effect logic remains the same)
         if (isMobile) return;
 
         const timeout = setTimeout(() => {
@@ -691,8 +686,6 @@ const FlippedSlides = ({ attributes }) => {
         return () => clearTimeout(timeout);
     }, [isMobile, windowWidth, slides]);
 
-
-    
     useEffect(() => {
         // ... (auto-scrolling effect logic remains the same)
         if (isMobile || scrollData.length === 0) return;
@@ -753,33 +746,81 @@ const FlippedSlides = ({ attributes }) => {
 
     // --- Styles ---
     const styles = {
+        // ... (general styles)
         container: {
             
             padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(180)}`,
             fontFamily: 'Arial, sans-serif',
             backgroundColor: '#fff',
         },
-        // ... (rest of the styles remain the same)
-        
-        // This is the style that was throwing the error by referencing scaleValue indirectly
-        mobileCtaArrow: {
+        header: {
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            bottom: scaleValue(20),
-            right: scaleValue(20),
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            borderRadius: '50%',
-            // FIX 2: Pass the SCALED PIXEL VALUE to ChevronRight
-            width: scaleValue(50), 
-            height: scaleValue(50), 
-            cursor: 'pointer',
-            zIndex: 4,
-            transition: 'background-color 0.2s',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            marginBottom: isMobile ? scaleValue(10) : scaleValue(30),
+            padding: isMobile ? `0 ${scaleValue(20)}` : '0',
         },
-        // ... (rest of the styles)
+        title: {
+            color: titleColor || '#000',
+            fontSize: isMobile ? scaleValue(24) : scaleValue(28),
+            fontWeight: '700',
+        },
         
+        seeAll: { 
+            color: '#ff4081',
+            textDecoration: 'none',
+            fontSize: scaleValue(14),
+            fontWeight: '600',
+            cursor: 'pointer',
+            marginTop: isMobile ? scaleValue(10) : '0',
+        },
+        
+        desktopGridOuter: {
+            position: 'relative',
+            height: scaleValue(650),
+            overflow: 'hidden', 
+            width: '100%',
+            display: isMobile ? 'none' : 'block',
+        },
+
+        desktopGridInner: {
+            display: 'flex',
+            gap: scaleValue(GAP),
+            alignItems: 'flex-start',
+            width: '100%',
+        },
+        
+        columnWrapper: { 
+            display: 'flex',
+            flexDirection: 'column', 
+            flex: `0 0 calc( (100% - ${scaleValue(GAP * (COLUMN_COUNT - 1))}) / ${COLUMN_COUNT} )`, 
+            boxSizing: 'border-box',
+        },
+
+        columnContent: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: scaleValue(GAP),
+            willChange: 'transform',
+        },
+        
+        slideItemBase: {
+            display: 'block', 
+            borderRadius: scaleValue(20), 
+            overflow: 'hidden',           
+            position: 'relative',
+            boxShadow: `0 ${getScaledValue(4)}px ${getScaledValue(15)}px rgba(0,0,0,0.05)`,
+            cursor: 'pointer',
+            width: '100%',
+            flexShrink: 0,
+            textDecoration: 'none', 
+            color: 'inherit', 
+            perspective: '1000px',
+        },
+
+        
+        // This function controls the flip animation for both mobile/desktop.
         flipCardInner: (isFlipped, flipTransform) => ({
             position: 'relative',
             width: '100%',
@@ -787,8 +828,10 @@ const FlippedSlides = ({ attributes }) => {
             textAlign: 'center',
             transition: 'transform 0.6s ease', 
             transformStyle: 'preserve-3d',
+        
             transform: isFlipped ? flipTransform : 'rotateX(0deg)',
             willChange: 'transform',
+            
         }),
 
         cardFace: {
@@ -822,7 +865,23 @@ const FlippedSlides = ({ attributes }) => {
             
             minHeight: '100%', 
         }),
-
+        
+        // Style for the mobile CTA arrow on the back of the card
+        mobileCtaArrow: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            bottom: scaleValue(20),
+            right: scaleValue(20),
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '50%',
+            width: scaleValue(50),
+            height: scaleValue(50),
+            cursor: 'pointer',
+            zIndex: 4,
+            transition: 'background-color 0.2s',
+        },
 
         overlay: {
             position: 'absolute',
@@ -937,6 +996,7 @@ const FlippedSlides = ({ attributes }) => {
     }
 
     const renderCardContent = (slide, cardId, isMobileView) => {
+        // UPDATION: Define isFlipped based on view
         const isFlipped = isMobileView 
             ? flippedMobileCardId === cardId 
             : hoveredIndex === cardId; 
@@ -960,25 +1020,26 @@ const FlippedSlides = ({ attributes }) => {
             
             height: slideHeight, 
             
-            // Fixed ReferenceError by using isFlipped
-            transform: isFlipped && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
+            // Desktop Scale Effect: Only scale if it's desktop AND hovered AND not a flipping card
+            // We use isFlipped here, as it's equivalent to hoveredIndex === cardId on desktop.
+            transform: isFlipped && !isMobileView && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
             transition: 'transform 0.3s ease-out',
             
             ...(isMobileView ? styles.mobileCardStyle : {}),
             cursor: hasLink || hasDescription ? 'pointer' : 'default', 
         };
 
-        // FIX 3: Calculate the raw pixel size for the ChevronRight component outside of the JSX
+        // Calculate the raw pixel size for the ChevronRight component 
         const arrowSizePx = getScaledValue(28); 
 
         const CardInnerContent = (
             <div 
                 style={cardContainerStyle}
-                // Desktop hover events (only for desktop and when the card can flip/link)
+                // UPDATION: Desktop Hover logic remains strict (only runs if !isMobileView)
                 onPointerEnter={() => !isMobileView && (hasLink || hasDescription) && setHoveredIndex(cardId)}
                 onPointerLeave={() => !isMobileView && (hasLink || hasDescription) && setHoveredIndex(null)}
                 
-                // Add onClick to the inner div to trigger mobile flip/unflip
+                // Mobile Click logic: Triggers flip for mobile cards with descriptions
                 onClick={e => {
                     if (isMobileView && hasDescription) {
                         handleMobileClick(e, cardId, hasLink, hasDescription);
@@ -1020,13 +1081,12 @@ const FlippedSlides = ({ attributes }) => {
                         <div style={styles.cardFaceBack(backTransform)}>
                             {slide.description}
                             
-                            {/* Mobile CTA Arrow */}
+                            {/* Mobile CTA Arrow (only shows on mobile, on flipped back face) */}
                             {isMobileView && hasLink && (
                                 <div 
                                     style={styles.mobileCtaArrow}
                                     onClick={(e) => handleArrowClick(e, linkUrl)}
                                 >
-                                    {/* FIX 4: Pass the calculated raw pixel value (arrowSizePx) to the component */}
                                     <ChevronRight size={arrowSizePx} />
                                 </div>
                             )}
@@ -1037,6 +1097,8 @@ const FlippedSlides = ({ attributes }) => {
         );
 
         
+        // Desktop Link Logic: Only wrap in <a> if it has a link AND 
+        // it's desktop (hover controlled) OR it's a mobile card that can't flip (tap controlled).
         if (hasLink && (!isMobileView || !hasDescription)) { 
             return (
                 <a 
@@ -1050,7 +1112,8 @@ const FlippedSlides = ({ attributes }) => {
                 </a>
             );
         }
-
+        
+        // Mobile Link Logic (flippable cards): The link is handled by the inner div/arrow, no outer <a> tag.
         return (
             <div key={cardId}>
                 {CardInnerContent}
