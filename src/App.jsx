@@ -8,6 +8,7 @@ import CountryScroll from './components/CountryScroll';
 import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
+import FlippedSlides from './components/FlippedSlides';
 import ImpactsAcheivements from './components/ImpactsAcheivements';
 import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
@@ -33,6 +34,7 @@ import { ActioncardData } from './data/ActioncardData';
 import { CountryScrollData } from './data/CountryScrollData';
 import { CountryyChartData } from './data/CountryyChartData';
 import { FaqCarouselData } from './data/FaqCarouselData';
+import { FlippedSlidesData } from './data/FlippedSlidesData';
 import { ImpactAchievementData } from './data/impactsAchievementData';
 import { KlarnaBrandsData } from './data/KlarnaBrandsData';
 import { MacCarouselData } from './data/MacCarouselData';
@@ -56,6 +58,7 @@ function App() {
   return (
     <>
       <div>
+        <FlippedSlides attributes={FlippedSlidesData}/>
         <KlarnaBrands attributes={KlarnaBrandsData}/>
         <MacCarousel attributes={MacCarouselData}/>
         <CountryScroll attributes={CountryScrollData} />
