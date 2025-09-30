@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useRef } from 'react';
 
 const FlippedSlides = ({ attributes }) => {
@@ -469,7 +468,7 @@ const FlippedSlides = ({ attributes }) => {
         );
 
         
-        if (hasLink && !hasDescription) { 
+        if (hasLink ) { 
             return (
                 <a 
                     key={cardId}
@@ -546,10 +545,11 @@ const FlippedSlides = ({ attributes }) => {
 };
 
 export default FlippedSlides;
+
 // import React, { useState, useEffect, useRef } from 'react';
 
 // const FlippedSlides = ({ attributes }) => {
-//    const data = attributes || {};
+//     const data = attributes || {};
 //     const { title, titleColor, slides } = data;
 
 //     const COLUMN_COUNT = 4;
@@ -564,7 +564,7 @@ export default FlippedSlides;
 
 //     const [isMobile, setIsMobile] = useState(false);
 //     const [windowWidth, setWindowWidth] = useState(0);
-//     // Tracks the index of the slide that is hovered for the flip effect
+    
 //     const [hoveredIndex, setHoveredIndex] = useState(null); 
 
 //     const gridInnerRef = useRef(null);
@@ -572,7 +572,36 @@ export default FlippedSlides;
 
 //     const [scrollData, setScrollData] = useState([]);
 
- 
+    
+   
+//     const getFlipTransforms = (direction) => {
+//         switch (direction) {
+//             case 'right':
+//                 return {
+//                     innerTransform: 'rotateY(180deg)',
+//                     backTransform: 'rotateY(-180deg)',
+//                 };
+//             case 'left':
+//                 return {
+//                     innerTransform: 'rotateY(-180deg)',
+//                     backTransform: 'rotateY(180deg)',
+//                 };
+//             case 'down':
+//                 return {
+//                     innerTransform: 'rotateX(-180deg)',
+//                     backTransform: 'rotateX(180deg)',
+//                 };
+//             case 'up': 
+//             default:
+//                 return {
+//                     innerTransform: 'rotateX(180deg)',
+//                     backTransform: 'rotateX(-180deg)',
+//                 };
+//         }
+//     };
+//     // ---------------------------------------------------------------
+
+
 //     useEffect(() => {
 //         const checkScreenSize = () => {
 //             if (typeof window !== 'undefined') {
@@ -695,6 +724,7 @@ export default FlippedSlides;
 //     // --- Styles ---
 //     const styles = {
 //         container: {
+           
 //             padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(180)}`,
 //             fontFamily: 'Arial, sans-serif',
 //             backgroundColor: '#fff',
@@ -740,7 +770,7 @@ export default FlippedSlides;
 //         columnWrapper: { 
 //             display: 'flex',
 //             flexDirection: 'column', 
-//             flex: `0 0 ${100 / COLUMN_COUNT}%`, 
+//             flex: `0 0 calc( (100% - ${scaleValue(GAP * (COLUMN_COUNT - 1))}) / ${COLUMN_COUNT} )`, 
 //             boxSizing: 'border-box',
 //         },
 
@@ -750,11 +780,11 @@ export default FlippedSlides;
 //             gap: scaleValue(GAP),
 //             willChange: 'transform',
 //         },
-//         // Base style for the card container (front face/back face wrapper)
+        
 //         slideItemBase: {
 //             display: 'block', 
-//             borderRadius: scaleValue(20),
-//             overflow: 'hidden',
+//             borderRadius: scaleValue(20), 
+//             overflow: 'hidden',           
 //             position: 'relative',
 //             boxShadow: `0 ${getScaledValue(4)}px ${getScaledValue(15)}px rgba(0,0,0,0.05)`,
 //             cursor: 'pointer',
@@ -762,36 +792,34 @@ export default FlippedSlides;
 //             flexShrink: 0,
 //             textDecoration: 'none', 
 //             color: 'inherit', 
-//             // 3D Setup
 //             perspective: '1000px',
 //         },
 
-//         // Wrapper for the front and back faces, handles the flip transition
-//         flipCardInner: (isHovered, isMobileView) => ({
+        
+//         flipCardInner: (isHovered, isMobileView, flipTransform) => ({
 //             position: 'relative',
 //             width: '100%',
 //             height: '100%',
 //             textAlign: 'center',
 //             transition: 'transform 0.6s ease',
 //             transformStyle: 'preserve-3d',
-//             // Flip Up (rotateX) for desktop, scale-only for mobile
-//             transform: isHovered && !isMobileView ? 'rotateX(180deg)' : 'rotateX(0deg)',
+       
+//             transform: isHovered && !isMobileView ? flipTransform : 'rotateX(0deg)',
 //             willChange: 'transform',
             
 //         }),
 
-//         // Style for both front and back faces
+   
 //         cardFace: {
 //             position: 'absolute',
 //             width: '100%',
 //             height: '100%',
 //             WebkitBackfaceVisibility: 'hidden',
 //             backfaceVisibility: 'hidden',
-//             borderRadius: scaleValue(20),
-//             overflow: 'hidden',
+    
 //         },
        
-//         // Front face specific style (where the image/icon is)
+      
 //         cardFaceFront: (slide) => ({
 //             backgroundSize: 'cover',
 //             backgroundPosition: 'center',
@@ -799,22 +827,23 @@ export default FlippedSlides;
 //             zIndex: 2,
 //         }),
 
-//         // Back face specific style (where the description is)
-//         cardFaceBack: {
-//             backgroundColor: '#ff4081', // Klarna's pink/purple for the flip side
+     
+//         cardFaceBack: (backTransform) => ({
+//             backgroundColor: '#ff4081', 
 //             color: '#fff',
 //             display: 'flex',
 //             flexDirection: 'column',
-//             justifyContent: 'center', // Centers text vertically
+//             justifyContent: 'center', 
 //             alignItems: 'center',
 //             padding: scaleValue(20),
-//             transform: 'rotateX(180deg)', // Initially rotated for the flip effect
+            
+//             transform: backTransform, 
 //             fontSize: scaleValue(16),
 //             fontWeight: '600',
 //             textAlign: 'center',
-//             // FIX: Ensure the back face fills the entire height of the card
-//             minHeight: '100%',
-//         },
+         
+//             minHeight: '100%', 
+//         }),
 
 
 //         overlay: {
@@ -892,7 +921,7 @@ export default FlippedSlides;
 //             msOverflowStyle: 'none',
 //         },
 //         mobileCardStyle: {
-//            // Standard card height for mobile view
+          
 //             height: scaleValue(350), 
 //             width: `calc( (100vw - ${getScaledValue(40)}px - ${GAP * 0.7}px) / 1.3 - ${scaleValue(GAP)})`, 
 //             flexShrink: 0,
@@ -916,22 +945,27 @@ export default FlippedSlides;
 //         const linkUrl = slide.linkUrl || '#';
 //         const hasLink = !!slide.linkUrl;
 //         const hasDescription = !!slide.description;
+        
+        
+//         const direction = slide.flipDirection || 'up'; 
+//         const { innerTransform, backTransform } = getFlipTransforms(direction);
 
-//         // 1. Calculate the slide height just once
+
+//         // 1. Calculate the slide height 
 //         const slideHeight = isMobileView 
 //             ? styles.mobileCardStyle.height 
 //             : (slide.height ? scaleValue(parseInt(slide.height, 10)) : scaleValue(250));
 
 //         const cardContainerStyle = {
 //             ...styles.slideItemBase,
-//             // Apply the height here to ensure the parent container wraps the flip content correctly
+           
 //             height: slideHeight, 
-//             // Only apply a subtle scale for non-flip views (e.g., mobile or unlinked desktop)
+            
 //             transform: isHovered && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
 //             transition: 'transform 0.3s ease-out',
             
-//             ...(isMobileView ? styles.mobileCardStyle : {}), // only keeps width/flexshrink from mobileCardStyle
-//             cursor: hasLink ? 'pointer' : 'default',
+//             ...(isMobileView ? styles.mobileCardStyle : {}),
+//             cursor: hasLink || hasDescription ? 'pointer' : 'default', 
 //         };
 
 //         const CardInnerContent = (
@@ -940,11 +974,11 @@ export default FlippedSlides;
 //                 onPointerEnter={() => (hasLink || hasDescription) && setHoveredIndex(cardId)}
 //                 onPointerLeave={() => (hasLink || hasDescription) && setHoveredIndex(null)}
 //             >
-//                 {/* The height of this inner div is 100% of the parent (cardContainerStyle's height) */}
-//                 <div style={styles.flipCardInner(isHovered, isMobileView)}>
-//                     {/* Front Face - its height is 100% of flipCardInner */}
+                
+//                 <div style={styles.flipCardInner(isHovered, isMobileView, innerTransform)}>
+                   
 //                     <div style={{ ...styles.cardFace, ...styles.cardFaceFront(slide) }}>
-//                          {/* Card Content for the Front Face */}
+                       
 //                         <div style={styles.slideContentInner}>
 //                             <div style={styles.overlay}></div>
 //                             {slide.cashback && (
@@ -970,9 +1004,9 @@ export default FlippedSlides;
 //                         </div>
 //                     </div>
 
-//                     {/* Back Face (Description) - its height is 100% of flipCardInner */}
+//                     {/* Back Face (Description)  */}
 //                     {hasDescription && (
-//                         <div style={styles.cardFaceBack}>
+//                         <div style={styles.cardFaceBack(backTransform)}>
 //                             {slide.description}
 //                         </div>
 //                     )}
@@ -981,7 +1015,7 @@ export default FlippedSlides;
 //         );
 
         
-//         if (hasLink && !hasDescription) { // Only link if there's no description for a clean experience
+//         if (hasLink ) { 
 //             return (
 //                 <a 
 //                     key={cardId}

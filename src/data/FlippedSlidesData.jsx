@@ -31,7 +31,7 @@ export const FlippedSlidesData = {
             linkUrl: "https://example.com/brand-c",
              description: "🎉 Special Offer: 20% Off Your First Purchase with Klarna!"
              ,
-             flipDirection: "left" 
+             flipDirection: "up" 
         },
         {
             backgroundimage: "url('https://img.freepik.com/free-photo/dried-gypsophila-with-window-shadow-beige-wall_53876-147576.jpg?semt=ais_hybrid&w=740&q=80')", iconImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCm4PWLyOd1LLzyyJuLF-0QwQZAYA1Q3b29TAzSsPD2niuSAQEwUGxyO2j9SZbPgEsWP4&usqp=CAU",
@@ -63,7 +63,7 @@ export const FlippedSlidesData = {
             columnSpan: 1,
               linkUrl: "https://example.com/brand-a" ,
              description: "🎉 Special Offer: 20% Off Your First Purchase with Klarna!",
-             flipDirection: "right" 
+             flipDirection: "up" 
 
         },
         {
