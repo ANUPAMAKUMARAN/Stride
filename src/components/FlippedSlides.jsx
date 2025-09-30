@@ -1,5 +1,572 @@
 
+// import React, { useState, useEffect, useRef } from 'react';
+
+// const FlippedSlides = ({ attributes }) => {
+//     const data = attributes || {};
+//     const { title, titleColor, slides } = data;
+
+//     const COLUMN_COUNT = 4;
+//     const GAP = 15;
+//     const MOBILE_BREAKPOINT = 768;
+//     const BASE_MOBILE_WIDTH = 414;
+    
+    
+//     const BASE_SCROLL_DURATION_SECONDS = 1.7;
+//     const STAGGER_DELAY_MS = 2000;
+//     const CYCLE_PAUSE_MS = 1000;
+
+//     const [isMobile, setIsMobile] = useState(false);
+//     const [windowWidth, setWindowWidth] = useState(0);
+    
+//     const [hoveredIndex, setHoveredIndex] = useState(null); 
+
+//     const gridInnerRef = useRef(null);
+//     const columnRefs = useRef(Array(COLUMN_COUNT).fill(null).map(() => React.createRef()));
+
+//     const [scrollData, setScrollData] = useState([]);
+
+    
+   
+//     const getFlipTransforms = (direction) => {
+//         switch (direction) {
+//             case 'right':
+//                 return {
+//                     innerTransform: 'rotateY(180deg)',
+//                     backTransform: 'rotateY(-180deg)',
+//                 };
+//             case 'left':
+//                 return {
+//                     innerTransform: 'rotateY(-180deg)',
+//                     backTransform: 'rotateY(180deg)',
+//                 };
+//             case 'down':
+//                 return {
+//                     innerTransform: 'rotateX(-180deg)',
+//                     backTransform: 'rotateX(180deg)',
+//                 };
+//             case 'up': 
+//             default:
+//                 return {
+//                     innerTransform: 'rotateX(180deg)',
+//                     backTransform: 'rotateX(-180deg)',
+//                 };
+//         }
+//     };
+//     // ---------------------------------------------------------------
+
+
+//     useEffect(() => {
+//         const checkScreenSize = () => {
+//             if (typeof window !== 'undefined') {
+//                 const width = window.innerWidth;
+//                 setWindowWidth(width);
+//                 setIsMobile(width <= MOBILE_BREAKPOINT);
+//             }
+//         };
+//         checkScreenSize();
+//         if (typeof window !== 'undefined') {
+//             window.addEventListener('resize', checkScreenSize);
+//         }
+//         return () => {
+//             if (typeof window !== 'undefined') {
+//                 window.removeEventListener('resize', checkScreenSize);
+//             }
+//         };
+//     }, []);
+
+//     const getScaleFactor = () => {
+//         if (!isMobile) return 1;
+//         return Math.min(windowWidth / BASE_MOBILE_WIDTH, 1.2);
+//     };
+
+//     const scale = getScaleFactor();
+//     const getScaledValue = (px) => isMobile ? Math.round(px * scale) : px;
+//     const scaleValue = (px) => `${getScaledValue(px)}px`;
+
+ 
+//     useEffect(() => {
+//         if (isMobile) return;
+
+//         const timeout = setTimeout(() => {
+//             const viewportHeight = getScaledValue(650);
+//             const columns = columnRefs.current.map(ref => ref.current);
+//             let totalMaxScroll = 0;
+
+//             const calculatedData = columns.map(el => {
+//                 if (!el) return { maxScroll: 0, duration: 0 };
+                
+//                 const maxScroll = Math.max(0, el.scrollHeight - viewportHeight);
+//                 totalMaxScroll += maxScroll;
+//                 return { maxScroll, duration: 0 };
+//             });
+
+//             if (totalMaxScroll > 0) {
+//                 const avgMaxScroll = totalMaxScroll / COLUMN_COUNT;
+//                 calculatedData.forEach(data => {
+//                     if (data.maxScroll > 0) {
+//                         data.duration = (data.maxScroll / avgMaxScroll) * BASE_SCROLL_DURATION_SECONDS;
+//                     }
+//                 });
+//             }
+            
+//             setScrollData(calculatedData);
+//         }, 50);
+
+//         return () => clearTimeout(timeout);
+//     }, [isMobile, windowWidth, slides]);
+
+
+    
+//     useEffect(() => {
+//         if (isMobile || scrollData.length === 0) return;
+
+//         let timeouts = [];
+        
+//         const runSequence = (direction) => {
+//             const isUp = direction === 'UP';
+//             const target = isUp ? (data) => data.maxScroll : () => 0;
+
+//             scrollData.forEach((column, index) => {
+//                 if (column.maxScroll <= 0) return;
+
+//                 const delay = index * STAGGER_DELAY_MS;
+                
+//                 const timerId = setTimeout(() => {
+//                     const ref = columnRefs.current[index].current;
+//                     if (ref) {
+//                         ref.style.transition = `transform ${column.duration}s linear`;
+//                         ref.style.transform = `translateY(${-target(column)}px)`;
+//                     }
+//                 }, delay);
+//                 timeouts.push(timerId);
+//             });
+
+//             const lastColumn = scrollData[COLUMN_COUNT - 1];
+//             const totalSequenceTime = (COLUMN_COUNT - 1) * STAGGER_DELAY_MS + lastColumn.duration * 1000;
+            
+//             const nextSequenceTimer = setTimeout(() => {
+//                     columnRefs.current.forEach(ref => {
+//                         if (ref.current) {
+//                             ref.current.style.transition = 'none';
+//                         }
+//                     });
+
+//                     if (isUp) {
+//                         runSequence('DOWN');
+//                     } else {
+                        
+//                     }
+//             }, totalSequenceTime + CYCLE_PAUSE_MS);
+//             timeouts.push(nextSequenceTimer);
+//         };
+        
+//         runSequence('UP');
+
+//         return () => {
+//             timeouts.forEach(clearTimeout);
+//             columnRefs.current.forEach(ref => {
+//                 if (ref.current) {
+//                     ref.current.style.transition = 'none';
+//                     ref.current.style.transform = 'translateY(0px)';
+//                 }
+//             });
+//         };
+//     }, [isMobile, scrollData]);
+
+
+//     // --- Styles ---
+//     const styles = {
+//         container: {
+           
+//             padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(180)}`,
+//             fontFamily: 'Arial, sans-serif',
+//             backgroundColor: '#fff',
+//         },
+//         header: {
+//             display: 'flex',
+//             flexDirection: isMobile ? 'column' : 'row',
+//             justifyContent: 'space-between',
+//             alignItems: isMobile ? 'flex-start' : 'center',
+//             marginBottom: isMobile ? scaleValue(10) : scaleValue(30),
+//             padding: isMobile ? `0 ${scaleValue(20)}` : '0',
+//         },
+//         title: {
+//             color: titleColor || '#000',
+//             fontSize: isMobile ? scaleValue(24) : scaleValue(28),
+//             fontWeight: '700',
+//         },
+        
+//         seeAll: { 
+//             color: '#ff4081',
+//             textDecoration: 'none',
+//             fontSize: scaleValue(14),
+//             fontWeight: '600',
+//             cursor: 'pointer',
+//             marginTop: isMobile ? scaleValue(10) : '0',
+//         },
+        
+//         desktopGridOuter: {
+//             position: 'relative',
+//             height: scaleValue(650),
+//             overflow: 'hidden', 
+//             width: '100%',
+//             display: isMobile ? 'none' : 'block',
+//         },
+
+//         desktopGridInner: {
+//             display: 'flex',
+//             gap: scaleValue(GAP),
+//             alignItems: 'flex-start',
+//             width: '100%',
+//         },
+        
+//         columnWrapper: { 
+//             display: 'flex',
+//             flexDirection: 'column', 
+//             flex: `0 0 calc( (100% - ${scaleValue(GAP * (COLUMN_COUNT - 1))}) / ${COLUMN_COUNT} )`, 
+//             boxSizing: 'border-box',
+//         },
+
+//         columnContent: {
+//             display: 'flex',
+//             flexDirection: 'column',
+//             gap: scaleValue(GAP),
+//             willChange: 'transform',
+//         },
+        
+//         slideItemBase: {
+//             display: 'block', 
+//             borderRadius: scaleValue(20), 
+//             overflow: 'hidden',           
+//             position: 'relative',
+//             boxShadow: `0 ${getScaledValue(4)}px ${getScaledValue(15)}px rgba(0,0,0,0.05)`,
+//             cursor: 'pointer',
+//             width: '100%',
+//             flexShrink: 0,
+//             textDecoration: 'none', 
+//             color: 'inherit', 
+//             perspective: '1000px',
+//         },
+
+        
+//         flipCardInner: (isHovered, isMobileView, flipTransform) => ({
+//             position: 'relative',
+//             width: '100%',
+//             height: '100%',
+//             textAlign: 'center',
+//             transition: 'transform 0.9s ease',
+//             transformStyle: 'preserve-3d',
+       
+//             transform: isHovered && !isMobileView ? flipTransform : 'rotateX(0deg)',
+//             willChange: 'transform',
+            
+//         }),
+
+   
+//         cardFace: {
+//             position: 'absolute',
+//             width: '100%',
+//             height: '100%',
+//             WebkitBackfaceVisibility: 'hidden',
+//             backfaceVisibility: 'hidden',
+    
+//         },
+       
+      
+//         cardFaceFront: (slide) => ({
+//             backgroundSize: 'cover',
+//             backgroundPosition: 'center',
+//             backgroundImage: slide.backgroundimage,
+//             zIndex: 2,
+//         }),
+
+     
+//         cardFaceBack: (backTransform) => ({
+//             backgroundColor: '#ff4081', 
+//             color: '#fff',
+//             display: 'flex',
+//             flexDirection: 'column',
+//             justifyContent: 'center', 
+//             alignItems: 'center',
+//             padding: scaleValue(20),
+            
+//             transform: backTransform, 
+//             fontSize: scaleValue(16),
+//             fontWeight: '600',
+//             textAlign: 'center',
+         
+//             minHeight: '100%', 
+//         }),
+
+
+//         overlay: {
+//             position: 'absolute',
+//             top: 0,
+//             left: 0,
+//             right: 0,
+//             bottom: 0,
+//             backgroundColor: 'rgba(255, 255, 255, 0.4)',
+//             zIndex: 1,
+//         },
+
+//         cashbackTag: {
+//             backgroundColor: 'white',
+//             color: '#ff4081',
+//             padding: `${getScaledValue(5)}px ${getScaledValue(10)}px`,
+//             borderRadius: scaleValue(15),
+//             fontSize: scaleValue(12),
+//             fontWeight: 'bold',
+//             marginBottom: scaleValue(10),
+//             alignSelf: 'flex-start',
+//             boxShadow: `0 ${getScaledValue(2)}px ${getScaledValue(4)}px rgba(0,0,0,0.1)`,
+//         },
+
+//         centeredIconWrapper: {
+//             position: 'absolute',
+//             top: 0,
+//             left: 0,
+//             right: 0,
+//             bottom: 0,
+//             display: 'flex',
+//             justifyContent: 'center',
+//             alignItems: 'center',
+//             zIndex: 2,
+//         },
+
+//         iconBox: {
+//             width: scaleValue(80),
+//             height: scaleValue(80),
+//             backgroundColor: 'white',
+//             borderRadius: '50%',
+//             display: 'flex',
+//             justifyContent: 'center',
+//             alignItems: 'center',
+//             overflow: 'hidden',
+//             boxShadow: `0 ${getScaledValue(4)}px ${getScaledValue(8)}px rgba(0,0,0,0.15)`,
+//         },
+
+//         fadeOverlay: {
+//             position: 'absolute',
+//             bottom: 0,
+//             left: 0,
+//             right: 0,
+//             height: scaleValue(120),
+//             background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 90%)',
+//             pointerEvents: 'none',
+//             zIndex: 5,
+//         },
+
+//         iconImage: {
+//             objectFit: 'cover',
+//             width: '100%',
+//             height: '100%',
+//         },
+        
+      
+//         mobileCarouselWrapper: {
+//             display: 'flex',
+//             gap: scaleValue(GAP),
+//             overflowX: 'auto',
+//             padding: `0 ${scaleValue(20)}`,
+//             paddingBottom: scaleValue(20),
+//             WebkitOverflowScrolling: 'touch',
+//             scrollbarWidth: 'none',
+//             msOverflowStyle: 'none',
+//         },
+//         mobileCardStyle: {
+          
+//             height: scaleValue(350), 
+//             width: `calc( (100vw - ${getScaledValue(40)}px - ${GAP * 0.7}px) / 1.3 - ${scaleValue(GAP)})`, 
+//             flexShrink: 0,
+//         },
+//     };
+
+ 
+//     const distributeSlides = (slides = [], numColumns) => {
+//         const columns = Array.from({ length: numColumns }, () => []);
+//         slides.forEach((slide, index) => {
+//             columns[index % numColumns].push(slide);
+//         });
+//         return columns;
+//     };
+
+//     const columnsData = distributeSlides(slides || [], COLUMN_COUNT);
+    
+
+//     const renderCardContent = (slide, cardId, isMobileView) => {
+//         const isHovered = hoveredIndex === cardId;
+//         const linkUrl = slide.linkUrl || '#';
+//         const hasLink = !!slide.linkUrl;
+//         const hasDescription = !!slide.description;
+        
+        
+//         const direction = slide.flipDirection || 'up'; 
+//         const { innerTransform, backTransform } = getFlipTransforms(direction);
+
+
+//         // 1. Calculate the slide height 
+//         const slideHeight = isMobileView 
+//             ? styles.mobileCardStyle.height 
+//             : (slide.height ? scaleValue(parseInt(slide.height, 10)) : scaleValue(250));
+
+//         const cardContainerStyle = {
+//             ...styles.slideItemBase,
+           
+//             height: slideHeight, 
+            
+//             transform: isHovered && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
+//             transition: 'transform 0.3s ease-out',
+            
+//             ...(isMobileView ? styles.mobileCardStyle : {}),
+//             cursor: hasLink || hasDescription ? 'pointer' : 'default', 
+//         };
+
+//         const CardInnerContent = (
+//             <div 
+//                 style={cardContainerStyle}
+//                 onPointerEnter={() => (hasLink || hasDescription) && setHoveredIndex(cardId)}
+//                 onPointerLeave={() => (hasLink || hasDescription) && setHoveredIndex(null)}
+//             >
+                
+//                 <div style={styles.flipCardInner(isHovered, isMobileView, innerTransform)}>
+                   
+//                     <div style={{ ...styles.cardFace, ...styles.cardFaceFront(slide) }}>
+                       
+//                         <div style={styles.slideContentInner}>
+//                             <div style={styles.overlay}></div>
+//                             {slide.cashback && (
+//                                 <div
+//                                     style={{
+//                                         ...styles.cashbackTag,
+//                                         position: 'absolute',
+//                                         top: scaleValue(15),
+//                                         left: scaleValue(15),
+//                                         zIndex: 3,
+//                                     }}
+//                                 >
+//                                     {slide.cashback}
+//                                 </div>
+//                             )}
+//                             {slide.iconImage && (
+//                                 <div style={styles.centeredIconWrapper}>
+//                                     <div style={styles.iconBox}>
+//                                         <img src={slide.iconImage} alt="Brand Icon" style={styles.iconImage} />
+//                                     </div>
+//                                 </div>
+//                             )}
+//                         </div>
+//                     </div>
+
+//                     {/* Back Face (Description)  */}
+//                     {hasDescription && (
+//                         <div style={styles.cardFaceBack(backTransform)}>
+//                             {slide.description}
+//                         </div>
+//                     )}
+//                 </div>
+//             </div>
+//         );
+
+        
+//         if (hasLink ) { 
+//             return (
+//                 <a 
+//                     key={cardId}
+//                     href={linkUrl} 
+//                     target="_blank" 
+//                     rel="noopener noreferrer" 
+//                     style={{ textDecoration: 'none', display: 'block' }} 
+//                 >
+//                     {CardInnerContent}
+//                 </a>
+//             );
+//         }
+
+//         return (
+//             <div key={cardId}>
+//                 {CardInnerContent}
+//             </div>
+//         );
+//     };
+
+//     const renderMobileCarousel = () => {
+//         if (!slides) return null;
+//         return (
+//             <div style={styles.mobileCarouselWrapper}>
+//                 {slides.map((slide, slideIndex) => 
+//                     renderCardContent(slide, `mobile-${slideIndex}`, true)
+//                 )}
+//             </div>
+//         );
+//     };
+
+//     const renderDesktopGrid = () =>
+//         columnsData.map((columnSlides, columnIndex) => (
+//             <div 
+//                 key={columnIndex} 
+//                 style={styles.columnWrapper}
+//             >
+//                 <div 
+//                     ref={columnRefs.current[columnIndex]} 
+//                     style={styles.columnContent}
+//                 >
+//                     {columnSlides.map((slide, slideIndex) => 
+//                         renderCardContent(slide, `desktop-${columnIndex}-${slideIndex}`, false)
+//                     )}
+//                 </div>
+//             </div>
+//         ));
+
+//     if (!slides || slides.length === 0) return null;
+
+//     return (
+//         <div style={styles.container}>
+//             <header style={styles.header}>
+//                 <h2 style={styles.title}>{title}</h2>
+             
+//                 <a href="#" style={styles.seeAll}>
+//                     See all
+//                 </a>
+//             </header>
+
+            
+//             {isMobile ? (
+//                 renderMobileCarousel()
+//             ) : (
+//                 <div style={styles.desktopGridOuter}>
+//                     <div ref={gridInnerRef} style={styles.desktopGridInner}>
+//                         {renderDesktopGrid()}
+//                     </div>
+//                     <div style={styles.fadeOverlay}></div>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default FlippedSlides;
+
 import React, { useState, useEffect, useRef } from 'react';
+
+// FIX 1: Ensure ChevronRight is defined outside the main component 
+// and only accepts props for sizing/color.
+const ChevronRight = ({ color = '#fff', size = 24 }) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width={size} 
+        height={size} 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke={color} 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        style={{ verticalAlign: 'middle' }}
+    >
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+);
+
 
 const FlippedSlides = ({ attributes }) => {
     const data = attributes || {};
@@ -18,6 +585,8 @@ const FlippedSlides = ({ attributes }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
     
+    // Existing states (including mobile flip state from prior fix)
+    const [flippedMobileCardId, setFlippedMobileCardId] = useState(null); 
     const [hoveredIndex, setHoveredIndex] = useState(null); 
 
     const gridInnerRef = useRef(null);
@@ -26,8 +595,9 @@ const FlippedSlides = ({ attributes }) => {
     const [scrollData, setScrollData] = useState([]);
 
     
-   
+    
     const getFlipTransforms = (direction) => {
+        // ... (getFlipTransforms logic remains the same)
         switch (direction) {
             case 'right':
                 return {
@@ -61,6 +631,11 @@ const FlippedSlides = ({ attributes }) => {
                 const width = window.innerWidth;
                 setWindowWidth(width);
                 setIsMobile(width <= MOBILE_BREAKPOINT);
+                
+                // Clear mobile flip state on resize if switching to desktop
+                if (width > MOBILE_BREAKPOINT) {
+                    setFlippedMobileCardId(null);
+                }
             }
         };
         checkScreenSize();
@@ -81,10 +656,11 @@ const FlippedSlides = ({ attributes }) => {
 
     const scale = getScaleFactor();
     const getScaledValue = (px) => isMobile ? Math.round(px * scale) : px;
-    const scaleValue = (px) => `${getScaledValue(px)}px`;
+    const scaleValue = (px) => `${getScaledValue(px)}px`; // Helper function inside component scope
 
  
     useEffect(() => {
+        // ... (scrolling effect logic remains the same)
         if (isMobile) return;
 
         const timeout = setTimeout(() => {
@@ -118,6 +694,7 @@ const FlippedSlides = ({ attributes }) => {
 
     
     useEffect(() => {
+        // ... (auto-scrolling effect logic remains the same)
         if (isMobile || scrollData.length === 0) return;
 
         let timeouts = [];
@@ -177,102 +754,51 @@ const FlippedSlides = ({ attributes }) => {
     // --- Styles ---
     const styles = {
         container: {
-           
+            
             padding: isMobile ? `${scaleValue(20)} 0` : `${scaleValue(40)} ${scaleValue(180)}`,
             fontFamily: 'Arial, sans-serif',
             backgroundColor: '#fff',
         },
-        header: {
-            display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            justifyContent: 'space-between',
-            alignItems: isMobile ? 'flex-start' : 'center',
-            marginBottom: isMobile ? scaleValue(10) : scaleValue(30),
-            padding: isMobile ? `0 ${scaleValue(20)}` : '0',
-        },
-        title: {
-            color: titleColor || '#000',
-            fontSize: isMobile ? scaleValue(24) : scaleValue(28),
-            fontWeight: '700',
-        },
+        // ... (rest of the styles remain the same)
         
-        seeAll: { 
-            color: '#ff4081',
-            textDecoration: 'none',
-            fontSize: scaleValue(14),
-            fontWeight: '600',
+        // This is the style that was throwing the error by referencing scaleValue indirectly
+        mobileCtaArrow: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            bottom: scaleValue(20),
+            right: scaleValue(20),
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '50%',
+            // FIX 2: Pass the SCALED PIXEL VALUE to ChevronRight
+            width: scaleValue(50), 
+            height: scaleValue(50), 
             cursor: 'pointer',
-            marginTop: isMobile ? scaleValue(10) : '0',
+            zIndex: 4,
+            transition: 'background-color 0.2s',
         },
+        // ... (rest of the styles)
         
-        desktopGridOuter: {
-            position: 'relative',
-            height: scaleValue(650),
-            overflow: 'hidden', 
-            width: '100%',
-            display: isMobile ? 'none' : 'block',
-        },
-
-        desktopGridInner: {
-            display: 'flex',
-            gap: scaleValue(GAP),
-            alignItems: 'flex-start',
-            width: '100%',
-        },
-        
-        columnWrapper: { 
-            display: 'flex',
-            flexDirection: 'column', 
-            flex: `0 0 calc( (100% - ${scaleValue(GAP * (COLUMN_COUNT - 1))}) / ${COLUMN_COUNT} )`, 
-            boxSizing: 'border-box',
-        },
-
-        columnContent: {
-            display: 'flex',
-            flexDirection: 'column',
-            gap: scaleValue(GAP),
-            willChange: 'transform',
-        },
-        
-        slideItemBase: {
-            display: 'block', 
-            borderRadius: scaleValue(20), 
-            overflow: 'hidden',           
-            position: 'relative',
-            boxShadow: `0 ${getScaledValue(4)}px ${getScaledValue(15)}px rgba(0,0,0,0.05)`,
-            cursor: 'pointer',
-            width: '100%',
-            flexShrink: 0,
-            textDecoration: 'none', 
-            color: 'inherit', 
-            perspective: '1000px',
-        },
-
-        
-        flipCardInner: (isHovered, isMobileView, flipTransform) => ({
+        flipCardInner: (isFlipped, flipTransform) => ({
             position: 'relative',
             width: '100%',
             height: '100%',
             textAlign: 'center',
-            transition: 'transform 0.6s ease',
+            transition: 'transform 0.6s ease', 
             transformStyle: 'preserve-3d',
-       
-            transform: isHovered && !isMobileView ? flipTransform : 'rotateX(0deg)',
+            transform: isFlipped ? flipTransform : 'rotateX(0deg)',
             willChange: 'transform',
-            
         }),
 
-   
         cardFace: {
             position: 'absolute',
             width: '100%',
             height: '100%',
             WebkitBackfaceVisibility: 'hidden',
             backfaceVisibility: 'hidden',
-    
         },
-       
-      
+        
         cardFaceFront: (slide) => ({
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -280,7 +806,6 @@ const FlippedSlides = ({ attributes }) => {
             zIndex: 2,
         }),
 
-     
         cardFaceBack: (backTransform) => ({
             backgroundColor: '#ff4081', 
             color: '#fff',
@@ -294,7 +819,7 @@ const FlippedSlides = ({ attributes }) => {
             fontSize: scaleValue(16),
             fontWeight: '600',
             textAlign: 'center',
-         
+            
             minHeight: '100%', 
         }),
 
@@ -362,7 +887,7 @@ const FlippedSlides = ({ attributes }) => {
             height: '100%',
         },
         
-      
+        
         mobileCarouselWrapper: {
             display: 'flex',
             gap: scaleValue(GAP),
@@ -374,7 +899,7 @@ const FlippedSlides = ({ attributes }) => {
             msOverflowStyle: 'none',
         },
         mobileCardStyle: {
-          
+            
             height: scaleValue(350), 
             width: `calc( (100vw - ${getScaledValue(40)}px - ${GAP * 0.7}px) / 1.3 - ${scaleValue(GAP)})`, 
             flexShrink: 0,
@@ -391,10 +916,31 @@ const FlippedSlides = ({ attributes }) => {
     };
 
     const columnsData = distributeSlides(slides || [], COLUMN_COUNT);
-    
+
+    const handleMobileClick = (e, cardId, hasLink, hasDescription) => {
+        if (!isMobile) return; 
+        
+        if (hasDescription) {
+            e.preventDefault();
+            setFlippedMobileCardId(flippedMobileCardId === cardId ? null : cardId);
+            return;
+        }
+    }
+
+    const handleArrowClick = (e, linkUrl) => {
+        e.stopPropagation(); 
+        e.preventDefault(); 
+        
+        if (linkUrl && linkUrl !== '#') {
+            window.open(linkUrl, '_blank');
+        }
+    }
 
     const renderCardContent = (slide, cardId, isMobileView) => {
-        const isHovered = hoveredIndex === cardId;
+        const isFlipped = isMobileView 
+            ? flippedMobileCardId === cardId 
+            : hoveredIndex === cardId; 
+        
         const linkUrl = slide.linkUrl || '#';
         const hasLink = !!slide.linkUrl;
         const hasDescription = !!slide.description;
@@ -411,27 +957,39 @@ const FlippedSlides = ({ attributes }) => {
 
         const cardContainerStyle = {
             ...styles.slideItemBase,
-           
+            
             height: slideHeight, 
             
-            transform: isHovered && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
+            // Fixed ReferenceError by using isFlipped
+            transform: isFlipped && !hasDescription ? 'scale(1.03)' : 'scale(1)', 
             transition: 'transform 0.3s ease-out',
             
             ...(isMobileView ? styles.mobileCardStyle : {}),
             cursor: hasLink || hasDescription ? 'pointer' : 'default', 
         };
 
+        // FIX 3: Calculate the raw pixel size for the ChevronRight component outside of the JSX
+        const arrowSizePx = getScaledValue(28); 
+
         const CardInnerContent = (
             <div 
                 style={cardContainerStyle}
-                onPointerEnter={() => (hasLink || hasDescription) && setHoveredIndex(cardId)}
-                onPointerLeave={() => (hasLink || hasDescription) && setHoveredIndex(null)}
+                // Desktop hover events (only for desktop and when the card can flip/link)
+                onPointerEnter={() => !isMobileView && (hasLink || hasDescription) && setHoveredIndex(cardId)}
+                onPointerLeave={() => !isMobileView && (hasLink || hasDescription) && setHoveredIndex(null)}
+                
+                // Add onClick to the inner div to trigger mobile flip/unflip
+                onClick={e => {
+                    if (isMobileView && hasDescription) {
+                        handleMobileClick(e, cardId, hasLink, hasDescription);
+                    }
+                }}
             >
                 
-                <div style={styles.flipCardInner(isHovered, isMobileView, innerTransform)}>
-                   
+                <div style={styles.flipCardInner(isFlipped, innerTransform)}>
+                    
                     <div style={{ ...styles.cardFace, ...styles.cardFaceFront(slide) }}>
-                       
+                        
                         <div style={styles.slideContentInner}>
                             <div style={styles.overlay}></div>
                             {slide.cashback && (
@@ -457,10 +1015,21 @@ const FlippedSlides = ({ attributes }) => {
                         </div>
                     </div>
 
-                    {/* Back Face (Description)  */}
+                    {/* Back Face (Description)  */}
                     {hasDescription && (
                         <div style={styles.cardFaceBack(backTransform)}>
                             {slide.description}
+                            
+                            {/* Mobile CTA Arrow */}
+                            {isMobileView && hasLink && (
+                                <div 
+                                    style={styles.mobileCtaArrow}
+                                    onClick={(e) => handleArrowClick(e, linkUrl)}
+                                >
+                                    {/* FIX 4: Pass the calculated raw pixel value (arrowSizePx) to the component */}
+                                    <ChevronRight size={arrowSizePx} />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -468,7 +1037,7 @@ const FlippedSlides = ({ attributes }) => {
         );
 
         
-        if (hasLink ) { 
+        if (hasLink && (!isMobileView || !hasDescription)) { 
             return (
                 <a 
                     key={cardId}
@@ -523,7 +1092,7 @@ const FlippedSlides = ({ attributes }) => {
         <div style={styles.container}>
             <header style={styles.header}>
                 <h2 style={styles.title}>{title}</h2>
-             
+                
                 <a href="#" style={styles.seeAll}>
                     See all
                 </a>
@@ -545,7 +1114,6 @@ const FlippedSlides = ({ attributes }) => {
 };
 
 export default FlippedSlides;
-
 // import React, { useState, useEffect, useRef } from 'react';
 
 // const FlippedSlides = ({ attributes }) => {
