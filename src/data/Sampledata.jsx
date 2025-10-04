@@ -1,17 +1,13 @@
-// export const KlarnaData = {
+export const QRCodeData = {
   
-//   title:"Pay with Klarna at your favorite brands",
-//   titleColor:"",
-//   slides: [
-//     {      
-//       backgroundimage:"",
-//       iconImage:""
-//     },
-//      {      
-//       backgroundimage:"",
-//       iconImage:""
-//     },
-//     -------
+ 
+  slides: [
+    {      
+     name:"",
+      email:"",
+      phnNo:""
+    },
+     
     
-//   ],
-// };
+  ],
+};
