@@ -14,6 +14,8 @@ import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import MacCarousel from './components/MacCarousel';
+import LiveQRCodeGeneratorAndScanner from './components/QRCodeApp';
+import QRBarcodeApp from './components/QRCodeApp';
 import QRCodeApp from './components/QRCodeApp';
 // import PhyshealCarousel from './components/PhyshealCarousel';
 import RecoveryHero from './components/RecoveryHero';
@@ -59,7 +61,8 @@ function App() {
   return (
     <>
       <div>
-        <QRCodeApp/>
+        < QRBarcodeApp/>
+        {/* <LiveQRCodeGeneratorAndScanner/> */}
         <FlippedSlides attributes={FlippedSlidesData}/>
         <KlarnaBrands attributes={KlarnaBrandsData}/>
         <MacCarousel attributes={MacCarouselData}/>

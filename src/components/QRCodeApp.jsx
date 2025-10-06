@@ -1,467 +1,378 @@
-import React, { useState } from 'react';
-import QRCode from 'react-qr-code';
-import { useZxing } from 'react-zxing';
 
-// Define the initial empty state structure
-const initialDataState = {
-  name: '',
-  email: '',
-  phnNo: '',
-};
 
-function LiveQRCodeGeneratorAndScanner() {
-  // State for the QR Code GENERATOR (user inputs)
+import React, { useRef, useState, useEffect } from "react";
+import QRCode from "react-qr-code";
+import JsBarcode from "jsbarcode";
+import { BrowserMultiFormatReader } from "@zxing/library";
+
+const initialDataState = { name: "", email: "", phnNo: "" };
+
+export default function QRBarcodeApp() {
   const [inputData, setInputData] = useState(initialDataState);
-  // State for the QR Code DISPLAY value (stringified JSON)
-  const [qrCodeValue, setQrCodeValue] = useState('');
-  
-  // State for the QR Code SCANNER (results)
+  const [qrValue, setQrValue] = useState("");
+  const [barcodeValue, setBarcodeValue] = useState("");
   const [scannedData, setScannedData] = useState(initialDataState);
   const [scanning, setScanning] = useState(false);
-  const [scanStatus, setScanStatus] = useState('Ready to Scan');
+  const [scanStatus, setScanStatus] = useState("Ready to Scan");
 
-  // --- 1. Generator Logic ---
-  
-  // Handler for all generator input changes
+  const videoRef = useRef(null);
+  const barcodeRef = useRef(null);
+  const qrRef = useRef(null);
+  const codeReaderRef = useRef(null);
+
+  // --- Input handler ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInputData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear the QR code while the user is typing
-    if (qrCodeValue) setQrCodeValue(''); 
+    setInputData((prev) => ({ ...prev, [name]: value }));
+    setQrValue("");
+    setBarcodeValue("");
   };
 
-  // Handler to generate the QR code
-  const handleGenerateQRCode = () => {
-    // Basic validation
-    if (!inputData.name || !inputData.email || !inputData.phnNo) {
-        alert('Please fill in all fields to generate the QR code.');
-        return;
-    }
-    
-    // Convert the data object to a JSON string for the QR code
-    const value = JSON.stringify(inputData);
-    setQrCodeValue(value);
+  // --- Generate QR ---
+  const generateQR = () => {
+    if (!inputData.name || !inputData.email || !inputData.phnNo) return;
+    setQrValue(JSON.stringify(inputData));
   };
-  
-  // --- 2. Scanner Logic (useZxing Hook) ---
-  const { ref } = useZxing({
-  paused: !scanning,
-  onDecodeResult(result) {
-    const scannedText = result.getText();
-    try {
-      const parsedData = JSON.parse(scannedText);
-      if (parsedData.name && parsedData.email && parsedData.phnNo) {
-        setScannedData(parsedData);
-        setScanning(false);
-        setScanStatus("✅ Scan Successful! Data Loaded.");
-      } else {
-        setScanStatus("⚠️ Scanned QR is not the expected format.");
-      }
-    } catch (e) {
-      setScanStatus("❌ Scanned code is not valid JSON/data.");
-    }
-  },
-  constraints: {
-    video: {
-      facingMode: "environment", // <-- instead of deviceId
-    },
-  },
-});
 
-  // --- 3. Render ---
+  // --- Generate Barcode ---
+  const generateBarcode = () => {
+    if (!inputData.name || !inputData.email || !inputData.phnNo) return;
+    setBarcodeValue(JSON.stringify(inputData));
+  };
+
+  // --- Render Barcode (Clean + No Text) ---
+  useEffect(() => {
+    if (barcodeValue && barcodeRef.current) {
+      // Clear old barcode
+      barcodeRef.current.innerHTML = "";
+
+      // Create fresh SVG for barcode
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      barcodeRef.current.appendChild(svg);
+
+      JsBarcode(svg, barcodeValue, {
+        format: "CODE128",
+        width: .2,
+        height: 80,
+        displayValue: false, // ✅ hide text under barcode
+        margin: 10,
+        lineColor: "#000",
+        background: "#fff",
+      });
+
+      // Extra safety cleanup
+      const texts = svg.querySelectorAll("text");
+      texts.forEach((t) => t.remove());
+    }
+  }, [barcodeValue]);
+
+  // --- Continuous Scanner ---
+  useEffect(() => {
+    if (!scanning) {
+      setScanStatus("Ready to Scan");
+      return;
+    }
+
+    const codeReader = new BrowserMultiFormatReader();
+    codeReaderRef.current = codeReader;
+
+    let lastResult = "";
+
+    codeReader
+      .decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+        if (result) {
+          const text = result.getText();
+          if (text !== lastResult) {
+            lastResult = text;
+            try {
+              const parsed = JSON.parse(text);
+              setScannedData(parsed);
+            } catch {
+              setScannedData({ name: text, email: "", phnNo: "" });
+            }
+            setScanStatus("✅ Scan Successful!");
+          }
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setScanStatus("❌ Scanner error");
+      });
+
+    return () => codeReader.reset();
+  }, [scanning]);
+
+  // --- Download QR ---
+  const downloadQR = () => {
+    const svg = qrRef.current.querySelector("svg");
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    img.onload = () => {
+      canvas.width = img.width * 2;
+      canvas.height = img.height * 2;
+      ctx.scale(2, 2);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      const link = document.createElement("a");
+      link.href = pngUrl;
+      link.download = "QRCode.png";
+      link.click();
+    };
+    img.src = url;
+  };
+
+  // --- Download Barcode ---
+  const downloadBarcode = () => {
+    const canvas = document.createElement("canvas");
+    JsBarcode(canvas, barcodeValue, {
+      format: "CODE128",
+      displayValue: false,
+    });
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    const link = document.createElement("a");
+    link.href = pngUrl;
+    link.download = "Barcode.png";
+    link.click();
+  };
+
   return (
     <div style={styles.container}>
-      <h1>Live QR Code Data System</h1>
+      <h1>Live QR / Barcode Generator & Scanner</h1>
 
       <div style={styles.flexContainer}>
-        
-        {/* === LEFT SIDE: QR CODE GENERATOR === */}
+        {/* Generator Section */}
         <div style={styles.section}>
-          <h2>1. Data Entry & QR Generator</h2>
-          
-          <div style={styles.inputGroup}>
-            <label>Name:</label>
-            <input 
-              name="name" 
-              value={inputData.name} 
-              onChange={handleInputChange} 
-              placeholder="Enter name"
-              style={styles.input}
-            />
-          </div>
-          
-          <div style={styles.inputGroup}>
-            <label>Email:</label>
-            <input 
-              name="email" 
-              value={inputData.email} 
-              onChange={handleInputChange} 
-              placeholder="Enter email"
-              style={styles.input}
-            />
-          </div>
-          
-          <div style={styles.inputGroup}>
-            <label>Phone Number:</label>
-            <input 
-              name="phnNo" // IMPORTANT: Must match the key in your object structure
-              value={inputData.phnNo} 
-              onChange={handleInputChange} 
-              placeholder="Enter phone number"
-              style={styles.input}
-            />
+          <h2>1️⃣ QR & Barcode Generator</h2>
+
+          <input
+            name="name"
+            placeholder="Name"
+            value={inputData.name}
+            onChange={handleInputChange}
+            style={styles.input}
+          />
+          <input
+            name="email"
+            placeholder="Email"
+            value={inputData.email}
+            onChange={handleInputChange}
+            style={styles.input}
+          />
+          <input
+            name="phnNo"
+            placeholder="Phone"
+            value={inputData.phnNo}
+            onChange={handleInputChange}
+            style={styles.input}
+          />
+
+          <div style={styles.buttonRow}>
+            <button onClick={generateQR} style={styles.generateButton}>
+              Generate QR
+            </button>
+            <button onClick={generateBarcode} style={styles.generateButtonAlt}>
+              Generate Barcode
+            </button>
           </div>
 
-          <button 
-            onClick={handleGenerateQRCode}
-            style={styles.generateButton}
-            disabled={!inputData.name || !inputData.email || !inputData.phnNo}
-          >
-            Generate QR Code
-          </button>
-          
-          {qrCodeValue && (
-            <div style={styles.qrCodeBox}>
-              <h3>Generated QR Code</h3>
-              <QRCode 
-                value={qrCodeValue} 
-                size={200} 
-                level="H" 
-              />
-              <p style={styles.tip}>Scan this code on any device!</p>
-            </div>
-          )}
+          <div style={styles.qrAndBarcodeBox}>
+            {qrValue && (
+              <div ref={qrRef} style={styles.qrBox}>
+                <QRCode value={qrValue} size={150} />
+                <button onClick={downloadQR} style={styles.downloadButton}>
+                  Download QR
+                </button>
+              </div>
+            )}
+            {barcodeValue && (
+              <div style={styles.barcodeBox}>
+                <div ref={barcodeRef}></div>
+                <button onClick={downloadBarcode} style={styles.downloadButton}>
+                  Download Barcode
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* === RIGHT SIDE: QR CODE SCANNER === */}
+        {/* Scanner Section */}
         <div style={styles.section}>
-          <h2>2. Scan Data (To Input Fields)</h2>
-          
-          <button 
+          <h2>2️⃣ Live QR / Barcode Scanner</h2>
+          <button
             onClick={() => {
-                setScanning(prev => !prev);
-                setScanStatus(scanning ? 'Ready to Scan' : 'Scanning...');
-                setScannedData(initialDataState); // Clear previous scan results
-            }} 
+              setScanning((prev) => !prev);
+              setScanStatus(scanning ? "Ready to Scan" : "Scanning...");
+              setScannedData(initialDataState);
+            }}
             style={scanning ? styles.stopButton : styles.scanButton}
           >
-            {scanning ? 'Stop Scanner' : 'Start Scanner'}
+            {scanning ? "Stop Scanner" : "Start Scanner"}
           </button>
 
-          {/* Scanner Video Feed */}
-          {scanning && (
-            <div style={styles.scannerBox}>
-              <video ref={ref} style={styles.video} />
-            </div>
-          )}
-          
           <p style={styles.scanStatus}>{scanStatus}</p>
 
-          <hr style={{ margin: '30px 0' }} />
-          
-          <h3>Scanned Results</h3>
+          {scanning && (
+            <div style={styles.scannerBox}>
+              <video ref={videoRef} style={styles.video} />
+            </div>
+          )}
+
+          <h3>Scanned Data:</h3>
           <div style={styles.inputGroup}>
             <label>Name:</label>
-            <input value={scannedData.name} readOnly style={styles.readOnlyInput} placeholder="Scanned Name" />
+            <input
+              value={scannedData.name}
+              readOnly
+              style={styles.readOnlyInput}
+            />
           </div>
           <div style={styles.inputGroup}>
             <label>Email:</label>
-            <input value={scannedData.email} readOnly style={styles.readOnlyInput} placeholder="Scanned Email" />
+            <input
+              value={scannedData.email}
+              readOnly
+              style={styles.readOnlyInput}
+            />
           </div>
           <div style={styles.inputGroup}>
-            <label>Phone Number:</label>
-            <input value={scannedData.phnNo} readOnly style={styles.readOnlyInput} placeholder="Scanned Phone" />
+            <label>Phone:</label>
+            <input
+              value={scannedData.phnNo}
+              readOnly
+              style={styles.readOnlyInput}
+            />
           </div>
         </div>
-        
       </div>
     </div>
   );
 }
 
-// Basic CSS Styles
+// --- Styles ---
 const styles = {
-  container: {
-    padding: '40px',
-    fontFamily: 'Arial, sans-serif',
-    textAlign: 'center',
-  },
+  container: { padding: 40, fontFamily: "Arial", textAlign: "center" },
   flexContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    gap: '40px',
-    marginTop: '30px',
-    flexWrap: 'wrap',              // allow wrapping
+    display: "flex",
+    justifyContent: "space-around",
+    gap: 40,
+    marginTop: 30,
+    flexWrap: "wrap",
   },
   section: {
-    border: '1px solid #ddd',
-    padding: '30px',
-    borderRadius: '8px',
+    border: "1px solid #ddd",
+    padding: 30,
+    borderRadius: 8,
     flex: 1,
-    minWidth: '280px',             // prevents squishing too much
-    maxWidth: '500px',
-    textAlign: 'left',
+    minWidth: 280,
+    maxWidth: 500,
+    textAlign: "left",
   },
-  inputGroup: { marginBottom: '15px' },
   input: {
-    width: '100%',
-    padding: '10px',
-    boxSizing: 'border-box',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginTop: '5px',
+    width: "100%",
+    padding: 10,
+    border: "1px solid #ccc",
+    borderRadius: 4,
+    marginTop: 5,
+    marginBottom: 10,
   },
   readOnlyInput: {
-    width: '100%',
-    padding: '10px',
-    boxSizing: 'border-box',
-    border: '1px solid #007bff',
-    borderRadius: '4px',
-    marginTop: '5px',
-    backgroundColor: '#e9f7ff',
-    fontWeight: 'bold',
+    width: "100%",
+    padding: 10,
+    border: "1px solid #007bff",
+    borderRadius: 4,
+    backgroundColor: "#e9f7ff",
+    fontWeight: "bold",
+    marginTop: 5,
+    marginBottom: 10,
   },
+  buttonRow: { display: "flex", gap: 10, marginTop: 10 },
   generateButton: {
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    marginTop: '10px',
+    flex: 1,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    borderRadius: 5,
+    cursor: "pointer",
   },
-  qrCodeBox: {
-    marginTop: '30px',
-    textAlign: 'center',
-    border: '1px dashed #ccc',
-    padding: '20px',
-    borderRadius: '4px',
+  generateButtonAlt: {
+    flex: 1,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: "#ff9800",
+    color: "white",
+    border: "none",
+    borderRadius: 5,
+    cursor: "pointer",
   },
-  tip: { fontSize: '0.8em', color: '#666', marginTop: '10px' },
+  qrAndBarcodeBox: {
+    marginTop: 30,
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: 20,
+    textAlign: "center",
+  },
+  qrBox: {
+    border: "1px dashed #ccc",
+    padding: 15,
+    borderRadius: 6,
+  },
+  barcodeBox: {
+    border: "1px dashed #ccc",
+    padding: 15,
+    borderRadius: 6,
+    textAlign: "center",
+  },
+  downloadButton: {
+    marginTop: 10,
+    padding: "8px 16px",
+    fontSize: 14,
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: 4,
+    cursor: "pointer",
+  },
   scanButton: {
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    marginBottom: '15px',
+    padding: "10px 20px",
+    fontSize: 16,
+    cursor: "pointer",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: 5,
+    marginBottom: 15,
   },
   stopButton: {
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#dc3545',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    marginBottom: '15px',
+    padding: "10px 20px",
+    fontSize: 16,
+    cursor: "pointer",
+    backgroundColor: "#dc3545",
+    color: "white",
+    border: "none",
+    borderRadius: 5,
+    marginBottom: 15,
   },
   scannerBox: {
-    width: '100%',
-    height: '300px',
-    overflow: 'hidden',
-    margin: '0 auto',
-    border: '3px solid #007bff',
+    width: "100%",
+    height: 300,
+    overflow: "hidden",
+    border: "3px solid #007bff",
   },
-  video: { width: '100%', height: '100%', objectFit: 'cover' },
-  scanStatus: { marginTop: '10px', fontWeight: 'bold' },
+  video: { width: "100%", height: "100%", objectFit: "cover" },
+  scanStatus: { marginTop: 10, fontWeight: "bold" },
+  inputGroup: { marginBottom: 15 },
 };
 
-
-export default LiveQRCodeGeneratorAndScanner;
-
-
-// import React, { useState, useMemo } from 'react';
-// import QRCode from 'react-qr-code';
-// import { useZxing } from 'react-zxing'; // Modern alternative for scanning
-
-// // --- Data Structure ---
-// export const QRCodeData = {
-//   slides: [
-//     {
-//       name: 'Anupama Menon',
-//       email: 'anupama.menon@example.com',
-//       phnNo: '987-654-3210',
-//     },
-//      {
-//       name: 'Anujjjewjwejk',
-//       email: 'anupama.menon@example.com',
-//       phnNo: '987-654-3210',
-//     },
-//     //
-//      {
-//       name: 'Anuuuuuuuuu',
-//       email: 'anupama.menon@example.com',
-//       phnNo: '987-654-3210',
-//     },
-//     //
-//      {
-//       name: 'Ammuuuu',
-//       email: 'anupama.menon@example.com',
-//       phnNo: '987-654-3210',
-//     },
-//     //
-//     // You can add more slides/objects here if needed,
-//     // but we'll use the first one for the QR code value.
-//   ],
-// };
-
-// // 1. Prepare the Data to be Encoded
-// // We take the first object from the 'slides' array
-// const dataToEncode = QRCodeData.slides[0];
-
-// // Convert the structured object to a JSON string
-// const qrCodeValue = JSON.stringify(dataToEncode);
-// // --- End Data Structure ---
-
-
-// function QRCodeApp() {
-//   const [scannedData, setScannedData] = useState({
-//     name: '',
-//     email: '',
-//     phnNo: '', // Match the key from your data structure
-//   });
-//   const [scanning, setScanning] = useState(false);
-//   const [scanStatus, setScanStatus] = useState('Ready to Scan');
-
-//   // 2. QR Code Scanning Logic (using useZxing hook)
-//   const { ref } = useZxing({
-//     // Only run the scanner if 'scanning' state is true
-//     paused: !scanning, 
-//     // This function is called when a QR code is successfully read
-//     onDecodeResult(result) {
-//       const scannedText = result.getText();
-//       try {
-//         const parsedData = JSON.parse(scannedText);
-        
-//         // Ensure the parsed data has the expected keys
-//         if (parsedData.name && parsedData.email && parsedData.phnNo) {
-//           setScannedData(parsedData);
-//           setScanning(false); // Stop scanning on successful read
-//           setScanStatus('✅ Scan Successful! Data Loaded.');
-//         } else {
-//           setScanStatus('⚠️ Scanned data is not the expected format.');
-//         }
-//       } catch (e) {
-//         setScanStatus('❌ Scanned code is not valid JSON data.');
-//         console.error('JSON Parse Error:', e);
-//       }
-//     },
-//     // Use the back camera (better for mobile scanning)
-//     deviceId: 'environment', 
-//   });
-
-
-//   // 3. Input Fields Component (Memoized for performance)
-//   const InputFields = useMemo(() => (
-//     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px' }}>
-//       <label>Name:</label>
-//       <input
-//         type="text"
-//         value={scannedData.name}
-//         placeholder="Name"
-//         readOnly
-//         style={{ padding: '8px', border: '1px solid #ccc' }}
-//       />
-//       <label>Email:</label>
-//       <input
-//         type="email"
-//         value={scannedData.email}
-//         placeholder="Email"
-//         readOnly
-//         style={{ padding: '8px', border: '1px solid #ccc' }}
-//       />
-//       <label>Phone Number:</label>
-//       <input
-//         type="tel"
-//         value={scannedData.phnNo}
-//         placeholder="Phone Number"
-//         readOnly
-//         style={{ padding: '8px', border: '1px solid #ccc' }}
-//       />
-//     </div>
-//   ), [scannedData]);
-
-
-//   return (
-//     <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
-//       <h1>QR Data Encoding & Decoding</h1>
-
-//       <div style={{ display: 'flex', justifyContent: 'space-around', margin: '30px 0' }}>
-
-//         {/* --- QR Code Generator Section --- */}
-//         <div style={sectionStyle}>
-//           <h2>1. Generate QR Code</h2>
-//           <p style={{marginBottom: '20px', fontSize: '0.9em'}}>
-//             Encoded data (JSON string): 
-//             <br />
-//             <code style={{fontSize: '0.8em', background: '#eee', padding: '2px 4px', borderRadius: '3px'}}>
-//                 {qrCodeValue.substring(0, 35)}...
-//             </code>
-//           </p>
-//           <div style={{ padding: '10px', background: 'white', display: 'inline-block' }}>
-//             <QRCode value={qrCodeValue} size={256} level="H" />
-//           </div>
-//         </div>
-        
-//         {/* --- QR Code Scanner and Input Section --- */}
-//         <div style={sectionStyle}>
-//           <h2>2. Scan and Populate Data</h2>
-          
-//           <button 
-//             onClick={() => {
-//                 setScanning(prev => !prev);
-//                 setScanStatus(scanning ? 'Ready to Scan' : 'Scanning...');
-//             }} 
-//             style={buttonStyle}
-//           >
-//             {scanning ? 'Stop Scanning' : 'Start QR Scanner'}
-//           </button>
-          
-//           {/* Scanner Video Feed */}
-//           {scanning && (
-//             <div style={{ width: '300px', height: '200px', margin: '15px auto 10px', overflow: 'hidden', border: '2px solid #007bff' }}>
-//               <video ref={ref} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-//             </div>
-//           )}
-          
-//           <p style={{ color: scanning ? 'blue' : scannedData.name ? 'green' : 'black' }}>
-//             {scanStatus}
-//           </p>
-
-//           <hr style={{ margin: '30px 0' }} />
-          
-//           <h3>Scanned Data Inputs</h3>
-//           {InputFields}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// // Basic Inline Styles
-// const sectionStyle = {
-//     border: '1px solid #ddd', 
-//     padding: '30px', 
-//     borderRadius: '8px', 
-//     maxWidth: '45%',
-//     boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-// };
-
-// const buttonStyle = {
-//     padding: '10px 20px', 
-//     fontSize: '16px', 
-//     cursor: 'pointer', 
-//     backgroundColor: '#007bff', 
-//     color: 'white', 
-//     border: 'none', 
-//     borderRadius: '5px'
-// };
-
-// export default QRCodeApp;
