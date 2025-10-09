@@ -4,19 +4,21 @@ import './App.css'
 import ActionCard from './components/ActionCard';
 import Carousel from './components/Carousel';
 import CleanKeralaLanding from './components/CleanKeralaLanding';
+import CodeComponent from './components/CodeComponent';
 import CountryScroll from './components/CountryScroll';
 import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
 import FlippedSlides from './components/FlippedSlides';
+import GeneratorComponent from './components/GeneratorComponent';
 import ImpactsAcheivements from './components/ImpactsAcheivements';
 import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import MacCarousel from './components/MacCarousel';
-import LiveQRCodeGeneratorAndScanner from './components/QRCodeApp';
-import QRBarcodeApp from './components/QRCodeApp';
-import QRCodeApp from './components/QRCodeApp';
+import QRBarcodeScanner from './components/QRBarcodeScanner';
+// import QRBarcodeApp from './components/QRCodeApp';
+
 // import PhyshealCarousel from './components/PhyshealCarousel';
 import RecoveryHero from './components/RecoveryHero';
 import RecoveryJourney from './components/RecoveryJourney';
@@ -61,7 +63,10 @@ function App() {
   return (
     <>
       <div>
-        < QRBarcodeApp/>
+        <CodeComponent/>
+        {/* <QRBarcodeScanner/> */}
+        {/* <GeneratorComponent/> */}
+        {/* < QRBarcodeApp/> */}
         {/* <LiveQRCodeGeneratorAndScanner/> */}
         <FlippedSlides attributes={FlippedSlidesData}/>
         <KlarnaBrands attributes={KlarnaBrandsData}/>
