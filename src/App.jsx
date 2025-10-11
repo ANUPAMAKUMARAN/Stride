@@ -10,16 +10,15 @@ import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
 import FlippedSlides from './components/FlippedSlides';
-import GeneratorComponent from './components/GeneratorComponent';
+
 import ImpactsAcheivements from './components/ImpactsAcheivements';
 import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import MacCarousel from './components/MacCarousel';
-import QRBarcodeScanner from './components/QRBarcodeScanner';
-// import QRBarcodeApp from './components/QRCodeApp';
 
-// import PhyshealCarousel from './components/PhyshealCarousel';
+
+import PhyshealCarousel from './components/PhyshealCarousel';
 import RecoveryHero from './components/RecoveryHero';
 import RecoveryJourney from './components/RecoveryJourney';
 import RecoveryPage from './components/RecoveryPage';
@@ -33,6 +32,7 @@ import ComparisonTable from './components/SaudiPccTable';
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
+import VideooCarousel from './components/videooCarousel';
 
 
 import { ActioncardData } from './data/ActioncardData';
@@ -46,13 +46,17 @@ import { MacCarouselData } from './data/MacCarouselData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
 import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
-// import { PhyshealCarouselData, RecoveryJourneyData } from './data/Sampledata';
+
 // import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
 import { SidebarData } from './data/SidebarData';
 import { StoryCraftCarouselData } from './data/StoryCraftCarouselData';
 import { VideoCarouselData } from './data/VideoCarouselData';
+import { videoocarouselData } from './data/videoocarouselData';
+import { PhyshealCarouselData } from './data/PhyshealCarouselData';
+import VideoTabs from './components/VideoTabs';
+import { VideoTabsData } from './data/VideoTabsData';
 
 
 
@@ -63,11 +67,9 @@ function App() {
   return (
     <>
       <div>
+        <VideoTabs attributes={VideoTabsData}/>
+        {/* <VideooCarousel attributes={videoocarouselData}/> */}
         <CodeComponent/>
-        {/* <QRBarcodeScanner/> */}
-        {/* <GeneratorComponent/> */}
-        {/* < QRBarcodeApp/> */}
-        {/* <LiveQRCodeGeneratorAndScanner/> */}
         <FlippedSlides attributes={FlippedSlidesData}/>
         <KlarnaBrands attributes={KlarnaBrandsData}/>
         <MacCarousel attributes={MacCarouselData}/>
@@ -79,7 +81,7 @@ function App() {
 
 
         <RecoveryJourney attributes={RecoveryJourneyData} />
-        {/* <PhyshealCarousel attributes={PhyshealCarouselData}/> */}
+        <PhyshealCarousel attributes={PhyshealCarouselData}/>
         <RecoveryPage attributes={RecoveryPageData} />
 
         <RecoveryHero attributes={RecoveryHeroData} />
@@ -87,7 +89,7 @@ function App() {
         <StoryCraftCarousel attributes={StoryCraftCarouselData} />
 
         <SaudiPccSection attributes={SaudiPccSectionData} />
-        {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
+     
         <VideoCarousel attributes={VideoCarouselData} />
         {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
         <Sidebar attributes={SidebarData} />

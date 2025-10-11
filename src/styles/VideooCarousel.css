@@ -1,0 +1,115 @@
+/* Container section */
+.carousel-section {
+  background: #000;
+}
+
+/* Slide card */
+.story-item {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Overlay content styling */
+.overlay-content {
+  position: absolute;
+  inset: 0; /* covers entire card */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes title up, button down */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  color: #fff;
+  text-align: center;
+}
+
+/* Title & subtitle */
+.overlay-top {
+  margin-bottom: auto; /* keeps text at top */
+}
+
+.overlay-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.overlay-subtitle {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+/* Button pinned at bottom */
+.overlay-bottom {
+  margin-top: auto;
+  text-align: center;
+}
+
+.overlay-btn {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.overlay-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Carousel navigation buttons */
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  color: white;
+  font-size: 2em;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carousel-button-left {
+  left: 0;
+}
+
+.carousel-button-right {
+  right: 0;
+}
+
+/* Progress bar */
+.progress-bar-container {
+  height: 5px;
+  background: #ca2525;
+  margin: 20px;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+/* Responsive (Mobile) */
+@media (max-width: 768px) {
+  .overlay-title {
+    font-size: 1.2rem;
+  }
+  .overlay-subtitle {
+    font-size: 0.9rem;
+  }
+  .overlay-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
