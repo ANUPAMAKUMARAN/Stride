@@ -1,14 +1,15 @@
 // ✅ Full data structure
 export const VideoTabsData = {
   backgroundColor: "#f5f7ff",
-  barBoxColor: "#ffffff",
+  // barBoxColor: "#dfe5ff",
+   barBoxColor: "#f5f7ff",
   hoverBoxColor: "#dfe5ff",
   hoverTextBackground: "#333",
   
   icons: [
     {
       title: "CREATE",
-     vdo: "https://youtu.be/278IRQ6HSi4?si=HccJQWxWbpYI8ZtR",
+     vdo: "https://youtu.be/Eoo4HzILB-M?si=_oVHq73-FW04OWF2",
     },
     {
       title: "EDIT",
@@ -24,7 +25,7 @@ export const VideoTabsData = {
     },
     {
       title: "PUBLISH",
-     vdo: "https://youtu.be/278IRQ6HSi4?si=HccJQWxWbpYI8ZtR",
+     vdo: "https://youtu.be/9iDXWx7GtZQ?si=3MJwLio0qQZQzjXa",
     },
   ],
 };
