@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
 
+
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 let youtubePlayer = null;
 
@@ -14,8 +15,14 @@ const VideoTabs = ({ attributes }) => {
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [muted, setMuted] = useState(true);
+    const [scale, setScale] = useState(1); 
     const videoRef = useRef(null);
-    const youtubeContainerRef = useRef(null); 
+    const youtubeContainerRef = useRef(null);
+
+    const barRef = useRef(null);
+    const buttonRefs = useRef([]);
+
+
 
     const isYouTube = (url) =>
         url?.includes("youtube.com") || url?.includes("youtu.be");
@@ -24,75 +31,71 @@ const VideoTabs = ({ attributes }) => {
     const isCurrentVideoYouTube = isYouTube(currentUrl);
 
     const getYouTubeId = useCallback((url) => {
-        if (url.includes("youtu.be")) {
-            return url.split("youtu.be/")[1]?.split("?")[0];
-        } else if (url.includes("watch?v=")) {
-            return url.split("watch?v=")[1]?.split("&")[0];
-        }
+        if (url.includes("youtu.be")) return url.split("youtu.be/")[1]?.split("?")[0];
+        if (url.includes("watch?v=")) return url.split("watch?v=")[1]?.split("&")[0];
         return null;
     }, []);
 
-    const getEmbedUrl = useCallback((url) => {
-        
-        if (!isYouTube(url)) {
-            return url;
-        }
-        
-        return getYouTubeId(url);
-    }, [getYouTubeId]);
+    const getEmbedUrl = useCallback(
+        (url) => (isYouTube(url) ? getYouTubeId(url) : url),
+        [getYouTubeId]
+    );
 
     const embedId = getEmbedUrl(currentUrl);
 
-    // 2. Mute/Unmute Logic
+    // 🔹 Scale multiplier calculation
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            // Adjust multiplier based on width (smooth scaling)
+            let newScale = Math.min(Math.max(width / 1200, 0.75), 1);
+            // ensures between 0.75x and 1x
+            setScale(newScale);
+        };
+
+        handleResize(); // initialize on mount
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // 🔇 Mute Toggle Logic
     const toggleMute = () => {
-        const newMutedState = !muted;
-        setMuted(newMutedState);
+        const newMuted = !muted;
+        setMuted(newMuted);
 
         if (isCurrentVideoYouTube && youtubePlayer) {
-          
-            if (newMutedState) {
-                youtubePlayer.mute();
-            } else {
+            if (newMuted) youtubePlayer.mute();
+            else {
                 youtubePlayer.unMute();
-                
                 youtubePlayer.setVolume(50);
             }
         }
     };
 
-    
     useEffect(() => {
         if (isCurrentVideoYouTube && embedId && window.YT) {
             if (youtubePlayer) {
-                
                 youtubePlayer.destroy();
                 youtubePlayer = null;
             }
 
-            
             youtubePlayer = new window.YT.Player(youtubeContainerRef.current, {
                 videoId: embedId,
                 playerVars: {
                     autoplay: 1,
                     controls: 0,
                     modestbranding: 1,
-                    showinfo: 0,
                     rel: 0,
-                    iv_load_policy: 3,
                     fs: 0,
-                    disablekb: 1,
                     playsinline: 1,
-                    
                     mute: 1,
                 },
                 events: {
                     onReady: (event) => {
-                        
-                        if (muted) {
-                            event.target.mute();
-                        } else {
+                        if (muted) event.target.mute();
+                        else {
                             event.target.unMute();
-                            event.target.setVolume(50); // Set volume to a reasonable default
+                            event.target.setVolume(50);
                         }
                         event.target.playVideo();
                     },
@@ -100,16 +103,15 @@ const VideoTabs = ({ attributes }) => {
             });
         }
 
-     
         return () => {
-            if (youtubePlayer && youtubePlayer.destroy) {
+            if (youtubePlayer?.destroy) {
                 youtubePlayer.destroy();
                 youtubePlayer = null;
             }
         };
     }, [activeIndex, isCurrentVideoYouTube, embedId]);
 
-  
+    // Load YouTube API
     useEffect(() => {
         if (!window.YT && !document.getElementById("youtube-iframe-api")) {
             const tag = document.createElement("script");
@@ -128,7 +130,7 @@ const VideoTabs = ({ attributes }) => {
                         controls: 0,
                         modestbranding: 1,
                         rel: 0,
-                        mute: 1, 
+                        mute: 1,
                         playsinline: 1,
                     },
                     events: {
@@ -146,7 +148,26 @@ const VideoTabs = ({ attributes }) => {
         };
     }, []);
 
-   
+    useEffect(() => {
+  const bar = barRef.current;
+  const activeButton = buttonRefs.current[activeIndex];
+
+  if (bar && activeButton && window.innerWidth <= 768) {
+    const barRect = bar.getBoundingClientRect();
+    const buttonRect = activeButton.getBoundingClientRect();
+    const scrollLeft =
+      activeButton.offsetLeft -
+      bar.clientWidth / 2 +
+      activeButton.clientWidth / 2;
+
+    bar.scrollTo({
+      left: scrollLeft,
+      behavior: "smooth",
+    });
+  }
+}, [activeIndex]);
+
+
     useEffect(() => {
         if (videoRef.current && !isCurrentVideoYouTube) {
             videoRef.current.muted = muted;
@@ -154,60 +175,51 @@ const VideoTabs = ({ attributes }) => {
         }
     }, [activeIndex, muted, isCurrentVideoYouTube]);
 
-    
-    useEffect(() => {
-        if (!window.YT && !document.getElementById("youtube-iframe-api")) {
-            const tag = document.createElement("script");
-            tag.id = "youtube-iframe-api";
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName("script")[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
-    }, []);
-
     if (!icons.length)
         return <p style={{ textAlign: "center" }}>No videos available.</p>;
 
     return (
         <div
-            className="video-tabs-main-container" // Main container with position: relative
+            // className="video-tabs-main-container"
             style={{
                 width: "95%",
                 maxWidth: "1200px",
-                margin: "60px auto",
+                margin: "20px auto",
                 backgroundColor,
-                borderRadius: "25px",
+                borderRadius: `${25 * scale}px`,
                 boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-               
                 fontFamily: "Inter, Arial, sans-serif",
-                padding: "30px",
+                padding: `${30 * scale}px`,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 position: "relative",
+                transform: `scale(${scale})`, 
+                transformOrigin: "top center",
             }}
         >
-            {/* Tab Bar Container */}
+            {/* Tabs Bar */}
             <div
-                className="video-tabs-bar-wrapper"
+                // className="video-tabs-bar-wrapper"
                 style={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    position: "relative",
-                    marginBottom: "25px",
+                    marginBottom: `${25 * scale}px`,
                 }}
             >
                 <div
-                    className="video-tabs-bar"
+                ref={barRef} // ✅ add this
+                    // className="video-tabs-bar"
                     style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "20px",
+                        gap: `${20 * scale}px`,
                         backgroundColor: "#e7ebfc",
-                        padding: "15px 25px",
-                        borderRadius: "40px",
+                        padding: `${15 * scale}px ${25 * scale}px`,
+
+                        borderRadius: `${40 * scale}px`,
                         overflowX: "auto",
                         whiteSpace: "nowrap",
                         scrollbarWidth: "none",
@@ -217,36 +229,38 @@ const VideoTabs = ({ attributes }) => {
                     {icons.map((item, index) => (
                         <button
                             key={index}
+                            ref={(el) => (buttonRefs.current[index] = el)} 
                             onClick={() => setActiveIndex(index)}
                             style={{
                                 flexShrink: 0,
-                                padding: "10px 28px",
+                                padding: `${10 * scale}px ${18 * scale}px`,
                                 border: "none",
-                                borderRadius: "25px",
+                                borderRadius: `${24 * scale}px`,
                                 cursor: "pointer",
-                                backgroundColor:
-                                    index === activeIndex ? hoverTextBackground : barBoxColor,
+                                backgroundColor: index === activeIndex ? hoverTextBackground : barBoxColor,
                                 color: index === activeIndex ? "#fff" : "#333",
                                 fontWeight: "600",
                                 transition: "all 0.3s ease",
-                                fontSize: "16px",
+                                fontSize: `${16 * scale}px`,
                             }}
                         >
                             {item.title}
                         </button>
                     ))}
+
                 </div>
             </div>
 
+            {/* Video Container */}
             <div
                 className="video-player-responsive-area"
                 style={{
                     width: "100%",
-                    height: 0, 
+                    height: 0,
                     position: "relative",
-                    paddingBottom: "56.25%", 
+                    paddingBottom: "56.25%",
                     backgroundColor: "#000",
-                    borderRadius: "10px",
+                    borderRadius: `${10 * scale}px`,
                     overflow: "hidden",
                 }}
             >
@@ -258,7 +272,6 @@ const VideoTabs = ({ attributes }) => {
                             left: 0,
                             width: "100%",
                             height: "100%",
-                            overflow: "hidden",
                         }}
                     >
                         <div
@@ -287,14 +300,14 @@ const VideoTabs = ({ attributes }) => {
                 )}
             </div>
 
-            {/* 🔇 Mute Button: */}
+            {/* 🔇 Mute Button */}
             <button
                 className="mute-btn-responsive"
                 onClick={toggleMute}
                 style={{
                     background: "transparent",
                     border: "none",
-                    fontSize: "26px",
+                    fontSize: `${26 * scale}px`, // 🔹 Scaled icon size
                     cursor: "pointer",
                     zIndex: 10,
                     transition: "all 0.3s ease",
@@ -306,42 +319,26 @@ const VideoTabs = ({ attributes }) => {
 
             <style>
                 {`
-                /* Hide scrollbar for the tabs bar */
                 .video-tabs-bar::-webkit-scrollbar {
                     display: none;
                 }
 
-                /* ----------------------------------------------------- */
-                /* MUTE BUTTON RESPONSIVE STYLES */
-                /* ----------------------------------------------------- */
-
-                /* MOBILE (max-width: 768px) - Bottom Right, INSIDE video area */
                 @media (max-width: 768px) {
                     .mute-btn-responsive {
-                        /* Position relative to the *video container* */
                         position: absolute;
-                        bottom: calc(30px + 15px); /* Main padding (30px) + distance from video bottom (15px) */
-                        right: 45px; /* Main padding (30px) + distance from video right (15px) */
-                        
-                        /* NOTE: The absolute positioning must target the .video-tabs-main-container (parent) 
-                           and use calculated offsets to appear inside the *video*. */
-
+                        bottom: calc(30px + 15px);
+                        right: 45px;
                         color: #fff; 
                         text-shadow: 0 0 5px rgba(0,0,0,0.5);
                     }
                 }
 
-                /* DESKTOP (min-width: 769px) - Top Right, OUTSIDE video area, next to tabs bar */
                 @media (min-width: 769px) {
                     .mute-btn-responsive {
-                        /* Position relative to the *main container* (.video-tabs-main-container) */
                         position: absolute;
-                        top: 35px;    /* Aligns vertically with the tab bar (padding-top 30px + 5px offset) */
-                        right: 30px;  /* Aligns with the main container's padding-right */
-                        bottom: auto; /* Reset */
-                        
-                        color: #333; /* Reverts color to dark */
-                        text-shadow: none; /* Removes shadow */
+                        top: 35px;
+                        right: 30px;
+                        color: #333;
                     }
                 }
                 `}
@@ -354,9 +351,15 @@ export default VideoTabs;
 
 
 
+
+
+
+
+
+
 // import React, { useState, useRef, useEffect, useCallback } from "react";
 
-// // 1. Define a global variable for the YouTube Player (optional but helpful)
+
 // let youtubePlayer = null;
 
 // const VideoTabs = ({ attributes }) => {
@@ -370,8 +373,8 @@ export default VideoTabs;
 
 //     const [activeIndex, setActiveIndex] = useState(0);
 //     const [muted, setMuted] = useState(true);
-//     const videoRef = useRef(null); // Used for local <video> element
-//     const youtubeContainerRef = useRef(null); // Used for YouTube <div> container
+//     const videoRef = useRef(null);
+//     const youtubeContainerRef = useRef(null); 
 
 //     const isYouTube = (url) =>
 //         url?.includes("youtube.com") || url?.includes("youtu.be");
@@ -379,7 +382,6 @@ export default VideoTabs;
 //     const currentUrl = icons[activeIndex]?.vdo || "";
 //     const isCurrentVideoYouTube = isYouTube(currentUrl);
 
-//     // Function to extract the YouTube video ID
 //     const getYouTubeId = useCallback((url) => {
 //         if (url.includes("youtu.be")) {
 //             return url.split("youtu.be/")[1]?.split("?")[0];
@@ -390,11 +392,11 @@ export default VideoTabs;
 //     }, []);
 
 //     const getEmbedUrl = useCallback((url) => {
-//         // For non-YouTube videos, return the direct URL
+        
 //         if (!isYouTube(url)) {
 //             return url;
 //         }
-//         // For YouTube, we just need the ID now, but we can return the ID if needed elsewhere
+        
 //         return getYouTubeId(url);
 //     }, [getYouTubeId]);
 
@@ -406,27 +408,27 @@ export default VideoTabs;
 //         setMuted(newMutedState);
 
 //         if (isCurrentVideoYouTube && youtubePlayer) {
-//             // Control YouTube player via API without reloading
+          
 //             if (newMutedState) {
 //                 youtubePlayer.mute();
 //             } else {
 //                 youtubePlayer.unMute();
-//                 // You might need to set the volume explicitly, e.g., to 50
+                
 //                 youtubePlayer.setVolume(50);
 //             }
 //         }
 //     };
 
-//     // 3. YouTube Player Initialization and Management
+    
 //     useEffect(() => {
 //         if (isCurrentVideoYouTube && embedId && window.YT) {
 //             if (youtubePlayer) {
-//                 // Destroy existing player if present
+                
 //                 youtubePlayer.destroy();
 //                 youtubePlayer = null;
 //             }
 
-//             // Initialize the new YouTube Player
+            
 //             youtubePlayer = new window.YT.Player(youtubeContainerRef.current, {
 //                 videoId: embedId,
 //                 playerVars: {
@@ -439,12 +441,12 @@ export default VideoTabs;
 //                     fs: 0,
 //                     disablekb: 1,
 //                     playsinline: 1,
-//                     // Start muted to comply with browser autoplay policies
+                    
 //                     mute: 1,
 //                 },
 //                 events: {
 //                     onReady: (event) => {
-//                         // Apply the current muted state from the component
+                        
 //                         if (muted) {
 //                             event.target.mute();
 //                         } else {
@@ -457,19 +459,17 @@ export default VideoTabs;
 //             });
 //         }
 
-//         // Cleanup function: destroy the player when the component unmounts or video type changes
+     
 //         return () => {
 //             if (youtubePlayer && youtubePlayer.destroy) {
 //                 youtubePlayer.destroy();
 //                 youtubePlayer = null;
 //             }
 //         };
-//         // Re-run effect only when activeIndex changes, not when 'muted' changes
 //     }, [activeIndex, isCurrentVideoYouTube, embedId]);
 
-//     // 1️⃣ Add a global callback for YouTube API ready
+  
 //     useEffect(() => {
-//         // Only load the script if it doesn't exist
 //         if (!window.YT && !document.getElementById("youtube-iframe-api")) {
 //             const tag = document.createElement("script");
 //             tag.id = "youtube-iframe-api";
@@ -478,9 +478,7 @@ export default VideoTabs;
 //             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //         }
 
-//         // Define global callback
 //         window.onYouTubeIframeAPIReady = () => {
-//             // Initialize first video if it is YouTube
 //             if (isCurrentVideoYouTube && embedId && youtubeContainerRef.current) {
 //                 youtubePlayer = new window.YT.Player(youtubeContainerRef.current, {
 //                     videoId: embedId,
@@ -489,7 +487,7 @@ export default VideoTabs;
 //                         controls: 0,
 //                         modestbranding: 1,
 //                         rel: 0,
-//                         mute: 1, // start muted to allow autoplay
+//                         mute: 1, 
 //                         playsinline: 1,
 //                     },
 //                     events: {
@@ -507,16 +505,15 @@ export default VideoTabs;
 //         };
 //     }, []);
 
-//     // 4. Local Video Mute/Unmute Logic
+   
 //     useEffect(() => {
 //         if (videoRef.current && !isCurrentVideoYouTube) {
 //             videoRef.current.muted = muted;
 //             videoRef.current.play().catch(() => { });
 //         }
-//         // This effect runs whenever 'muted' or 'activeIndex' changes
 //     }, [activeIndex, muted, isCurrentVideoYouTube]);
 
-//     // 5. Global Script Loader (load the YouTube API only once)
+    
 //     useEffect(() => {
 //         if (!window.YT && !document.getElementById("youtube-iframe-api")) {
 //             const tag = document.createElement("script");
@@ -525,7 +522,6 @@ export default VideoTabs;
 //             const firstScriptTag = document.getElementsByTagName("script")[0];
 //             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //         }
-//         // window.onYouTubeIframeAPIReady will be called automatically once the script loads
 //     }, []);
 
 //     if (!icons.length)
@@ -533,7 +529,7 @@ export default VideoTabs;
 
 //     return (
 //         <div
-//             className="video-tabs-main-container" // Added class for CSS targeting
+//             className="video-tabs-main-container" // Main container with position: relative
 //             style={{
 //                 width: "95%",
 //                 maxWidth: "1200px",
@@ -541,7 +537,7 @@ export default VideoTabs;
 //                 backgroundColor,
 //                 borderRadius: "25px",
 //                 boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-//                 overflow: "hidden",
+               
 //                 fontFamily: "Inter, Arial, sans-serif",
 //                 padding: "30px",
 //                 display: "flex",
@@ -550,7 +546,7 @@ export default VideoTabs;
 //                 position: "relative",
 //             }}
 //         >
-//             {/* Tab Bar Container (No longer contains the mute button) */}
+//             {/* Tab Bar Container */}
 //             <div
 //                 className="video-tabs-bar-wrapper"
 //                 style={{
@@ -573,8 +569,6 @@ export default VideoTabs;
 //                         borderRadius: "40px",
 //                         overflowX: "auto",
 //                         whiteSpace: "nowrap",
-//                         scrollBehavior: "smooth",
-//                         WebkitOverflowScrolling: "touch",
 //                         scrollbarWidth: "none",
 //                         maxWidth: "100%",
 //                     }}
@@ -603,9 +597,8 @@ export default VideoTabs;
 //                 </div>
 //             </div>
 
-//             {/* 🎥 Video Area - IMPLEMENTING ASPECT RATIO SCALING */}
 //             <div
-//                 className="video-player-responsive-area" // Added class for CSS targeting
+//                 className="video-player-responsive-area"
 //                 style={{
 //                     width: "100%",
 //                     height: 0, 
@@ -617,7 +610,6 @@ export default VideoTabs;
 //                 }}
 //             >
 //                 {isCurrentVideoYouTube ? (
-//                     // YouTube Wrapper
 //                     <div
 //                         style={{
 //                             position: "absolute",
@@ -634,7 +626,6 @@ export default VideoTabs;
 //                         />
 //                     </div>
 //                 ) : (
-//                     // Local Video Player
 //                     <video
 //                         ref={videoRef}
 //                         key={embedId}
@@ -653,25 +644,24 @@ export default VideoTabs;
 //                         }}
 //                     />
 //                 )}
-
-//                 {/* 🔇 Mute Button (Now positioned inside the video area) */}
-//                 <button
-//                     className="mute-btn-responsive" // Unique class for positioning
-//                     onClick={toggleMute}
-//                     style={{
-//                         // Removed positioning styles from inline to use CSS
-//                         background: "transparent",
-//                         border: "none",
-//                         fontSize: "26px",
-//                         cursor: "pointer",
-//                         zIndex: 10,
-//                         transition: "all 0.3s ease",
-//                     }}
-//                     title={muted ? "Unmute" : "Mute"}
-//                 >
-//                     {muted ? "🔇" : "🔊"}
-//                 </button>
 //             </div>
+
+//             {/* 🔇 Mute Button: */}
+//             <button
+//                 className="mute-btn-responsive"
+//                 onClick={toggleMute}
+//                 style={{
+//                     background: "transparent",
+//                     border: "none",
+//                     fontSize: "26px",
+//                     cursor: "pointer",
+//                     zIndex: 10,
+//                     transition: "all 0.3s ease",
+//                 }}
+//                 title={muted ? "Unmute" : "Mute"}
+//             >
+//                 {muted ? "🔇" : "🔊"}
+//             </button>
 
 //             <style>
 //                 {`
@@ -684,31 +674,34 @@ export default VideoTabs;
 //                 /* MUTE BUTTON RESPONSIVE STYLES */
 //                 /* ----------------------------------------------------- */
 
-//                 /* MOBILE (Default) - Bottom Right, inside video area */
-//                 .mute-btn-responsive {
-//                     position: absolute;
-//                     bottom: 15px; 
-//                     right: 15px;  
-//                     color: #fff; /* White for contrast on the dark video background */
-//                     text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Optional shadow for visibility */
-//                 }
-
-//                 /* DESKTOP (Min-width 769px) - Top Right, aligned with tabs bar */
-//                 @media (min-width: 769px) {
+//                 /* MOBILE (max-width: 768px) - Bottom Right, INSIDE video area */
+//                 @media (max-width: 768px) {
 //                     .mute-btn-responsive {
-//                         /* Overrides for desktop position */
+//                         /* Position relative to the *video container* */
 //                         position: absolute;
-//                         top: -75px;   /* Pushes the button above the video area to align with the tabs bar */
-//                         right: 0;     /* Aligns with the right edge of the video/tab bar */
-//                         bottom: auto; /* Reset */
+//                         bottom: calc(30px + 15px); /* Main padding (30px) + distance from video bottom (15px) */
+//                         right: 45px; /* Main padding (30px) + distance from video right (15px) */
                         
-//                         color: #333; /* Reverts color to dark for visibility on light page background */
-//                         text-shadow: none; /* Removes shadow */
+//                         /* NOTE: The absolute positioning must target the .video-tabs-main-container (parent) 
+//                            and use calculated offsets to appear inside the *video*. */
+
+//                         color: #fff; 
+//                         text-shadow: 0 0 5px rgba(0,0,0,0.5);
 //                     }
 //                 }
-            
-//                 @media (max-width: 768px) {
-//                     /* Existing media query for overall component, if needed */
+
+//                 /* DESKTOP (min-width: 769px) - Top Right, OUTSIDE video area, next to tabs bar */
+//                 @media (min-width: 769px) {
+//                     .mute-btn-responsive {
+//                         /* Position relative to the *main container* (.video-tabs-main-container) */
+//                         position: absolute;
+//                         top: 35px;    /* Aligns vertically with the tab bar (padding-top 30px + 5px offset) */
+//                         right: 30px;  /* Aligns with the main container's padding-right */
+//                         bottom: auto; /* Reset */
+                        
+//                         color: #333; /* Reverts color to dark */
+//                         text-shadow: none; /* Removes shadow */
+//                     }
 //                 }
 //                 `}
 //             </style>
@@ -717,4 +710,3 @@ export default VideoTabs;
 // };
 
 // export default VideoTabs;
-
