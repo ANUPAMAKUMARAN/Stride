@@ -3,13 +3,11 @@ export const VideoTabsData = {
   backgroundColor: "#f5f7ff",
   // barBoxColor: "#dfe5ff",
    barBoxColor: "#f5f7ff",
-  hoverBoxColor: "#dfe5ff",
-  hoverTextBackground: "#333",
   
   icons: [
     {
       title: "CREATE",
-     vdo: "https://youtu.be/Eoo4HzILB-M?si=_oVHq73-FW04OWF2",
+     vdo: "https://youtu.be/bXlQ3Mw4uGc?si=o7Chyu2CfUG_fevA",
     },
     {
       title: "EDIT",
@@ -17,7 +15,7 @@ export const VideoTabsData = {
     },
     {
       title: "COLLABORATE",
-  vdo: "https://www.w3schools.com/html/mov_bbb.mp4",
+  vdo: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     },
     {
       title: "TRANSLATE",
