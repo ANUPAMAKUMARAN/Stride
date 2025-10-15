@@ -359,6 +359,7 @@ const VideoTabs = ({ attributes }) => {
                                                 width: `${videoProgress}%`,
                                                 background:
                                                     "repeating-linear-gradient(45deg, #4e6ef2, #4e6ef2 10px, #6f84f7 10px, #6f84f7 20px)",
+                                                    backgroundSize: "80px 80px",
                                                 animation: "moveStripes 1s linear infinite",
                                                 borderRadius: `${24 * scale}px`,
                                                 transition: "width 0.2s linear",
@@ -441,7 +442,7 @@ const VideoTabs = ({ attributes }) => {
                     {muted ? "🔇" : "🔊"}
                 </button>
 
-                <style>{`
+                {/* <style>{`
           .video-tabs-bar::-webkit-scrollbar { display: none; }
 
           @media (max-width: 768px) {
@@ -462,7 +463,36 @@ const VideoTabs = ({ attributes }) => {
               color: #333;
             }
           }
-        `}</style>
+        `}</style> */}
+
+        <style>{`
+  .video-tabs-bar::-webkit-scrollbar { display: none; }
+
+  @keyframes moveStripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 80px 0; }
+  }
+
+  @media (max-width: 768px) {
+    .mute-btn-responsive {
+      position: absolute;
+      bottom: calc(30px + 15px);
+      right: 45px;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .mute-btn-responsive {
+      position: absolute;
+      top: 35px;
+      right: 30px;
+      color: #333;
+    }
+  }
+`}</style>
+
 
             </div>
         </div>
