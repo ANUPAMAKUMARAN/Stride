@@ -359,8 +359,8 @@ const VideoTabs = ({ attributes }) => {
                                                 width: `${videoProgress}%`,
                                                 background:
                                                     "repeating-linear-gradient(45deg, #4e6ef2, #4e6ef2 10px, #6f84f7 10px, #6f84f7 20px)",
-                                                    backgroundSize: "80px 80px",
-                                                animation: "moveStripes 1s linear infinite",
+                                                    backgroundSize: "140px 140px",
+                                                animation: "moveStripes 1.6s linear infinite",
                                                 borderRadius: `${24 * scale}px`,
                                                 transition: "width 0.2s linear",
                                                 zIndex: 0,
