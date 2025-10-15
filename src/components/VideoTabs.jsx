@@ -137,7 +137,7 @@ const VideoTabs = ({ attributes }) => {
                     playsinline: 1,
                     // Always set mute to 1 in playerVars for autoplay to work well
                     // The initial mute state is handled below in onReady.
-                    mute: 1, 
+                    mute: 1,
                 },
                 events: {
                     onReady: (event) => {
@@ -154,7 +154,7 @@ const VideoTabs = ({ attributes }) => {
                         if (event.data === window.YT.PlayerState.ENDED) {
                             setVideoProgress(100);
                             stopProgressTracking();
-                            goToNextVideo(); 
+                            goToNextVideo();
                         } else if (event.data === window.YT.PlayerState.PLAYING) {
                             startProgressTracking();
                         }
@@ -232,7 +232,7 @@ const VideoTabs = ({ attributes }) => {
         if (videoRef.current && !isCurrentVideoYouTube) {
             const videoElement = videoRef.current;
             // The initial muted state is set on the element here:
-            videoElement.muted = muted; 
+            videoElement.muted = muted;
 
             const handleVideoEnd = () => {
                 setVideoProgress(100);
@@ -359,7 +359,7 @@ const VideoTabs = ({ attributes }) => {
                                                 width: `${videoProgress}%`,
                                                 background:
                                                     "repeating-linear-gradient(45deg, #4e6ef2, #4e6ef2 10px, #6f84f7 10px, #6f84f7 20px)",
-                                                    backgroundSize: "140px 140px",
+                                                backgroundSize: "140px 140px",
                                                 animation: "moveStripes 1.6s linear infinite",
                                                 borderRadius: `${24 * scale}px`,
                                                 transition: "width 0.2s linear",
@@ -433,39 +433,48 @@ const VideoTabs = ({ attributes }) => {
                     style={{
                         background: "transparent",
                         border: "none",
-                        fontSize: `${26 * scale}px`,
                         cursor: "pointer",
                         zIndex: 10,
-                        transition: "all 0.3s ease"
+                        transition: "all 0.3s ease",
+                        width: `${34 * scale}px`,
+                        height: `${34 * scale}px`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                        color: "BEBDB8",
                     }}
-                    title={muted ? "Unmute" : "Mute"}>
-                    {muted ? "🔇" : "🔊"}
+                    title={muted ? "Unmute" : "Mute"}
+                >
+                    {muted ? (
+                        // 🔇 Mute SVG
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            width={`${28 * scale}px`}
+                            height={`${28 * scale}px`}
+                        >
+                            <path d="M16.5 12c0-1.77-.77-3.29-2-4.29v8.58c1.23-1 2-2.52 2-4.29z" opacity=".3" />
+                            <path d="M19 12c0 1.94-.78 3.68-2.05 4.95l1.41 1.41C19.43 16.9 20 14.54 20 12s-.57-4.9-1.64-6.36l-1.41 1.41C18.22 8.32 19 10.06 19 12zm-3.5 0c0 1.77-.77 3.29-2 4.29V7.71c1.23 1 2 2.52 2 4.29zM4.27 3L3 4.27l5 5H3v6h4l5 5v-6.73l5.73 5.73 1.27-1.27L4.27 3z" />
+                        </svg>
+                    ) : (
+                        // 🔊 Unmute SVG
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            width={`${28 * scale}px`}
+                            height={`${28 * scale}px`}
+                        >
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.29v8.58c1.23-1 2-2.52 2-4.29z" />
+                            <path d="M14.5 3.97v2.16c2.89 1.17 5 4.06 5 7.37s-2.11 6.2-5 7.37v2.16c4.01-1.28 7-5.06 7-9.53s-2.99-8.25-7-9.53z" />
+                        </svg>
+                    )}
                 </button>
 
-                {/* <style>{`
-          .video-tabs-bar::-webkit-scrollbar { display: none; }
 
-          @media (max-width: 768px) {
-            .mute-btn-responsive {
-              position: absolute;
-              bottom: calc(30px + 15px);
-              right: 45px;
-              color: #fff;
-              text-shadow: 0 0 5px rgba(0,0,0,0.5);
-            }
-          }
-
-          @media (min-width: 769px) {
-            .mute-btn-responsive {
-              position: absolute;
-              top: 35px;
-              right: 30px;
-              color: #333;
-            }
-          }
-        `}</style> */}
-
-        <style>{`
+                <style>{`
   .video-tabs-bar::-webkit-scrollbar { display: none; }
 
   @keyframes moveStripes {
@@ -500,7 +509,6 @@ const VideoTabs = ({ attributes }) => {
 };
 
 export default VideoTabs;
-
 
 
 // import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -543,6 +551,16 @@ export default VideoTabs;
 //     );
 
 //     const embedId = getEmbedUrl(currentUrl);
+
+//     // Function to seamlessly switch to the next video
+//     const goToNextVideo = useCallback(() => {
+//         setActiveIndex((prevIndex) => {
+//             if (icons.length <= 1) return prevIndex;
+//             // Loops back to the first video (index 0) if it's the last video
+//             const nextIndex = (prevIndex + 1) % icons.length;
+//             return nextIndex;
+//         });
+//     }, [icons.length]);
 
 
 //     // Video progress tracking
@@ -593,11 +611,11 @@ export default VideoTabs;
 //     }, []);
 
 //     // Toggle mute
-    
 //     const toggleMute = () => {
 //         const newMuted = !muted;
 //         setMuted(newMuted);
 
+//         // Directly apply mute/unmute to the active player without reloading the component
 //         if (isCurrentVideoYouTube && youtubePlayer) {
 //             if (newMuted) youtubePlayer.mute();
 //             else {
@@ -609,9 +627,8 @@ export default VideoTabs;
 //         }
 //     };
 
-   
-//     // YouTube player initialization (muted toggle decoupled)
-   
+
+//     // YouTube player initialization (main effect)
 //     useEffect(() => {
 //         stopProgressTracking();
 //         setVideoProgress(0);
@@ -631,10 +648,13 @@ export default VideoTabs;
 //                     rel: 0,
 //                     fs: 0,
 //                     playsinline: 1,
+//                     // Always set mute to 1 in playerVars for autoplay to work well
+//                     // The initial mute state is handled below in onReady.
 //                     mute: 1,
 //                 },
 //                 events: {
 //                     onReady: (event) => {
+//                         // Apply the current 'muted' state when the player is ready
 //                         if (muted) event.target.mute();
 //                         else {
 //                             event.target.unMute();
@@ -647,6 +667,7 @@ export default VideoTabs;
 //                         if (event.data === window.YT.PlayerState.ENDED) {
 //                             setVideoProgress(100);
 //                             stopProgressTracking();
+//                             goToNextVideo();
 //                         } else if (event.data === window.YT.PlayerState.PLAYING) {
 //                             startProgressTracking();
 //                         }
@@ -662,12 +683,11 @@ export default VideoTabs;
 //                 youtubePlayer = null;
 //             }
 //         };
-//     }, [activeIndex, isCurrentVideoYouTube, embedId, startProgressTracking, stopProgressTracking]);
+//         // *** MUTED REMOVED FROM DEPENDENCY ARRAY HERE ***
+//     }, [activeIndex, isCurrentVideoYouTube, embedId, startProgressTracking, stopProgressTracking, goToNextVideo]);
 
 
-//     // Load YouTube API
-
-
+//     // Load YouTube API (initial global initialization)
 //     useEffect(() => {
 //         if (!window.YT && !document.getElementById("youtube-iframe-api")) {
 //             const tag = document.createElement("script");
@@ -678,7 +698,6 @@ export default VideoTabs;
 //         }
 
 //         window.onYouTubeIframeAPIReady = () => {
-
 //             if (icons.length && isYouTube(icons[0]?.vdo) && !youtubePlayer) {
 //                 const embedId = getEmbedUrl(icons[0].vdo);
 //                 youtubePlayer = new window.YT.Player(youtubeContainerRef.current, {
@@ -693,6 +712,7 @@ export default VideoTabs;
 //                     },
 //                     events: {
 //                         onReady: (event) => {
+//                             // Apply the initial 'muted' state when API is first ready
 //                             if (muted) event.target.mute();
 //                             else {
 //                                 event.target.unMute();
@@ -705,6 +725,7 @@ export default VideoTabs;
 //                             if (event.data === window.YT.PlayerState.ENDED) {
 //                                 setVideoProgress(100);
 //                                 stopProgressTracking();
+//                                 goToNextVideo();
 //                             } else if (event.data === window.YT.PlayerState.PLAYING) {
 //                                 startProgressTracking();
 //                             }
@@ -713,22 +734,23 @@ export default VideoTabs;
 //                 });
 //             }
 //         };
-//     }, []);
+//         // *** MUTED REMOVED FROM DEPENDENCY ARRAY HERE ***
+//     }, [icons.length, getEmbedUrl, isYouTube, startProgressTracking, stopProgressTracking, goToNextVideo]);
 
 
-   
 //     // HTML5 video effect
-    
 //     useEffect(() => {
 //         stopProgressTracking();
 
 //         if (videoRef.current && !isCurrentVideoYouTube) {
 //             const videoElement = videoRef.current;
+//             // The initial muted state is set on the element here:
 //             videoElement.muted = muted;
 
 //             const handleVideoEnd = () => {
 //                 setVideoProgress(100);
 //                 stopProgressTracking();
+//                 goToNextVideo();
 //             };
 //             videoElement.addEventListener("ended", handleVideoEnd);
 
@@ -743,7 +765,8 @@ export default VideoTabs;
 //         }
 
 //         return () => stopProgressTracking();
-//     }, [activeIndex, isCurrentVideoYouTube, startProgressTracking, stopProgressTracking]);
+//         // *** MUTED REMOVED FROM DEPENDENCY ARRAY HERE ***
+//     }, [activeIndex, isCurrentVideoYouTube, startProgressTracking, stopProgressTracking, goToNextVideo]);
 
 
 //     // Scroll tabs on mobile
@@ -812,38 +835,58 @@ export default VideoTabs;
 //                         }}>
 //                         {icons.map((item, index) => {
 //                             const isButtonActive = index === activeIndex;
-//                             const currentProgress = isButtonActive ? videoProgress : 0;
 //                             const textButtonColor = isButtonActive ? "#003366" : "#333";
-//                             const buttonBaseColor = barBoxColor;
-//                             const buttonProgressColor = "#4e6ef2";
 
 //                             return (
+
 //                                 <button
 //                                     key={index}
 //                                     ref={(el) => (buttonRefs.current[index] = el)}
 //                                     onClick={() => setActiveIndex(index)}
 //                                     style={{
+//                                         position: "relative",
 //                                         flexShrink: 0,
 //                                         width: `${160 * scale}px`,
 //                                         padding: `${10 * scale}px ${18 * scale}px`,
-//                                         border: "none",
+//                                         border: isButtonActive ? "2px solid #222" : "2px solid transparent",
 //                                         borderRadius: `${24 * scale}px`,
 //                                         cursor: "pointer",
-//                                         backgroundColor: buttonBaseColor,
-//                                         backgroundImage: isButtonActive
-//                                             ? `linear-gradient(to right, ${buttonProgressColor} ${currentProgress}%, ${buttonBaseColor} ${currentProgress}%)`
-//                                             : "none",
-//                                         transition: "background 0.4s linear, color 0.3s ease, transform 0.2s ease",
-
+//                                         backgroundColor: "#fff",
+//                                         overflow: "hidden",
 //                                         color: textButtonColor,
 //                                         fontWeight: "600",
 //                                         fontSize: `${16 * scale}px`,
 //                                         textAlign: "center",
 //                                         whiteSpace: "nowrap",
+//                                         transition: "all 0.3s ease",
 //                                     }}
 //                                 >
-//                                     {item.title}
+//                                     {/* Progress Bar Layer */}
+//                                     {isButtonActive && (
+//                                         <span
+//                                             style={{
+//                                                 position: "absolute",
+//                                                 top: 0,
+//                                                 left: 0,
+//                                                 height: "100%",
+//                                                 width: `${videoProgress}%`,
+//                                                 background:
+//                                                     "repeating-linear-gradient(45deg, #4e6ef2, #4e6ef2 10px, #6f84f7 10px, #6f84f7 20px)",
+//                                                 backgroundSize: "140px 140px",
+//                                                 animation: "moveStripes 1.6s linear infinite",
+//                                                 borderRadius: `${24 * scale}px`,
+//                                                 transition: "width 0.2s linear",
+//                                                 zIndex: 0,
+//                                             }}
+//                                         ></span>
+//                                     )}
+
+//                                     {/* Text Layer */}
+//                                     <span style={{ position: "relative", zIndex: 1 }}>
+//                                         {item.title}
+//                                     </span>
 //                                 </button>
+
 //                             );
 //                         })}
 //                     </div>
@@ -884,7 +927,6 @@ export default VideoTabs;
 //                             key={embedId}
 //                             src={embedId}
 //                             autoPlay
-//                             loop
 //                             muted={muted}
 //                             playsInline
 //                             style={{
@@ -913,28 +955,36 @@ export default VideoTabs;
 //                     {muted ? "🔇" : "🔊"}
 //                 </button>
 
+
+
 //                 <style>{`
-//           .video-tabs-bar::-webkit-scrollbar { display: none; }
+//   .video-tabs-bar::-webkit-scrollbar { display: none; }
 
-//           @media (max-width: 768px) {
-//             .mute-btn-responsive {
-//               position: absolute;
-//               bottom: calc(30px + 15px);
-//               right: 45px;
-//               color: #fff;
-//               text-shadow: 0 0 5px rgba(0,0,0,0.5);
-//             }
-//           }
+//   @keyframes moveStripes {
+//     0% { background-position: 0 0; }
+//     100% { background-position: 80px 0; }
+//   }
 
-//           @media (min-width: 769px) {
-//             .mute-btn-responsive {
-//               position: absolute;
-//               top: 35px;
-//               right: 30px;
-//               color: #333;
-//             }
-//           }
-//         `}</style>
+//   @media (max-width: 768px) {
+//     .mute-btn-responsive {
+//       position: absolute;
+//       bottom: calc(30px + 15px);
+//       right: 45px;
+//       color: #fff;
+//       text-shadow: 0 0 5px rgba(0,0,0,0.5);
+//     }
+//   }
+
+//   @media (min-width: 769px) {
+//     .mute-btn-responsive {
+//       position: absolute;
+//       top: 35px;
+//       right: 30px;
+//       color: #333;
+//     }
+//   }
+// `}</style>
+
 
 //             </div>
 //         </div>
