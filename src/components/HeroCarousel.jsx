@@ -1,10 +1,6 @@
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-
-
 
 const HeroCarousel = ({attributes}) => {
     const {
@@ -82,9 +78,9 @@ const HeroCarousel = ({attributes}) => {
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full  overflow-hidden"
       style={{
-        height: `${85 * scale}vh`,
+        height: `${90 * scale}vh`,
         transition: "height 0.3s ease",
       }}
     >
@@ -104,7 +100,7 @@ const HeroCarousel = ({attributes}) => {
         />
       </AnimatePresence>
 
-      {/* Gradient Overlay (no pointer blocking) */}
+      {/* Gradient Overlay  */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
 
       {/* Content */}
@@ -119,7 +115,7 @@ const HeroCarousel = ({attributes}) => {
       >
         <motion.h2
           style={{
-            fontSize: `${42 * scale}px`,
+            fontSize: `${58 * scale}px`,
             lineHeight: 1.2,
             marginBottom: `${20 * scale}px`,
             fontWeight: "700",
@@ -133,7 +129,7 @@ const HeroCarousel = ({attributes}) => {
 
         <motion.p
           style={{
-            fontSize: `${20 * scale}px`,
+            fontSize: `${30 * scale}px`,
             marginBottom: `${30 * scale}px`,
             maxWidth: `${600 * scale}px`,
           }}
@@ -152,7 +148,7 @@ const HeroCarousel = ({attributes}) => {
               style={{
                 background: btn.btn1Color || btn.btn2Color,
                 color: "#fff",
-                fontSize: `${16 * scale}px`,
+                fontSize: `${22 * scale}px`,
                 padding: `${10 * scale}px ${24 * scale}px`,
                 borderRadius: `${50 * scale}px`,
                 fontWeight: 600,
