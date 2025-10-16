@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { MdVolumeOff, MdVolumeUp } from "react-icons/md";
 
 let youtubePlayer = null;
 
 const VideoTabs = ({ attributes }) => {
     const {
         backgroundColor,
-        barBoxColor,
         icons = [],
     } = attributes;
 
@@ -43,7 +43,7 @@ const VideoTabs = ({ attributes }) => {
     const goToNextVideo = useCallback(() => {
         setActiveIndex((prevIndex) => {
             if (icons.length <= 1) return prevIndex;
-            // Loops back to the first video (index 0) if it's the last video
+         
             const nextIndex = (prevIndex + 1) % icons.length;
             return nextIndex;
         });
@@ -51,8 +51,7 @@ const VideoTabs = ({ attributes }) => {
 
 
     // Video progress tracking
-    // -------------------------------------------------------------------
-    const updateProgress = useCallback(() => {
+      const updateProgress = useCallback(() => {
         let currentTime = 0;
         let duration = 0;
 
@@ -84,9 +83,8 @@ const VideoTabs = ({ attributes }) => {
         }
     }, []);
 
-    // -------------------------------------------------------------------
-    // Scale calculation
-    // -------------------------------------------------------------------
+     // Scale calculation
+   
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
@@ -102,7 +100,7 @@ const VideoTabs = ({ attributes }) => {
         const newMuted = !muted;
         setMuted(newMuted);
 
-        // Directly apply mute/unmute to the active player without reloading the component
+        
         if (isCurrentVideoYouTube && youtubePlayer) {
             if (newMuted) youtubePlayer.mute();
             else {
@@ -135,13 +133,12 @@ const VideoTabs = ({ attributes }) => {
                     rel: 0,
                     fs: 0,
                     playsinline: 1,
-                    // Always set mute to 1 in playerVars for autoplay to work well
-                    // The initial mute state is handled below in onReady.
+                   
                     mute: 1,
                 },
                 events: {
                     onReady: (event) => {
-                        // Apply the current 'muted' state when the player is ready
+                       
                         if (muted) event.target.mute();
                         else {
                             event.target.unMute();
@@ -427,7 +424,7 @@ const VideoTabs = ({ attributes }) => {
                 </div>
 
                 {/* Mute Button */}
-                <button
+                {/* <button
                     className="mute-btn-responsive"
                     onClick={toggleMute}
                     style={{
@@ -470,10 +467,34 @@ const VideoTabs = ({ attributes }) => {
                             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.29v8.58c1.23-1 2-2.52 2-4.29z" />
                             <path d="M14.5 3.97v2.16c2.89 1.17 5 4.06 5 7.37s-2.11 6.2-5 7.37v2.16c4.01-1.28 7-5.06 7-9.53s-2.99-8.25-7-9.53z" />
                         </svg>
+                        
+                    )}
+                </button> */}
+
+                <button
+                    className="mute-btn-responsive"
+                    onClick={toggleMute}
+                    style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        zIndex: 10,
+                        transition: "all 0.3s ease",
+                        width: window.innerWidth <= 768 ? `${40 * scale}px`:`${50 * scale}px`,
+                        height: window.innerWidth <= 768 ? `${10 * scale}px`:`${60 * scale}px`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#BEBDB8", // fixed missing #
+                    }}
+                    title={muted ? "Unmute" : "Mute"}
+                >
+                    {muted ? (
+                        <MdVolumeOff size={40 * scale} />
+                    ) : (
+                        <MdVolumeUp size={40 * scale} />
                     )}
                 </button>
-
-
                 <style>{`
   .video-tabs-bar::-webkit-scrollbar { display: none; }
 

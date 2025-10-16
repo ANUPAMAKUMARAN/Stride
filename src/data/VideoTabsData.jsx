@@ -1,7 +1,6 @@
 // ✅ Full data structure
 export const VideoTabsData = {
   backgroundColor: "#f5f7ff",
-  // barBoxColor: "#dfe5ff",
    barBoxColor: "#f5f7ff",
   
   icons: [
