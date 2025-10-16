@@ -32,7 +32,7 @@ import ComparisonTable from './components/SaudiPccTable';
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
-import VideooCarousel from './components/videooCarousel';
+// import VideooCarousel from './components/videooCarousel';
 
 
 import { ActioncardData } from './data/ActioncardData';
@@ -53,10 +53,12 @@ import { SaudiPccTableData } from './data/SaudiPccTableData';
 import { SidebarData } from './data/SidebarData';
 import { StoryCraftCarouselData } from './data/StoryCraftCarouselData';
 import { VideoCarouselData } from './data/VideoCarouselData';
-import { videoocarouselData } from './data/videoocarouselData';
+// import { videoocarouselData } from './data/videoocarouselData';
 import { PhyshealCarouselData } from './data/PhyshealCarouselData';
 import VideoTabs from './components/VideoTabs';
 import { VideoTabsData } from './data/VideoTabsData';
+import HeroCarousel from './components/HeroCarousel';
+import { HeroCarouselData } from './data/HeroCarouselData';
 
 
 
@@ -67,6 +69,7 @@ function App() {
   return (
     <>
       <div>
+        <HeroCarousel attributes={HeroCarouselData}/>
         <VideoTabs attributes={VideoTabsData}/>
         {/* <VideooCarousel attributes={videoocarouselData}/> */}
         <CodeComponent/>
