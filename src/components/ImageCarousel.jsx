@@ -15,7 +15,7 @@ const ImageCarousel = ({ attributes = {} }) => {
     progressbar,
   } = attributes;
 
-  const presetSlideHeight = 550;
+  const presetSlideHeight = 400;
   const presetSlideWidth = 400;
   const scrollRef = useRef(null);
   const autoScrollInterval = useRef(null);
@@ -280,7 +280,7 @@ const ImageCarousel = ({ attributes = {} }) => {
   // styles (use scale for gaps & sizes)
   const containerStyle = {
     background: backgroundColor || "#fff",
-    paddingTop: `${100 * scale}px`,
+    paddingTop: `${120 * scale}px`,
     paddingBottom: `${80 * scale}px`,
     boxSizing: "border-box",
     width: "100%",
@@ -325,7 +325,7 @@ const ImageCarousel = ({ attributes = {} }) => {
     overflowX: "auto",
     overflowY: "hidden",
     scrollBehavior: "smooth",
-    paddingBottom: 8 * scale,
+    // paddingBottom: 8 * scale,
     WebkitOverflowScrolling: "touch",
     cursor: isDragging ? "grabbing" : "grab",
     userSelect: "none",
@@ -408,11 +408,12 @@ const quoteBadgeStyle = {
     position: "absolute",
     left: "4%",
     right: "4%",
-    bottom: `${30 * scale}px`,
-    height: `${6 * scale}px`,
+    // bottom: `${10 * scale}px`,
+    // height: `${6 * scale}px`,
     background: hexToRGBA("#e6e6e6", 1),
     borderRadius: 999,
     overflow: "hidden",
+    
   };
 
   const progressBarStyle = {
@@ -420,6 +421,8 @@ const quoteBadgeStyle = {
     width: `${progress}%`,
     background: progressbarColor || "#6e2f73",
     transition: "width 200ms linear",
+   
+  
   };
 
   return (
