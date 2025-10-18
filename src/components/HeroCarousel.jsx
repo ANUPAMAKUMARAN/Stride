@@ -232,6 +232,9 @@ const HeroCarousel = ({attributes}) => {
 
 export default HeroCarousel;
 
+
+
+
 // import React, { useState, useEffect } from "react";
 // import { motion, AnimatePresence } from "framer-motion";
 // import { FaArrowRight, FaArrowLeft } from "react-icons/fa";

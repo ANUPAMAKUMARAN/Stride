@@ -59,6 +59,8 @@ import VideoTabs from './components/VideoTabs';
 import { VideoTabsData } from './data/VideoTabsData';
 import HeroCarousel from './components/HeroCarousel';
 import { HeroCarouselData } from './data/HeroCarouselData';
+import ImageCarousel from './components/ImageCarousel';
+import { ImageCarouselData } from './data/ImageCarouselData';
 
 
 
@@ -69,6 +71,8 @@ function App() {
   return (
     <>
       <div>
+
+        <ImageCarousel attributes={ImageCarouselData}/>
         <HeroCarousel attributes={HeroCarouselData}/>
         <VideoTabs attributes={VideoTabsData}/>
         {/* <VideooCarousel attributes={videoocarouselData}/> */}
