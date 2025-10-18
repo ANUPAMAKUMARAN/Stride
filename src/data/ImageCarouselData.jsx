@@ -4,7 +4,7 @@ export const ImageCarouselData ={
     titleColor : "#6e2f73", // will apply to number part
     minSlidesToShow : 4,
     backgroundColor :"#ffffff",
-    slideGap :36,
+    slideGap :30,
     autoScrolling : true,
      progressbarColor :"#6e2f73",
     
