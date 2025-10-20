@@ -13,8 +13,8 @@ export const ImageCarouselData = {
       img: "https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg",
       name: "Prannoy HS",
       text: "Structured, organized and pleasant to deal with....",
-      descriptionOne: "DLIFE made our home interior journey effortless.",
-      descriptionTwo: "Their team ensured quality and timely delivery."
+      descriptionOne: "DLIFE made our home interior journey ",
+      descriptionTwo: "Their team ensured quality and timely "
     },
     {
       id: 2,
@@ -22,14 +22,14 @@ export const ImageCarouselData = {
       name: "Mr. Suresh Chandran",
       text: "Working with DLIFE was such a wonderful...",
       descriptionOne: "They understood our taste perfectly.",
-      descriptionTwo: "Every design detail exceeded our expectations."
+      descriptionTwo: "Every designexceeded expectations."
     },
     {
       id: 3,
       img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
       name: "Mr. Johnson Daniel",
       text: "Dear DLIFE team, we are well pleased...",
-      descriptionOne: "Professional designers and seamless workflow.",
+      descriptionOne: "Professional designers and workflow.",
       descriptionTwo: "Highly recommend their service quality."
     },
     {
@@ -37,15 +37,15 @@ export const ImageCarouselData = {
       img: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=800&q=80",
       name: "Mr. Surendra N M & Family",
       text: "We are extremely satisfied with the service...",
-      descriptionOne: "Excellent finishing and premium materials.",
-      descriptionTwo: "Project completed before the promised date."
+      descriptionOne: "Excellent finishing and premium ",
+      descriptionTwo: "Project completed before the promised"
     },
     {
       id: 5,
       img: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=800&q=80",
       name: "Mr. Kiran Nair & Family",
       text: "Proper communication maintained by DLIFE team...",
-      descriptionOne: "Team handled every request with patience.",
+      descriptionOne: "Team handled every request with ",
       descriptionTwo: "Flawless execution from start to end."
     }
   ]

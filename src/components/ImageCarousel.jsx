@@ -17,7 +17,7 @@ const ImageCarousel = ({ attributes = {} }) => {
   } = attributes;
    
 
-  const presetSlideHeight = 400;
+  const presetSlideHeight = 500;
   const presetSlideWidth = 400;
   const scrollRef = useRef(null);
   const autoScrollInterval = useRef(null);
@@ -395,14 +395,14 @@ const quoteBadgeStyle = {
 
   const nameStyle = {
     marginTop: `${24 * scale}px`,
-    fontSize: `${20 * scale}px`,
+    fontSize: `${26 * scale}px`,
     color: "#6e2f73",
     fontWeight: 600,
   };
 
   const textStyle = {
     marginTop: `${8 * scale}px`,
-    fontSize: `${14 * scale}px`,
+    fontSize: isMobile?`${23 * scale}px`:`${14 * scale}px`,
     color: "#666",
     maxWidth: Math.min(dimensions.cardWidth * 0.9, 420),
     textAlign: "center",
@@ -410,7 +410,7 @@ const quoteBadgeStyle = {
   };
   const descStyle = {
     marginTop: `${5 * scale}px`,
-    fontSize: `${13 * scale}px`,
+    fontSize: isMobile?`${20 * scale}px`:`${13 * scale}px`,
     color: "#777",
     maxWidth: Math.min(dimensions.cardWidth * 0.9, 420),
     textAlign: "center",
@@ -421,8 +421,7 @@ const quoteBadgeStyle = {
     position: "absolute",
     left: "4%",
     right: "4%",
-    // bottom: `${10 * scale}px`,
-    // height: `${6 * scale}px`,
+    
     background: hexToRGBA("#e6e6e6", 1),
     borderRadius: 999,
     overflow: "hidden",
