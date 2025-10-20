@@ -337,23 +337,6 @@ const sliderStyle = {
   scrollSnapType: "x mandatory",
 };
 
-  // const sliderStyle = {
-  //   display: "flex",
-  //   // gap: `${effectiveSlideGap * scale}px`,
-  //   gap: `${(window.innerWidth <= 768 ? 10 : slideGap) * scale}px`,
-
-
-  //   // gap: `${slideGap * scale}px`, // <-- gap scales now
-  //   overflowX: "auto",
-  //   overflowY: "hidden",
-  //   scrollBehavior: "smooth",
-  //   // paddingBottom: 8 * scale,
-  //   WebkitOverflowScrolling: "touch",
-  //   cursor: isDragging ? "grabbing" : "grab",
-  //   userSelect: "none",
-  //   scrollSnapType: "x mandatory",
-  // };
-
   const cardStyle = {
     minWidth: `${dimensions.cardWidth}px`, // width already computed for 1.5 mobile or desktop
     height: `${dimensions.cardHeight}px`,
@@ -421,6 +404,14 @@ const quoteBadgeStyle = {
     marginTop: `${8 * scale}px`,
     fontSize: `${14 * scale}px`,
     color: "#666",
+    maxWidth: Math.min(dimensions.cardWidth * 0.9, 420),
+    textAlign: "center",
+    lineHeight: 1.4,
+  };
+  const descStyle = {
+    marginTop: `${5 * scale}px`,
+    fontSize: `${13 * scale}px`,
+    color: "#777",
     maxWidth: Math.min(dimensions.cardWidth * 0.9, 420),
     textAlign: "center",
     lineHeight: 1.4,
@@ -496,6 +487,14 @@ const quoteBadgeStyle = {
 
                 <div style={nameStyle}>{s.name}</div>
                 <div style={textStyle}>{s.text}</div>
+
+                  {/* W description lines */}
+                {s.descriptionOne && (
+                  <div style={descStyle}>{s.descriptionOne}</div>
+                )}
+                {s.descriptionTwo && (
+                  <div style={descStyle}>{s.descriptionTwo}</div>
+                )}
               </div>
             ))}
           </div>
