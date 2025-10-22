@@ -1,0 +1,36 @@
+.festive-banner-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 0; /* handled by SVG clipping */
+  clip-path: url(#scallopedClip); /* SVG reference */
+}
+
+.festive-banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.festive-banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+}
+
+/* Inline SVG definition for scalloped edges */
+svg {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
