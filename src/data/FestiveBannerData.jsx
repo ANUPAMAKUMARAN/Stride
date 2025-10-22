@@ -7,9 +7,10 @@ export const FestiveBannerData = {
   titleColor: "#ffffff",
 
   imageOne:
-    "https://img.freepik.com/premium-photo/diwali-dipawali-hindu-festival-lights-candle-lantern-road-ai-generative_1005220-4586.jpg?semt=ais_hybrid&w=740&q=80",
-  imageTwo:
-    "https://img.freepik.com/premium-photo/happy-diwali-portrait-indian-woman-smiling-holding-lit-diya-oil-lamp-both-hands-celebrating-diwali-festival-lights_723055-2385.jpg?semt=ais_hybrid&w=740&q=80",
+   "https://img.freepik.com/premium-photo/happy-diwali-portrait-indian-woman-smiling-holding-lit-diya-oil-lamp-both-hands-celebrating-diwali-festival-lights_723055-2385.jpg?semt=ais_hybrid&w=740&q=80",
+   
+  imageTwo: "https://img.freepik.com/premium-photo/diwali-dipawali-hindu-festival-lights-candle-lantern-road-ai-generative_1005220-4586.jpg?semt=ais_hybrid&w=740&q=80",
+   
   imageThree:
     "https://img.freepik.com/free-photo/indian-festival-diwali-diya-lamps_23-2148743762.jpg",
 
