@@ -47,7 +47,28 @@ const FestiveBanner = ({ attributes }) => {
   const allImages = [imageOne, imageTwo, imageThree].filter(Boolean);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scaleMultiplier, setScaleMultiplier] = useState(1);
+  
   const [isMobile, setIsMobile] = useState(false);
+
+const [scaledRadius, setScaledRadius] = useState("50px");
+
+useEffect(() => {
+  const updateRadius = () => {
+    const width = window.innerWidth;
+    
+    let radius;
+    if (width >= 1200) radius = 50;     
+    else if (width >= 992) radius = 40; 
+    else if (width >= 768) radius = 25; 
+    
+    else radius = 20;                   
+    setScaledRadius(`${radius}px`);
+  };
+
+  updateRadius();
+  window.addEventListener("resize", updateRadius);
+  return () => window.removeEventListener("resize", updateRadius);
+}, []);
 
   // Slideshow
   useEffect(() => {
@@ -159,7 +180,8 @@ const FestiveBanner = ({ attributes }) => {
                     backgroundSize: "400% 100%",
                     backgroundPosition: `${i * 33.333}% 0%`,
                     backgroundRepeat: "no-repeat",
-                    borderRadius: "50px",
+                    // borderRadius: "50px",
+                    borderRadius: scaledRadius,
                     overflow: "hidden",
                     marginRight: "0px",
                     transition: "background-image 1s ease-in-out",
@@ -181,7 +203,9 @@ const FestiveBanner = ({ attributes }) => {
                   height: "100%",
                   objectFit: "cover",
                   zIndex: 0,
-                  borderRadius: "50px",
+                  // borderRadius: "50px"
+                  // ,
+                  borderRadius: scaledRadius,
                 }}
               />
 
