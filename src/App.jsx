@@ -63,6 +63,7 @@ import ImageCarousel from './components/ImageCarousel';
 import { ImageCarouselData } from './data/ImageCarouselData';
 import FestiveBanner from './components/FestiveBanner';
 import { FestiveBannerData } from './data/FestiveBannerData';
+import ImageTabs from './components/ImageTabs';
 
 
 
@@ -74,6 +75,7 @@ function App() {
     <>
       <div>
 
+<ImageTabs/>  
        <FestiveBanner attributes={FestiveBannerData}/>
         <ImageCarousel attributes={ImageCarouselData}/>
         <HeroCarousel attributes={HeroCarouselData}/>
