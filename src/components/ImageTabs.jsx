@@ -1,19 +1,14 @@
-
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useRef } from "react";
 
 const useIsMobile = (MOBILE_BREAKPOINT = 768) => {
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
-
-    const handleChange = (event) => setIsMobile(event.matches);
-    setIsMobile(mediaQuery.matches);
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    const mq = window.matchMedia(`(max-width:${MOBILE_BREAKPOINT}px)`);
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, [MOBILE_BREAKPOINT]);
-
   return isMobile;
 };
 
@@ -26,42 +21,66 @@ const ImageTabs = () => {
     "https://media.assettype.com/thequint%2F2022-03%2F2170dfa9-9e52-47f8-9a61-6b9acc70bd52%2FiStock_522121310.jpg?auto=format%2Ccompress&fmt=webp&width=720",
   ];
 
-  const interval = 5000; 
+  const interval = 4000; // ms per slide
+  const fadeDuration = 600; // ms fade duration
   const [current, setCurrent] = useState(0);
+  const [next, setNext] = useState(1);
   const [progress, setProgress] = useState(0);
+  const [fading, setFading] = useState(false);
   const isMobile = useIsMobile();
+  const timerRef = useRef();
+  const progressRef = useRef();
 
-  
-  useEffect(() => {
-    setProgress(0);
-    const start = Date.now();
+  // clear all intervals
+  const clearAll = () => {
+    clearInterval(timerRef.current);
+    clearInterval(progressRef.current);
+  };
 
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - start;
-      const percent = Math.min((elapsed / interval) * 100, 100);
-      setProgress(percent);
-
-      if (elapsed >= interval) {
-        setCurrent((prev) => (prev + 1) % images.length);
-      }
+  const startCycle = () => {
+    let elapsed = 0;
+    progressRef.current = setInterval(() => {
+      elapsed += 50;
+      setProgress(Math.min((elapsed / interval) * 100, 100));
     }, 50);
 
-    return () => clearInterval(progressInterval);
-  }, [current, images.length, interval]);
+    timerRef.current = setTimeout(() => {
+      setFading(true);
+      setTimeout(() => {
+        setCurrent((prev) => (prev + 1) % images.length);
+        setNext((prev) => (prev + 1) % images.length);
+        setProgress(0);
+        setFading(false);
+        clearAll();
+        startCycle(); // restart
+      }, fadeDuration);
+    }, interval);
+  };
 
-  // Handle left/right screen click on mobile
+  useEffect(() => {
+    startCycle();
+    return clearAll;
+    // eslint-disable-next-line
+  }, []);
+
   const handleMobileClick = (e) => {
     if (!isMobile) return;
     const { clientX, currentTarget } = e;
     const middle = currentTarget.offsetWidth / 2;
+    const nextIndex =
+      clientX < middle
+        ? (current - 1 + images.length) % images.length
+        : (current + 1) % images.length;
 
-    if (clientX < middle) {
-      // Tap left → previous image
-      setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    } else {
-      // Tap right → next image
-      setCurrent((prev) => (prev + 1) % images.length);
-    }
+    clearAll();
+    setFading(true);
+    setTimeout(() => {
+      setCurrent(nextIndex);
+      setNext((nextIndex + 1) % images.length);
+      setProgress(0);
+      setFading(false);
+      startCycle();
+    }, fadeDuration);
   };
 
   return (
@@ -79,63 +98,89 @@ const ImageTabs = () => {
         cursor: isMobile ? "pointer" : "default",
       }}
     >
-      {/*  Progress Bars */}
+      {/* Progress Bars */}
       <div
         style={{
           position: "absolute",
-          top: "10px",
-          left: "10px",
-          right: "10px",
+          top: 10,
+          left: 10,
+          right: 10,
           display: "flex",
-          gap: "4px",
+          gap: 4,
           zIndex: 10,
         }}
       >
-        {images.map((_, index) => (
+        {images.map((_, i) => (
           <div
-            key={index}
+            key={i}
             style={{
               flex: 1,
-              height: "3px",
+              height: 3,
               background:
-                index < current
-                  ? "rgba(255,255,255,1)"
-                  : "rgba(255,255,255,0.3)",
-              borderRadius: "5px",
+                i < current ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.3)",
+              borderRadius: 5,
               overflow: "hidden",
               position: "relative",
             }}
           >
-            {index === current && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  height: "100%",
-                  width: `${progress}%`,
-                  background: "white",
-                  transition: "width 0.05s linear",
-                }}
-              />
-            )}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                height: "100%",
+                width:
+                  i === current ? `${progress}%` : i < current ? "100%" : "0%",
+                background: "white",
+                transition:
+                  i === current ? "width 0.1s linear" : "none",
+              }}
+            />
           </div>
         ))}
       </div>
 
-      {/*  Image */}
-      <img
-        src={images[current]}
-        alt="status"
+      {/* Cross-fade image layer */}
+      <div
         style={{
+          position: "relative",
           width: isMobile ? "100%" : "70%",
           height: "100%",
-          objectFit: "cover",
-          borderRadius: "10px",
-          transition: "opacity 0.5s ease-in-out",
-          display: "block",
+          borderRadius: 10,
+          overflow: "hidden",
         }}
-      />
+      >
+        <img
+          key={current}
+          src={images[current]}
+          alt=""
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: 10,
+            opacity: fading ? 0 : 1,
+            transition: `opacity ${fadeDuration}ms ease-in-out`,
+          }}
+        />
+        <img
+          key={next}
+          src={images[next]}
+          alt=""
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: 10,
+            opacity: fading ? 1 : 0,
+            transition: `opacity ${fadeDuration}ms ease-in-out`,
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -147,32 +192,19 @@ export default ImageTabs;
 
 
 
-
-
-
-
-
 // import React, { useEffect, useState } from "react";
 
-// // Custom hook to detect if user is on a mobile device
+
 // const useIsMobile = (MOBILE_BREAKPOINT = 768) => {
 //   const [isMobile, setIsMobile] = useState(false);
 
 //   useEffect(() => {
 //     const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
 
-//     const handleChange = (event) => {
-//       setIsMobile(event.matches);
-//     };
-
-//     // Set initial state
+//     const handleChange = (event) => setIsMobile(event.matches);
 //     setIsMobile(mediaQuery.matches);
-
-//     // Listen for changes
 //     mediaQuery.addEventListener("change", handleChange);
-//     return () => {
-//       mediaQuery.removeEventListener("change", handleChange);
-//     };
+//     return () => mediaQuery.removeEventListener("change", handleChange);
 //   }, [MOBILE_BREAKPOINT]);
 
 //   return isMobile;
@@ -187,11 +219,12 @@ export default ImageTabs;
 //     "https://media.assettype.com/thequint%2F2022-03%2F2170dfa9-9e52-47f8-9a61-6b9acc70bd52%2FiStock_522121310.jpg?auto=format%2Ccompress&fmt=webp&width=720",
 //   ];
 
-//   const interval = 5000; // 5 seconds per image
+//   const interval = 5000; 
 //   const [current, setCurrent] = useState(0);
 //   const [progress, setProgress] = useState(0);
-//   const isMobile = useIsMobile(); // detect screen size
+//   const isMobile = useIsMobile();
 
+  
 //   useEffect(() => {
 //     setProgress(0);
 //     const start = Date.now();
@@ -209,20 +242,37 @@ export default ImageTabs;
 //     return () => clearInterval(progressInterval);
 //   }, [current, images.length, interval]);
 
+//   // Handle left/right screen click on mobile
+//   const handleMobileClick = (e) => {
+//     if (!isMobile) return;
+//     const { clientX, currentTarget } = e;
+//     const middle = currentTarget.offsetWidth / 2;
+
+//     if (clientX < middle) {
+//       // Tap left → previous image
+//       setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+//     } else {
+//       // Tap right → next image
+//       setCurrent((prev) => (prev + 1) % images.length);
+//     }
+//   };
+
 //   return (
 //     <div
+//       onClick={handleMobileClick}
 //       style={{
 //         position: "relative",
 //         width: "100%",
 //         overflow: "hidden",
-//         backgroundColor: isMobile ? "transparent" : "black", // remove black on mobile
+//         backgroundColor: isMobile ? "transparent" : "black",
 //         display: "flex",
 //         justifyContent: "center",
 //         alignItems: "center",
-//         height: isMobile ? "300px" : "700px", // dynamic height
+//         height: isMobile ? "300px" : "700px",
+//         cursor: isMobile ? "pointer" : "default",
 //       }}
 //     >
-//       {/* Progress Bars */}
+//       {/*  Progress Bars */}
 //       <div
 //         style={{
 //           position: "absolute",
@@ -266,14 +316,14 @@ export default ImageTabs;
 //         ))}
 //       </div>
 
-//       {/* Image */}
+//       {/*  Image */}
 //       <img
 //         src={images[current]}
 //         alt="status"
 //         style={{
-//           width: isMobile ? "100%" : "70%", // makes image fill horizontally on mobile
+//           width: isMobile ? "100%" : "70%",
 //           height: "100%",
-//           objectFit: "cover", // ensures no gaps
+//           objectFit: "cover",
 //           borderRadius: "10px",
 //           transition: "opacity 0.5s ease-in-out",
 //           display: "block",
@@ -284,3 +334,4 @@ export default ImageTabs;
 // };
 
 // export default ImageTabs;
+
