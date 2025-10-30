@@ -25,7 +25,7 @@ const DeploymentCarousel = ({ attributes }) => {
   }, []);
 
  
-  const cardWidth = 400 * scale;
+  const cardWidth = 440 * scale;
   const gap = 40 * scale;
   const carouselPadding = 60 * scale;
   const transitionDuration = 500;
@@ -225,7 +225,7 @@ const horizontalPadding = Math.max(0, 350 * (scale - 0.6) / (1 - 0.6));
         </h2>
         <p
           style={{
-            fontSize: `${18 * scale}px`,
+            fontSize: `${20 * scale}px`,
             marginTop: `${16 * scale}px`,
             color: captionColor,
             maxWidth: `${700 * scale}px`,
@@ -283,10 +283,11 @@ const horizontalPadding = Math.max(0, 350 * (scale - 0.6) / (1 - 0.6));
                   alignItems: "center",
                   textAlign: "center",
                   borderRadius: `${24 * scale}px`,
-                  padding: `${40 * scale}px`,
+                  padding: `${20 * scale}px`,
                   transition: "all 0.5s ease",
                   width: `${cardWidth}px`,
-                  height: `${250 * scale}px`,
+                  // height: `${250 * scale}px`,
+                  height:`${(isMobile ? 340 : 250) * scale}px`,
                   background: "rgba(255,255,255,0.05)",
                   border: `1px solid ${item.borderColor || "rgba(255,255,255,0.1)"}`,
                   boxShadow: isActive
@@ -301,16 +302,18 @@ const horizontalPadding = Math.max(0, 350 * (scale - 0.6) / (1 - 0.6));
               >
                 <h3
                   style={{
-                    fontSize: `${24 * scale}px`,
+                    fontSize: `${25 * scale}px`,
                     fontWeight: "600",
-                    marginBottom: `${12 * scale}px`,
+                    marginBottom: `${15 * scale}px`,
+                    
                   }}
                 >
                   {item.title}
                 </h3>
                 <p
                   style={{
-                    fontSize: `${14 * scale}px`,
+                    // fontSize: `${15 * scale}px`,
+                    fontSize: `${(isMobile ? 20 : 15) * scale}px`,
                     color: "rgb(209, 213, 219)",
                     marginBottom: `${24 * scale}px`,
                     maxWidth: `${256 * scale}px`,
@@ -330,7 +333,9 @@ const horizontalPadding = Math.max(0, 350 * (scale - 0.6) / (1 - 0.6));
                     background: item.buttonColor,
                     border: "none",
                     cursor: "pointer",
-                    fontSize: `${14 * scale}px`,
+                    fontSize: `${(isMobile ? 22 : 18) * scale}px`,
+                    
+                    marginBottom:`${20 * scale}px`,
                   }}
                 >
                   {item.buttonText}
