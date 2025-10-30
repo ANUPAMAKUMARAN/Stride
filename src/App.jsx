@@ -10,14 +10,11 @@ import CountryyChart from './components/CountryyChart';
 import DirectorsCarousel from './components/DirectorsCarousel';
 import FaqCarousel from './components/FaqCarousel';
 import FlippedSlides from './components/FlippedSlides';
-
 import ImpactsAcheivements from './components/ImpactsAcheivements';
 import KlarnaBrands from './components/KlarnaBrands';
 import LeaderCard from './components/LeaderCard';
 import LeadersCarousel from './components/LeadersCarousel';
 import MacCarousel from './components/MacCarousel';
-
-
 import PhyshealCarousel from './components/PhyshealCarousel';
 import RecoveryHero from './components/RecoveryHero';
 import RecoveryJourney from './components/RecoveryJourney';
@@ -28,13 +25,10 @@ import SaudiPCCpage from './components/SaudiPCCpage';
 import SaudiPccSection from './components/SaudiPccSection';
 import SaudiPccServices from './components/SaudiPccServices';
 import ComparisonTable from './components/SaudiPccTable';
-
 import Sidebar from './components/Sidebar';
 import StoryCraftCarousel from './components/StoryCraftCarousel';
 import VideoCarousel from './components/VideoCarousel';
 // import VideooCarousel from './components/videooCarousel';
-
-
 import { ActioncardData } from './data/ActioncardData';
 import { CountryScrollData } from './data/CountryScrollData';
 import { CountryyChartData } from './data/CountryyChartData';
@@ -46,7 +40,6 @@ import { MacCarouselData } from './data/MacCarouselData';
 import { RecoveryHeroData } from './data/RecoveryHeroData';
 import { RecoveryJourneyData } from './data/RecoveryJourneyData';
 import { RecoveryPageData } from './data/RecoveryPageData';
-
 // import { SaudiPccLandingpageData } from './data/SaudiPccLandingpageData';
 import { SaudiPccSectionData } from './data/SaudiPccSectionData';
 import { SaudiPccTableData } from './data/SaudiPccTableData';
@@ -64,6 +57,8 @@ import { ImageCarouselData } from './data/ImageCarouselData';
 import FestiveBanner from './components/FestiveBanner';
 import { FestiveBannerData } from './data/FestiveBannerData';
 import ImageTabs from './components/ImageTabs';
+import DeploymentCarousel from './components/DeploymentCarousel';
+import { DeploymentCarouselData } from './data/DeploymentCarouselData';
 
 
 
@@ -75,33 +70,26 @@ function App() {
     <>
       <div>
 
-<ImageTabs/>  
-       <FestiveBanner attributes={FestiveBannerData}/>
-        <ImageCarousel attributes={ImageCarouselData}/>
-        <HeroCarousel attributes={HeroCarouselData}/>
-        <VideoTabs attributes={VideoTabsData}/>
+        <DeploymentCarousel attributes={DeploymentCarouselData} />
+        <ImageTabs />
+        <FestiveBanner attributes={FestiveBannerData} />
+        <ImageCarousel attributes={ImageCarouselData} />
+        <HeroCarousel attributes={HeroCarouselData} />
+        <VideoTabs attributes={VideoTabsData} />
         {/* <VideooCarousel attributes={videoocarouselData}/> */}
-        <CodeComponent/>
-        <FlippedSlides attributes={FlippedSlidesData}/>
-        <KlarnaBrands attributes={KlarnaBrandsData}/>
-        <MacCarousel attributes={MacCarouselData}/>
+        <CodeComponent />
+        <FlippedSlides attributes={FlippedSlidesData} />
+        <KlarnaBrands attributes={KlarnaBrandsData} />
+        <MacCarousel attributes={MacCarouselData} />
         <CountryScroll attributes={CountryScrollData} />
-
-
         <CountryyChart attributes={CountryyChartData} />
-
-
-
         <RecoveryJourney attributes={RecoveryJourneyData} />
-        <PhyshealCarousel attributes={PhyshealCarouselData}/>
+        <PhyshealCarousel attributes={PhyshealCarouselData} />
         <RecoveryPage attributes={RecoveryPageData} />
-
         <RecoveryHero attributes={RecoveryHeroData} />
         <FaqCarousel attributes={FaqCarouselData} />
         <StoryCraftCarousel attributes={StoryCraftCarouselData} />
-
         <SaudiPccSection attributes={SaudiPccSectionData} />
-     
         <VideoCarousel attributes={VideoCarouselData} />
         {/* <SaudiPccLandingpage attributes={SaudiPccLandingpageData}/> */}
         <Sidebar attributes={SidebarData} />
@@ -110,7 +98,6 @@ function App() {
         <ComparisonTable attributes={SaudiPccTableData} />
         <SaudiPccCarousel />
         <SaudiPCCpage />
-
         <SaudiPccServices />
         <CleanKeralaLanding />
         <LeaderCard />
