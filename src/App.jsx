@@ -59,6 +59,8 @@ import { FestiveBannerData } from './data/FestiveBannerData';
 import ImageTabs from './components/ImageTabs';
 import DeploymentCarousel from './components/DeploymentCarousel';
 import { DeploymentCarouselData } from './data/DeploymentCarouselData';
+import VenueSection from './components/VenueSection';
+import { VenueSectionData } from './data/VenueSectionData';
 
 
 
@@ -69,6 +71,7 @@ function App() {
   return (
     <>
       <div>
+        <VenueSection attributes={VenueSectionData}/>
 
         <DeploymentCarousel attributes={DeploymentCarouselData} />
         <ImageTabs />

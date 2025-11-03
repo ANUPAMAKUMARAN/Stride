@@ -1,23 +1,18 @@
-export const DeploymentSlidesData = {
+export const SlidesData = {
+  backgroundColor: "black",
+  title: "Struggling to find the perfect venue?",
+  titleColor: "",
 
-  titleOne: "all of tour deployments",
-  titleOneColor: "",
-  titleTwo: " in one place",
-  titleTwoColor: "#000",
-   caption: "Your NX Oneaccount grows with you through our innovative NX miles loyality program",
+  caption: "Find your perfect venue hassle-free with Melodia. Easy booking, endless choices.",
   captionColor: "",
+  buttonText: "get started",
+  buttonColor: "",
 
   slides: [
-     {
-      backgroundImage: "",
-      title: "remain in flow while coding",
-      description: "by removing the barriers that block productivity when building software",
-      backgroundColor: "",
-      borderColor: "",
-      buttonText:"get started",
-      buttonColor:"",
+    {
+      image:""
     },
     // ...use more slides......
-   
+
   ],
 };
